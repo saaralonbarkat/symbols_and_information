@@ -1,0 +1,3113 @@
+---
+title: "SVIVA_experiment 2"
+author: "Saar Alon-Barkat"
+date: "January 2018"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: hide
+    fig_captions: yes
+    highlight: haddock
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+      toc_depth: 3
+---
+
+Last update: `r Sys.time()`
+
+
+```{r set-global-options, echo = FALSE}
+knitr::opts_chunk$set(eval = TRUE, 
+                      echo = TRUE, 
+                      message=FALSE,
+                      cache = FALSE,
+                      include = TRUE,
+                      collapse = FALSE,
+                      dependson = NULL,
+                      engine = "R", # Chunks will always have R code, unless noted
+                      error = TRUE,
+                      fig.path="Figures/",  # Set the figure options
+                      fig.align = "center")
+```
+
+
+```{r silent-packages, echo = FALSE, eval = TRUE, message=FALSE, include = FALSE}
+library(knitr)
+library(sjPlot)
+library(tidyverse)
+library(stringr)
+library(rpivotTable)
+library(DT)
+library(car)
+```
+
+
+
+```{r , include=FALSE, echo=FALSE}
+load(".RData")
+```
+
+
+```{r}
+N_raw = nrow(SVIVA2_raw_00)
+N=SVIVA2_00%>%nrow()
+```
+
+
+#Theoretical background
+points for revised theoretical discussion: 
+
+* Substantive information (e.g. strong vs. weak policy plans) can influence trust through central route (serving as arguments). 
+* Symbol can increase trust through 3 supplementary mechanisms: 
+1. As a peripheral cue (peripheral route). Specifically, through evaluative conditioning (transfer of positive affect from the symbol).
+2. As a factor that decreases citizens' **ability** to elaborate (by creating a distraction).
+3. As a factor that decreases citizens' **motivation** to elaborate. 
+
+<br>
+points 2&3 suggest that symbols can increase trust mainly when substantive information represents weak arguments (e.g. weak policy plan, poor performance information). 
+<br>
+Also, based on ELM, we expect people to be more susceptible to substantive information when they perceive the issue as more personally relevant. We expect people to be more susceptible to symbols when they perceive the issue as less personally relevant.   
+
+
+.             | .                   
+------------------| ----------------------------------------------------------------------------------
+**Hypothesis 1**   | *Variation in substantive information in communication (strong vs. weak arguemnts) can shape citizens' trust.*
+**Hypothesis 2(a)**| *Familar symbols in communication can increase citizens' trust.*
+**Hypothesis 2(b)**| *Symbols in communication are likely to have greater effect on trust when substantive information in communication represents weak arguments (e.g. weak policy plan).*
+**Hypothesis 3(a)**| *Symbols in communication reduce elaboration of communication.*
+**Hypothesis 3(b)**| *The positive effect of symbols on trust is mediated by lower levels of elaboration of communciation.*
+**Hypothesis 4(a)**| *The more (less) citizens perceive a policy issue as having personal relevance for themselves, the more (less) they will be susceptible to substantive information in a communication regarding this issue.* 
+**Hypothesis 4(b)**| *The more (less) citizens perceive the policy issue as having personal relevance for themselves, the less (more) they will be susceptible to symbolic elements in a communication regarding this issue.*
+---
+
+
+
+#Experimental procedure
+
+##Description
+The survey is presented to the participants as a study about citizens' attitudes about environmental policies in general. Subjects are first asked pre-manipulation questions about trust in Israel's government ministries and their policies, and participants' political ideology. Then, they are assigned to **Relevance** treatment/control conditions. Subjects in the relevance treatment group are asked about their interest in environmental issues in general, and thereafter they are asked to describe the most salient environmental issue in their area of residence (through an open question). Those in the relevance control group are asked equivalent questions about their interest in their area of profession. 
+
+Thereafter, subjects are presented with two policies of Israel's Environmental Protection Ministry: reducing air pollution in Haifa-Bay (hereafter: air) and reducing waste and increasing recycling (hereafter: waste). Policies are presented in random order. The first policy can be presented in one of 6 conditions: one of three **symbol** conditions (no symbols, fake symbols, real symbols) and one of two **informtaion** conditions (strong/weak policy). In the second policy, the symbol condition will be similar, and the information condition will be switched. After each policy they are asked about their trust in that policy. Thereafter, I ask them about their perceived elaboration regarding the second policy which was presented to them, and test their memory of it. After a set of demographic questions, I conducted a manipulation check, in which I asked the participants whether they recognize the real symbols (images of celebrities from real campaigns), and whether they associate it with positive or negative thoughts. Those who were assigned to the fake logo group are also asked about the fake symbols. Finally, the participants are debriefed, and explained about the manipulations, and the possible deception.
+
+
+
+
+##Conditions/manipulations: 
+###Relevance
+
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/relevance_man.png) 
+
+###Information
+
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/information_air.png) 
+
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/information_waste.png) 
+
+###Symbol 
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/air_policy.png) 
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/waste_policy.png) 
+
+
+##Outcome variables
+
+###Trust in policy
+
+List of items:
+
+**Competence**             | .                   
+-------------| ----------------------------------------------------------------------------------
+**Item 1**   | I believe that the measures in the policy plan will assist in fulfilling the policy goal (reducing air pollution in the Haifa Bay/reducing waste and increasing recycling).
+**Item 2**| I believe that the measures in the policy plan were designed in a professional manner.
+
+
+**Benevolance**             | .                   
+-------------| ----------------------------------------------------------------------------------
+**Item 3**| I believe that the policy plan is in the interest of citizens.
+**Item 4**| I believe that the policy plan reflects a genuine attempt to improve the well-being of citizens.
+
+**Integrity**             | .                   
+-------------| ----------------------------------------------------------------------------------
+**Item 5**| I believe that the Ministry of Environmental Protection made an honest attempt to design a good policy plan.
+**Item 6**| I believe that the Ministry of Environmental Protection aims to keep its commitments in that policy plan. 
+
+
+
+Finally, I decided to remove item 6. Believing that the Ministry intends to fulfill a bad policy plan does not entail higher trust in it, so it's problematic (but does not significantly alter the results so not critical). (Remember to thank Noam Brenner for this point)   
+
+
+###Elaboration
+
+I used three measures of Elaboration: composite index of reported elaboration (5 items), total time of viewing the policy plan (reaction time - RT), a memory test in which respondents were asked to identify measures that appeared in the policy plan.
+
+#####Perceived elaboration
+List of items: 
+
+
+.             | .                   
+-------------| ----------------------------------------------------------------------------------
+**Item 1**   | I paid much attention to reading the content of the measures in the policy plan.
+**Item 2**| I skimmed the measures in the policy plan. (reversed)
+**Item 3**| I tried to thoroughly understand the measures in the policy plan.
+**Item 4**| I tried to think to what extent do the measures assist in promoting the policy goal (reducing air pollution in the Haifa Bay/reducing waste and increasing recycling).
+**Item 5**| While going through the policy plan I was thinking about other things which are not related to it. (reversed).
+
+
+
+####memory test
+
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/memory_air.png) 
+![](D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/memory_waste.png) 
+
+
+---
+
+#Data
+
+---
+
+##Collection
+
+
+The survey was distributed via Ipanel between 28.1-1.2.2018.
+The survey was distributed to 5077 citizens (2549 from Haifa-bay and 2528 from Shfela). Of these, ~330 subjects were denied of access due to threshold of gender (~60 in Haifa and ~270 in Shfela). [according to Ipanel's reports in email]. 
+`r N_raw` subjects started the survey, of which `r N` completed it (`r round(N/N_raw*100,1)`%). Response rate of `r round(N/(5077)*100,1)`% (`r round(filter(SVIVA2_00,AREA==1) %>% nrow()/(2549)*100,1)`% among Haifa and `r round(filter(SVIVA2_00,AREA==0) %>% nrow()/(2528-270)*100,1)`% among Shfela). But when counting those who tried to fill the survey (including those who were denied), response rate it higher (`r round((N+330)/(5077)*100,1)`%) without significant differences between areas.
+`r round(filter(SVIVA2_00,GENDER==0)%>%nrow()/N*100,1)`% are men, and the median age is `r SVIVA2_00$AGE%>%median(na.rm=T)` (mean is `r round(SVIVA2_00$AGE%>%mean(na.rm=T),1)`). `r round(filter(SVIVA2_00,MOBILE==1)%>%nrow()/N*100,1)`% completed the survey via mobile.
+
+
+##Area of residence
+
+Below are distribution of subjects across cities, and the two areas.
+```{r}
+sjt.frq(SVIVA2_00$AREA_reside_haifa,title="Area of residence",value.labels = c("Shfela/other","Haifa-bay"))
+sjt.frq(SVIVA2_00$CITY_reside_en,title="Cities of residence")
+```
+
+<br>
+Eventually, Area was coded as either residing or working/studying in the Haifa bay area (Haifa bay = 1). `r filter(SVIVA2_00,AREA==1) %>% nrow()` were coded 1 (Haifa bay) (`r round(filter(SVIVA2_00,AREA==1)%>%nrow()/N*100,1)`%), and `r filter(SVIVA2_00,AREA==0) %>% nrow()` were coded 0 (Shfela/other) (`r round(filter(SVIVA2_00,AREA==1)%>%nrow()/N*100,1)`%). 
+
+
+
+#Experiment groups
+
+```{r , warning = FALSE, message = FALSE}
+sjt.xtab(SVIVA2_00$RELEVANCE_exp,SVIVA2_00$AREA_names)
+sjp.grpfrq(SVIVA2_00$RELEVANCE_exp,SVIVA2_00$AREA_names,ylim=c(0,450))
+```
+There were slightly more subjects in the Relevance treatment group (`r filter(SVIVA2_00,RELEVANCE_exp==1)%>%nrow()` vs. `r filter(SVIVA2_00,RELEVANCE_exp==0)%>%nrow()`) with differences within the two areas. This might indicate higher attrition rate for those in Haifa assigned to control group, compared with those assigned to the treatment group (see analyses of attrition below). 
+
+
+```{r , warning = FALSE, message = FALSE}
+sjp.grpfrq(SVIVA2_00$SYMBOL,SVIVA2_00$AREA_names,ylim=c(0,450))
+sjp.grpfrq(SVIVA2_00$INFORMATION_air,SVIVA2_00$AREA_names,ylim=c(0,450))
+sjp.grpfrq(SVIVA2_00$INFORMATION_waste,SVIVA2_00$AREA_names,ylim=c(0,450))
+sjp.grpfrq(SVIVA2_00$AIR_order,SVIVA2_00$AREA_names,ylim=c(0,450))
+```
+
+Also, there are relatively more Haifa subjects in the "weak policy" group (`r filter(SVIVA2_00,AREA==1,INFORMATION_air==0)%>%nrow()` vs. `r filter(SVIVA2_00,AREA==1,INFORMATION_air==1)%>%nrow()`), and in the group who first saw the air policy (`r filter(SVIVA2_00,AREA==1,AIR_order==1)%>%nrow()` vs. `r filter(SVIVA2_00,AREA==1,AIR_order==2)%>%nrow()`). (see analyses of attrition below).
+
+
+# Attrition
+```{r}
+N_raw = nrow(SVIVA2_raw_00)
+```
+
+`r N_raw` subjects started the survey, of which `r N` completed it (`r round(N/N_raw*100,1)`%).
+
+```{r}
+SVIVA2_raw_00 = SVIVA2_raw_00 %>% 
+  mutate(DROP = if_else(V10==0,1,0),
+         CITY_reside_en = paste0(CITY_00$CITY_reside_en,
+                                 CITY_00$CITY_reside_ipanel_en)) 
+
+
+t22=ifelse(SVIVA2_raw_00$CITY_reside_en %in% c("HAIFA",
+                                           "NESHER",
+                                           "OTHER (HAIFA BAY)",
+                                           "QIRYAT ATA",
+                                           "QIRYAT BIALIK",
+                                           "QIRYAT HAIM",
+                                           "QIRYAT MOZKIN",
+                                           "QIRYAT YAM"),"HAIFA",
+            ifelse(SVIVA2_raw_00$CITY_reside_en %in% c("PETACH TIKVA",
+                                                        "NATANIA",
+                                                        "RISHON LEZION",
+                                                        "OTHER"),"SHFELA",NA))
+
+SVIVA2_raw_00 = SVIVA2_raw_00 %>% 
+  mutate(AREA_reside_haifa = t22) %>% 
+  mutate(RELEVANCE_exp = ifelse(DO.BR.FL_346=="Relevance_control",0,
+                                if_else(DO.BR.FL_346=="Relevance_treatment",1,9))) %>% 
+  mutate(RELEVANCE_exp=Recode(RELEVANCE_exp,"9=NA"),
+  t23 = paste0(SVIVA2_raw_00$DO.BR.FL_269,
+                    SVIVA2_raw_00$DO.BR.FL_273,
+                    SVIVA2_raw_00$DO.BR.FL_291,
+                    SVIVA2_raw_00$DO.BR.FL_365,
+                    SVIVA2_raw_00$DO.BR.FL_375,
+                    SVIVA2_raw_00$DO.BR.FL_385))
+
+SVIVA2_raw_00 = SVIVA2_raw_00 %>% 
+  mutate(AIR_order = if_else(str_detect(SVIVA2_raw_00$t23, "air")==TRUE,1,2))%>%
+  mutate(WASTE_order = if_else(str_detect(SVIVA2_raw_00$t23, "waste")==TRUE,1,2))%>%
+  ###information
+  mutate(INFORMATION_air = if_else(str_detect(SVIVA2_raw_00$t23, "air a")==TRUE|
+                                     str_detect(SVIVA2_raw_00$t23, "air b")==TRUE|
+                                     str_detect(SVIVA2_raw_00$t23, "air c")==TRUE|
+                                     str_detect(SVIVA2_raw_00$t23, "waste d")==TRUE|
+                                     str_detect(SVIVA2_raw_00$t23, "waste e")==TRUE|
+                                     str_detect(SVIVA2_raw_00$t23, "waste f")==TRUE,1,0))%>%
+  mutate(INFORMATION_waste = Recode(INFORMATION_air,"0=1;1=0")) %>% 
+    mutate(SYMBOL = Recode(SVIVA2_raw_00$DO.BR.FL_214,
+                         "'POLICY PROGRAMS intro_control'=0;
+                         'POLICY PROGRAMS intro_placebo'=1;
+                         'POLICY PROGRAMS intro_symbol'=2;
+                         ''=NA")) 
+
+```
+
+**Area:**
+```{r}
+sjt.xtab(SVIVA2_raw_00$AREA_reside_haifa,SVIVA2_raw_00$DROP,show.row.prc = T)
+```
+Slightly lower dropout rate among Haifa residents (`r round(filter(SVIVA2_raw_00,AREA_reside_haifa=="SHFELA",DROP==1)%>%nrow()/filter(SVIVA2_raw_00,AREA_reside_haifa=="SHFELA")%>%nrow()*100,1)`% vs. `r round(filter(SVIVA2_raw_00,AREA_reside_haifa=="HAIFA",DROP==1)%>%nrow()/filter(SVIVA2_raw_00,AREA_reside_haifa=="HAIFA")%>%nrow()*100,1)`%)
+
+
+**Relevance manipulation:**
+```{r}
+sjt.xtab(SVIVA2_raw_00$RELEVANCE_exp,SVIVA2_raw_00$DROP,show.row.prc = T)
+```
+Lower dropout rates among those who were assigend to relevance treatment group (`r round(filter(SVIVA2_raw_00,RELEVANCE_exp==0,DROP==1)%>%nrow()/filter(SVIVA2_raw_00,RELEVANCE_exp==0)%>%nrow()*100,1)`% vs. `r round(filter(SVIVA2_raw_00,RELEVANCE_exp==1,DROP==1)%>%nrow()/filter(SVIVA2_raw_00,RELEVANCE_exp==1)%>%nrow()*100,1)`%).
+
+
+**Relevance manipulation and areas:**
+```{r}
+SVIVA2_raw_00 %>% 
+  group_by(AREA_reside_haifa,RELEVANCE_exp) %>% 
+  summarise(N = n(),
+            DROP_percent = paste0(round(mean(DROP)*100,1),"%"))
+
+```
+
+**Information:**
+```{r}
+sjt.xtab(SVIVA2_raw_00$INFORMATION_air,SVIVA2_raw_00$DROP,show.row.prc = T)
+
+SVIVA2_raw_00 %>% 
+  group_by(AREA_reside_haifa,INFORMATION_air) %>% 
+  summarise(N = n(),
+            DROP_percent = paste0(round(mean(DROP)*100,1),"%"))
+```
+
+
+Symbol:
+```{r}
+sjt.xtab(SVIVA2_raw_00$SYMBOL,SVIVA2_raw_00$DROP,show.row.prc = T)
+
+SVIVA2_raw_00 %>% 
+  group_by(AREA_reside_haifa,SYMBOL) %>% 
+  summarise(N = n(),
+            DROP_percent = paste0(round(mean(DROP)*100,1),"%"))
+```
+
+
+As an additional check, I examined whether dropping out can be predicted by area, manipulations and order of policies via logistic regression model (drop==1).
+
+```{r}
+tmod_drop_1 = glm(DROP~AREA_reside_haifa,SVIVA2_raw_00,family = "binomial",na.action=na.omit)
+tmod_drop_2 = glm(DROP~AREA_reside_haifa+RELEVANCE_exp+AIR_order+INFORMATION_air+SYMBOL,SVIVA2_raw_00,family = "binomial",na.action=na.omit)
+tmod_drop_3 = glm(DROP~AREA_reside_haifa*(RELEVANCE_exp+AIR_order+INFORMATION_air+SYMBOL),SVIVA2_raw_00,family = "binomial",na.action=na.omit)
+
+sjt.glm(tmod_drop_1,tmod_drop_2,tmod_drop_3,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05)
+```
+
+In sum - these analyses show that there was lower attrition rate among Haifa-bay, Relevance treatment and the symbols groups. But no interaction between the areas and those manipulations. Overall, drop out rates are very low - in any of those groups not more than 10%. It is reasonable to assume that Shfela residents who dropped out are less interested in environmental issues, and therefore were less motivated to complete the survey.      
+
+
+#Filtering
+
+
+---
+
+
+##Filtering
+
+Of these `r N` observations, I filtered observations due to:
+
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+t = SVIVA2_00 %>%
+  distinct(IP,.keep_all=TRUE)
+```
+*	Multiple entries from the same IP: `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
+
+
+```{r,warning=FALSE,message=FALSE}
+t = SVIVA2_00 %>%
+  filter(!(AGE%in% 1:17))
+```
+* Respondent's age less than 18: `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
+
+
+```{r,warning=FALSE,message=FALSE}
+t = SVIVA2_00 %>%
+  filter(IMC==1)
+```
+*	Failure in IMC: `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
+
+```{r,warning=FALSE,message=FALSE}
+t = SVIVA2_00 %>%
+  filter(TIMER_total>=3,TIMER_total<=30)
+```
+*	Filling the survey in less than 3 minutes or more than 30 minutes:
+`r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
+
+
+```{r}
+t = SVIVA2_00 %>%
+  filter(TRUST_air_timer>=10|
+           TRUST_waste_timer>=10)
+```
+*	Answering the two sets of DV questions (trust in air pollution and waste policies) in less than 10 seconds each: `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
+
+
+
+```{r}
+t = SVIVA2_00 %>%
+  filter(REPETITION_elaboration==0)
+```
+
+*	Repetition of the same value (except 4) in the elaboration questions (which include 2 reversed items, on a scale of 1 to 7): `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
+
+
+
+```{r,warning=FALSE,message=FALSE}
+SVIVA2_01 = SVIVA2_00 %>%
+  distinct(IP,.keep_all=TRUE) %>% #exclude double IP
+  filter(!(AGE %in% 1:17),
+         IMC==1,
+         TIMER_total>=3,TIMER_total<=30,  
+         TRUST_air_timer>=10|
+           TRUST_waste_timer>=10, 
+         REPETITION_elaboration==0)
+```
+
+**In total**, of the `r N` observations, I filtered out `r N-nrow(SVIVA2_01)` (`r round((N-nrow(SVIVA2_01))/N*100,1)`%).
+
+
+```{r}
+N_01 = nrow(SVIVA2_01)
+```
+
+
+Next, I examined whether filtering out can be predicted by area, manipulations and order of policies via logistic regression model (filtered==1). 
+
+
+```{r,warning=FALSE,message=FALSE}
+SVIVA2_00 = SVIVA2_00 %>%
+  mutate(FILTER_TOTAL = if_else(!(AGE %in% 1:17)&
+                                 IMC==1&
+                                 TIMER_total>=3 & TIMER_total<=30 &  
+                                 (TRUST_air_timer>=10|
+                                   TRUST_waste_timer>=10)& 
+                                 REPETITION_elaboration==0,0,1))
+
+tmod_filter_1 = glm(FILTER_TOTAL~AREA_reside_haifa+RELEVANCE_exp+AIR_order+INFORMATION_air+SYMBOL,SVIVA2_00,family = "binomial",na.action=na.omit)
+
+sjt.glm(tmod_filter_1,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05)
+```
+
+Haifa-bay subjects less likely to be filtered out (`r round(filter(SVIVA2_00,AREA==1) %>% summarise(mean(FILTER_TOTAL)) %>% max()*100,1)`% vs. `r round(filter(SVIVA2_00,AREA==0) %>% summarise(mean(FILTER_TOTAL)) %>% max()*100,1)`%), which might be explained by their higher motivation/ interest in the issue. Again, it is reasonable to assume that Shfela residents who were filterred out were less interested in environmental issues, and therefore were less motivated to pay attention to the survey. Overrepresentation of those who are interested in the topic probably works against me, with regard to the tests for the effects of the symbols.
+Also, relatively more subjects assigned to "no logo" group were screened out (`r round(filter(SVIVA2_00,SYMBOL==0) %>% summarise(mean(FILTER_TOTAL)) %>% max()*100,1)`% vs. `r round(filter(SVIVA2_00,SYMBOL==1) %>% summarise(mean(FILTER_TOTAL)) %>% max()*100,1)`% and `r round(filter(SVIVA2_00,SYMBOL==2) %>% summarise(mean(FILTER_TOTAL)) %>% max()*100,1)`%).
+
+
+
+After these filters, we are left with `r N_01` observations: `r filter(SVIVA2_01,AREA==1)%>%nrow()` from Haifa bay (`r round(filter(SVIVA2_01,AREA==1)%>%nrow()/N_01*100,1)`%) and `r filter(SVIVA2_01,AREA==0)%>%nrow()` from Shfela (`r round(filter(SVIVA2_01,AREA==0)%>%nrow()/N_01*100,1)`%)
+
+
+#Randomization checks
+
+Next, I confirmed that the random assignments are balanced with regard to important covariates: gender, age, home ownership, education, trust in gov. 
+
+```{r}
+sjt.grpmean(SVIVA2_01[,c("GENDER")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("GENDER")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("AGE")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("AGE")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("HOME")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("HOME")],factor(SVIVA2_01$CONDITION_air))
+
+
+sjt.grpmean(SVIVA2_01[,c("EDUCATION")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("EDUCATION")],factor(SVIVA2_01$CONDITION_air))
+
+
+sjt.grpmean(SVIVA2_01[,c("IDEOLOGY")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("IDEOLOGY")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("GOV_EVALUATION")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("GOV_EVALUATION")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("GOV_TRUST")],factor(SVIVA2_01$RELEVANCE_exp))
+sjt.grpmean(SVIVA2_01[,c("GOV_TRUST")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_INTEREST")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_FOLLOW")],factor(SVIVA2_01$CONDITION_air))
+
+sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_PREFERENCE")],factor(SVIVA2_01$CONDITION_air))
+```
+
+
+
+#Comparison between areas
+
+```{r}
+sjt.grpmean(SVIVA2_01[,c("GENDER")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("AGE")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("HOME")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("EDUCATION")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("IDEOLOGY")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_PREFERENCE")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_FOLLOW")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_INTEREST")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("GOV_EVALUATION")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("GOV_TRUST")],factor(SVIVA2_01$AREA))
+
+```
+
+Haifa-bay subjects are slightly older, more educated, and more leftists. There are no significant differences with regard to their attitudes and preferences about environmental issues in general. 
+
+
+
+#Personal relevance
+Next, I compared the perceived personal of the two policies across the two areas. 
+
+##Air pollution
+```{r}
+ggplot(SVIVA2_01, aes(factor(AREA_names), RELEVANCE_air_obs,fill=factor(AREA_names)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Area",values=c("gray100","gray90"))+
+  scale_x_discrete(name="Area")+
+  scale_y_continuous(name = "relevance of Air policy", breaks = c(1:7))
+```
+Air pollution policy is perceived as highly personally relevant for Haifa subjects, and not very relevant for Shfela subjects, as expected. 
+
+
+##Waste
+```{r}
+ggplot(SVIVA2_01, aes(factor(AREA_names), RELEVANCE_waste_obs,fill=factor(AREA_names)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Area",values=c("gray100","gray90"))+
+  scale_x_discrete(name="Area")+
+  scale_y_continuous(name = "relevance of waste policy", breaks = c(1:7))
+```
+Both areas perceive the waste policy as relatively relevant. Shfela residents perceive it as slightly more (`r filter(SVIVA2_01,AREA==0) %>% summarise(mean(RELEVANCE_waste_obs)) %>% max() %>% round(2)` vs. `r filter(SVIVA2_01,AREA==1) %>% summarise(mean(RELEVANCE_waste_obs)) %>% max() %>% round(2)`, (t= `r t.test(RELEVANCE_waste_obs~AREA,data=SVIVA2_01)[["statistic"]] %>% round(3)`, sig. = `r t.test(RELEVANCE_waste_obs~AREA,data=SVIVA2_01)[["p.value"]] %>% round(3)`)).  
+
+#Descriptive statistics
+
+
+Summary statistics and bivaraite correlation matrix are attached at the end of the file. Next, I explore the main outcome variables.   
+
+
+##TRUST_INDEX
+First, I examined the reliability of the trust index for the two policies
+
+```{r}
+sjt.itemanalysis(SVIVA2_01[, c("TRUST_air_q1",
+                               "TRUST_air_q2",
+                               "TRUST_air_q3",
+                               "TRUST_air_q4",
+                               "TRUST_air_q5")])
+```
+
+
+```{r}
+sjt.itemanalysis(SVIVA2_01[, c("TRUST_waste_q1",
+                               "TRUST_waste_q2",
+                               "TRUST_waste_q3",
+                               "TRUST_waste_q4",
+                               "TRUST_waste_q5")])
+```
+
+Trust index for both policies has high reliability.
+
+
+
+Next, I explore the distribution of the trust scales, across the two areas. 
+
+**Air policy**
+```{r}
+sjp.frq(SVIVA2_01$TRUST_air_INDEX, 
+        type = "hist", 
+        title = "Air policy",
+        geom.size = 7/10,
+        normal.curve = TRUE,
+        show.mean = TRUE,
+        axis.title = "Trust in Air policy (7=high)")
+
+sjp.grpfrq(SVIVA2_01$TRUST_air_INDEX,
+        SVIVA2_01$AREA_names,facet.grid = T,
+        title = "Air policy",
+        show.values=F,
+        show.axis.values=T,
+        axis.titles = "Trust in Air policy (7=high)")
+
+
+```
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(AREA_names), TRUST_air_INDEX,fill=factor(AREA_names)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Area",values=c("gray100","gray90"))+
+  scale_x_discrete(name="Area")+
+  scale_y_continuous(name = "Trust in air policy", breaks = c(1:7))
+```
+
+
+ 
+Haifa bay subjects have significantly lower trust in Haifa bay policy. Also, relatively more Haifa subjects reported extremely low levels of trust.   
+
+<br>
+**Waste policy**
+```{r}
+sjp.frq(SVIVA2_01$TRUST_waste_INDEX, 
+        type = "hist", 
+        title = "waste policy",
+        geom.size = 7/10,
+        normal.curve = TRUE,
+        show.mean = TRUE,
+        axis.title = "Trust in waste policy (7=high)")
+
+sjp.grpfrq(SVIVA2_01$TRUST_waste_INDEX,
+        SVIVA2_01$AREA_names,facet.grid = T,
+        title = "waste policy",
+        show.values=F,
+        show.axis.values=F,
+        axis.titles = "Trust in waste policy (7=high)")
+
+
+```
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(AREA_names), TRUST_waste_INDEX,fill=factor(AREA_names)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Area",values=c("gray100","gray90"))+
+  scale_x_discrete(name="Area")+
+  scale_y_continuous(name = "Trust in waste policy", breaks = c(1:7))
+```
+
+
+Trust in waste policy is relatively higher, and there are significantly less extremely low values. Haifa bay subjects have slightly lower trust in Haifa bay policy (`r filter(SVIVA2_01,AREA==0) %>% summarise(mean(TRUST_waste_INDEX)) %>% max() %>% round(2)` vs. `r filter(SVIVA2_01,AREA==1) %>% summarise(mean(TRUST_waste_INDEX)) %>% max() %>% round(2)`). These differences are marginally significant (t= `r t.test(TRUST_waste_INDEX~AREA,data=SVIVA2_01)[["statistic"]] %>% round(3)`, sig. = `r t.test(TRUST_waste_INDEX~AREA,data=SVIVA2_01)[["p.value"]] %>% round(3)`).
+
+
+
+
+
+##Elaboration measures
+
+I used three measures of Elaboration: perceived elaboration index (5 items), total time of viewing the policy plan (reaction time - RT), a memory test in which respondents were asked to identify measures that appeared in the policy plan. Next, I explore these variables for the two policies. 
+Perceived elaboration index and memory test scores were measured for each subject only for the second policy which was presented to her (recall that the order was random). RT was measured for both policies.
+
+
+---
+
+###Air policy
+
+**Percieved Elaboration index**
+
+
+```{r}
+sjt.itemanalysis(SVIVA2_01[,c("ELABORATION_air_q1",
+                              "ELABORATION_air_q2.r",
+                              "ELABORATION_air_q3",
+                              "ELABORATION_air_q4",
+                              "ELABORATION_air_q5.r")])
+```
+
+Notice that ELABORATION_air_q4 less correlated with all other items, higher then others.
+
+"Item 4: I tried to think to what extent do the measures assist in promoting the policy goal (reducing air pollution in the Haifa Bay/reducing waste and increasing recycling)".
+
+
+<br>
+
+```{r}
+sjp.frq(SVIVA2_01$ELABORATION_air_INDEX, 
+        type = "hist", 
+        geom.size = 1,
+        show.mean = TRUE,
+        axis.title = "perceived elaboration index (air)")
+```
+
+
+
+**Elaboration time:** 
+
+The first plot shows the distribution of the reaction time (RT) measured in seconds. To reduce skewness, I log transformed this measure, according to the following formula: 
+$ELABORATION timelog = log(ELABORATIONtime+1)$
+
+```{r}
+sjp.frq(SVIVA2_01$ELABORATION_air_time, 
+        type = "hist", 
+        geom.size = 1,
+        show.mean = TRUE,
+        axis.title = "Reaction time (in seconds) (air)")
+```
+
+<br>
+
+```{r}
+sjp.frq(SVIVA2_01$ELABORATION_air_time_log, 
+        type = "hist", 
+        geom.size = 1,
+        show.mean = TRUE,
+        axis.title = "Reaction time (in seconds) (log) (air)")
+```
+
+
+
+**Memory test**
+
+In the memory test, the subjects were asked to select issues that were included in the second policy which was presented to them. 4 issues were presented, of which 2 are correct. 
+The memory test score is calculated as follows: 
+Number of correct issues minus Number of incorrect issues. A subject that selected more incorrect than correct items received the score of 0. Hence, possible scores are: 0,1,2.
+
+
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_air_score,SVIVA2_01$INFORMATION_air_n,
+           facet.grid = TRUE,
+           axis.titles = "Memory test score (air)",
+           show.prc = F)
+```
+
+
+
+###Waste policy
+
+
+**Percieved Elaboration index**
+
+
+```{r}
+sjt.itemanalysis(SVIVA2_01[,c("ELABORATION_waste_q1",
+                              "ELABORATION_waste_q2.r",
+                              "ELABORATION_waste_q3",
+                              "ELABORATION_waste_q4",
+                              "ELABORATION_waste_q5.r")])
+```
+
+Again, ELABORATION_waste_q4 less correlated with all other items, higher then others.
+
+
+<br>
+
+```{r}
+sjp.frq(SVIVA2_01$ELABORATION_waste_INDEX, 
+        type = "hist", 
+        geom.size = 1,
+        show.mean = TRUE,
+        axis.title = "perceived elaboration index (waste)")
+```
+
+
+
+**Elaboration time:** 
+
+
+```{r}
+sjp.frq(SVIVA2_01$ELABORATION_waste_time, 
+        type = "hist", 
+        geom.size = 1,
+        show.mean = TRUE,
+        axis.title = "Reaction time (in seconds) (waste)")
+```
+
+<br>
+
+```{r}
+sjp.frq(SVIVA2_01$ELABORATION_waste_time_log, 
+        type = "hist", 
+        geom.size = 1,
+        show.mean = TRUE,
+        axis.title = "Reaction time (in seconds) (log) (waste)")
+```
+
+
+
+**Memory test**
+
+
+
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_waste_score,SVIVA2_01$INFORMATION_waste_n,
+           facet.grid = TRUE,
+           axis.titles = "Memory test score (waste)",
+           show.prc = F)
+```
+
+Lower scores in memory test of waste policy compared with air policy. Can be explained by the lower media salience of the issue. 
+
+
+Next, I tested the correlations between the three measures for each policy. 
+```{r}
+sjt.corr(SVIVA2_01[,c("ELABORATION_air_INDEX",
+                      "ELABORATION_air_time_log",
+                      "MEMORY_air_score")],
+         remove.spaces = T,
+         triangle="lower")
+
+sjt.corr(SVIVA2_01[,c("ELABORATION_waste_INDEX",
+                      "ELABORATION_waste_time_log",
+                      "MEMORY_waste_score")],
+                  remove.spaces = T,
+                  triangle="lower")
+```
+Reaction time and memory score are strongly correlated in both policies. Perceived elaboration is not correlated with the two other measures, in both policies. This might be explained by social desirability which might shape subjects' answers to the perceived elaboration items (they might not admit that they did not elaborate).  
+
+
+#Manipulation checks
+Next, I conducted a series of manipulation checks.
+
+---
+##Relevance priming manipulation
+
+
+###Open answers
+
+First, I look at the open answers for priming question of treatment and control groups, in the two areas:
+
+Treatment: In your opinion, what is the most disturbing environmental issue in your area of residence:
+
+```{r}
+x1=filter(SVIVA2_01,str_length(RELEVANCE_exp_treat_text)>0) %>% select(AREA_names,RELEVANCE_exp_treat_text)
+
+filter(x1,AREA_names=="Shfela") %>% datatable()
+
+filter(x1,AREA_names=="Haifa") %>% datatable()
+```
+
+Most Haifa bay subjects regarded the air pollution in their answers, whereas very few of those from Shfela, as expected. Shfela respondents regarded veriaty of issues. (TBA - coding those answers...)
+
+
+Control: what will attract people to choose your area of profession:
+
+```{r}
+x2=filter(SVIVA2_01,str_length(RELEVANCE_exp_control_text)>0) %>% select(AREA_names,RELEVANCE_exp_control_text)
+
+filter(x2) %>% datatable()
+```
+The answers are not related to environmental issues, as expected. 
+
+
+###Air pollution
+Next, I test whether the relevance treatment affected subjects' perceived personal relevance and elaboration. 
+
+
+**Perceived Relevance**
+```{r}
+sjt.grpmean(SVIVA2_00$RELEVANCE_air_obs,SVIVA2_00$RELEVANCE_exp)
+
+ggplot(SVIVA2_00, aes(factor(RELEVANCE_exp), RELEVANCE_air_obs,fill=factor(RELEVANCE_exp)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~factor(AREA_names))+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"),labels=c("Control","Treatment"))+
+  scale_x_discrete(name="",breaks=c(0,1),labels=c("",""))+
+  scale_y_continuous(name = "Perceived personal relevance (air)", breaks = c(1:7))
+```
+
+
+
+**Perceived elaboration**
+```{r,warning=F}
+ggplot(SVIVA2_01, aes(RELEVANCE_exp_n, ELABORATION_air_INDEX,fill=factor(RELEVANCE_exp_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Perceived elaboration (air)", breaks = c(1:7))
+
+```
+
+
+
+**Elaboration time**
+```{r}
+ggplot(SVIVA2_01, aes(RELEVANCE_exp_n, ELABORATION_air_time_log,fill=factor(RELEVANCE_exp_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration air time (log)", breaks = c(1:7))
+
+
+```
+
+
+**Memory**
+```{r}
+ggplot(SVIVA2_01, aes(RELEVANCE_exp_n, MEMORY_air_score,fill=factor(RELEVANCE_exp_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration air time (log)", breaks = c(1:7))
+```
+
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_air_score[SVIVA2_01$AREA==1],SVIVA2_01$RELEVANCE_exp_n[SVIVA2_01$AREA==1],facet.grid = TRUE)
+
+sjp.grpfrq(SVIVA2_01$MEMORY_air_score[SVIVA2_01$AREA==0],SVIVA2_01$RELEVANCE_exp_n[SVIVA2_01$AREA==0],facet.grid = TRUE)
+```
+
+
+
+**Models**
+```{r}
+tmod_relevance_air_full_1=lm(RELEVANCE_air_obs~RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_relevance_air_haifa_1=lm(RELEVANCE_air_obs~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_relevance_air_shfela_1=lm(RELEVANCE_air_obs~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+tmod_elaboration_air_full_1=lm(ELABORATION_air_INDEX~RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_elaboration_air_haifa_1=lm(ELABORATION_air_INDEX~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_elaboration_air_shfela_1=lm(ELABORATION_air_INDEX~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+
+sjt.lm(tmod_relevance_air_full_1,
+       tmod_relevance_air_haifa_1,
+       tmod_relevance_air_shfela_1,
+       separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE,
+       string.dv = "Perceived personal relevance (air)",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+
+sjt.lm(tmod_elaboration_air_full_1,
+       tmod_elaboration_air_haifa_1,
+       tmod_elaboration_air_shfela_1,
+       separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE,
+       string.dv = "Perceived elaboration (air)",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+
+
+```
+
+Relevance treatment slightly increased perceived relevance of Shfela subjects and not of Haifa subjects. Relevance treatment increased Haifa bay subjects' perceived elaboration (but not reaction time and memory score).
+
+
+
+###Waste
+Next, I test whether the relevance treatment effected subjects' perceived personal relevance and elaboration of waste policy. 
+
+
+**Perceived Relevance**
+```{r}
+sjt.grpmean(SVIVA2_00$RELEVANCE_waste_obs,SVIVA2_00$RELEVANCE_exp)
+
+ggplot(SVIVA2_00, aes(factor(RELEVANCE_exp), RELEVANCE_waste_obs,fill=factor(RELEVANCE_exp)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~factor(AREA_names))+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"),labels=c("Control","Treatment"))+
+  scale_x_discrete(name="",breaks=c(0,1),labels=c("",""))+
+  scale_y_continuous(name = "Perceived personal relevance (waste)", breaks = c(1:7))
+```
+
+
+
+**Perceived elaboration**
+```{r,warning=F}
+ggplot(SVIVA2_01, aes(RELEVANCE_exp_n, ELABORATION_waste_INDEX,fill=factor(RELEVANCE_exp_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Perceived elaboration (waste)", breaks = c(1:7))
+
+```
+
+
+
+**Elaboration time**
+```{r}
+ggplot(SVIVA2_01, aes(RELEVANCE_exp_n, ELABORATION_waste_time_log,fill=factor(RELEVANCE_exp_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration waste time (log)", breaks = c(1:7))
+
+
+```
+
+
+**Memory**
+```{r}
+ggplot(SVIVA2_01, aes(RELEVANCE_exp_n, MEMORY_waste_score,fill=factor(RELEVANCE_exp_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Relevance exp.",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration waste time (log)", breaks = c(1:7))
+```
+
+
+**Models**
+```{r}
+tmod_relevance_waste_full_1=lm(RELEVANCE_waste_obs~RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_relevance_waste_haifa_1=lm(RELEVANCE_waste_obs~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_relevance_waste_shfela_1=lm(RELEVANCE_waste_obs~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+tmod_elaboration_waste_full_1=lm(ELABORATION_waste_INDEX~RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_elaboration_waste_haifa_1=lm(ELABORATION_waste_INDEX~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_elaboration_waste_shfela_1=lm(ELABORATION_waste_INDEX~RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+
+sjt.lm(tmod_relevance_waste_full_1,
+       tmod_relevance_waste_haifa_1,
+       tmod_relevance_waste_shfela_1,
+       separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE,
+       string.dv = "Perceived personal relevance (waste)",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+
+sjt.lm(tmod_elaboration_waste_full_1,
+       tmod_elaboration_waste_haifa_1,
+       tmod_elaboration_waste_shfela_1,
+       separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE,
+       string.dv = "Perceived elaboration (waste)",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+
+
+```
+
+No significant effect of relevance manipulation on perceived relevance or elaboration of waste policy.  
+
+
+In sum, it seems that the relevance treatment had a very low effect of relevance, if at all, only on air policy. 
+
+
+##Symbols
+Next, I explore the recognizability and positive/negative affect of the symbols (images of celebs from Ministry's campaigns). 
+
+**Recognizability**
+
+SVIVA LOGO
+```{r}
+
+sjp.frq(SVIVA2_01$RECOGNIZE_SVIVA_logo, 
+        type = "bar")
+
+sjt.grpmean(SVIVA2_01$RECOGNIZE_SVIVA_logo,factor(SVIVA2_01$AREA_names))
+```
+
+
+Air real celeb
+```{r}
+sjp.frq(SVIVA2_01$RECOGNIZE_air_real, 
+        type = "bar")
+sjt.grpmean(SVIVA2_01$RECOGNIZE_air_real,factor(SVIVA2_01$AREA_names))
+```
+
+
+
+Waste real celeb
+```{r}
+sjp.frq(SVIVA2_01$RECOGNIZE_waste_real, 
+        type = "bar")
+sjt.grpmean(SVIVA2_01$RECOGNIZE_waste_real,factor(SVIVA2_01$AREA_names))
+```
+
+
+
+**Affect**
+
+Air real celeb
+```{r}
+sjp.frq(SVIVA2_01$AFFECT_air_real, 
+        type = "bar")
+sjt.grpmean(SVIVA2_01$AFFECT_air_real,factor(SVIVA2_01$AREA_names))
+```
+
+Air fake celeb
+```{r}
+sjp.frq(SVIVA2_01$AFFECT_air_fake, 
+        type = "bar")
+sjt.grpmean(SVIVA2_01$AFFECT_air_fake,factor(SVIVA2_01$AREA_names))
+```
+
+
+Waste real celeb
+```{r}
+sjp.frq(SVIVA2_01$AFFECT_waste_real, 
+        type = "bar")
+sjt.grpmean(SVIVA2_01$AFFECT_waste_real,factor(SVIVA2_01$AREA_names))
+```
+
+Waste fake celeb
+```{r}
+sjp.frq(SVIVA2_01$AFFECT_waste_fake, 
+        type = "bar")
+sjt.grpmean(SVIVA2_01$AFFECT_waste_fake,factor(SVIVA2_01$AREA_names))
+```
+
+
+There are no differences between areas with regard to recognizability or affect of the logos and images. `r round(filter(SVIVA2_01,RECOGNIZE_air_real==1) %>% nrow()/N_01*100,1)`% did not recognize air real celeb (Tal friedman). `r round(filter(SVIVA2_01,RECOGNIZE_waste_real==1) %>% nrow()/N_01*100,1)`% did not recognize waste real celeb (Ido Rozenblum). `r round(filter(SVIVA2_01,RECOGNIZE_SVIVA_logo==1) %>% nrow()/N_01*100,1)`% did not recognize the SVIVA logo. Images of real celebs have positive affect, and fake images are fairly neutral. In robust analyses I exclude those who did not recognize the symbols.  
+    
+
+##Information manipulation
+
+Next, I confirmed that subjects indeed perceived the weak policy as representing weaker arguments, compared with the strong policy. 
+
+To do so, I compared the first Item in the trust scale: 
+
+*I believe that the measures in the policy plan will assist in fulfilling the policy goal (reducing air pollution in the Haifa Bay/reducing waste and increasing recycling).*
+
+**Air**
+```{r}
+ggplot(SVIVA2_01, aes(factor(INFORMATION_air_n), TRUST_air_q1,fill=factor(INFORMATION_air_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"),labels=c("Poor","Good"))+facet_grid(~AREA_names)+
+  scale_x_discrete(name="",breaks=c(0,1),labels=c("",""))+
+  scale_y_continuous(name = "Air Trust q1", breaks = c(1:7))
+
+sjt.grpmean(SVIVA2_01$TRUST_air_q1,SVIVA2_01$INFORMATION_air)
+```
+
+
+**Waste**
+```{r}
+ggplot(SVIVA2_00, aes(factor(INFORMATION_waste), TRUST_waste_q1,fill=factor(INFORMATION_waste)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"),labels=c("Poor","Good"))+
+  facet_grid(~AREA_names)+
+  scale_x_discrete(name="",breaks=c(0,1),labels=c("",""))+
+  scale_y_continuous(name = "Waste Trust q1", breaks = c(1:7))
+
+sjt.grpmean(SVIVA2_00$TRUST_waste_q1,SVIVA2_00$INFORMATION_waste)
+```
+
+
+
+Next, to further substantiate the validity of the information manipulation, I examine the interaction between elaboration and information and their effect on trust. I expect that when subjects are presented with weak policy, higher levels of elaboration will decrease their trust. On the other hand, when subjects are presented with strong policy, higher levels of elaboration will increase their trust.  
+
+**Air**
+
+```{r}
+sjp.scatter(SVIVA2_01$ELABORATION_air_time_log,
+            SVIVA2_01$TRUST_air_INDEX,
+            SVIVA2_01$INFORMATION_air,
+            fit.line.grps = TRUE,
+            show.ci = TRUE,
+            geom.size=1,
+             axis.titles=c("Air Elaboration time (log)","Trust in air policy"),
+            legend.title="Information",
+            legend.labels=c("Weak","Strong"))
+```
+
+```{r}
+sjp.scatter(SVIVA2_01$MEMORY_air_score,
+            SVIVA2_01$TRUST_air_INDEX,
+            SVIVA2_01$INFORMATION_air,
+            fit.line.grps = TRUE,
+            show.ci = TRUE,
+            geom.size=1,
+            axis.titles=c("Air Memory score","Trust in air policy"),
+            legend.title="Information",
+            legend.labels=c("Weak","Strong"),
+            auto.jitter = T,
+            emph.dots = TRUE)
+```
+
+**Waste**
+
+```{r}
+sjp.scatter(SVIVA2_01$ELABORATION_waste_time_log,
+            SVIVA2_01$TRUST_waste_INDEX,
+            SVIVA2_01$INFORMATION_waste,
+            fit.line.grps = TRUE,
+            show.ci = TRUE,
+            geom.size=1,
+             axis.titles=c("waste Elaboration time (log)","Trust in waste policy"),
+            legend.title="Information",
+            legend.labels=c("Weak","Strong"),
+            title = "Haifa")
+```
+
+```{r}
+sjp.scatter(SVIVA2_01$MEMORY_waste_score,
+            SVIVA2_01$TRUST_waste_INDEX,
+            SVIVA2_01$INFORMATION_waste,
+            fit.line.grps = TRUE,
+            show.ci = TRUE,
+            geom.size=1,
+            axis.titles=c("waste Memory score","Trust in waste policy"),
+            legend.title="Information",
+            legend.labels=c("Weak","Strong"),
+            title = "Haifa",
+            auto.jitter = T,
+            emph.dots = TRUE)
+```
+
+
+
+#Trust in Haifa air-pollution policy
+
+I now turn to analyze the hypotheses with regard to trust in air policy. 
+
+*First*, I analyze the effects of symbols and information, their interaction and their moderation by areas and by relevance manipulation. 
+
+*Second*, I analyze the effect of symbols manipulation on elaboration.
+
+*Third*, I analyze the mediating role of elaboration.  
+
+
+##Descriptive results:
+
+**All sample:** 
+```{r}
+
+SVIVA2_01 %>%
+    group_by(SYMBOL_n,INFORMATION_air_n) %>%
+    summarise(n=n(),
+              mean = round(mean(TRUST_air_INDEX),3),
+              se = round(sd(TRUST_air_INDEX)/sqrt(n()),3))%>%
+    mutate(ci_95 = round(1.96*se,3),
+           ci_90 = round(1.65*se,3))
+
+
+ggplot(SVIVA2_01, aes(factor(INFORMATION_air_n), TRUST_air_INDEX,fill=factor(INFORMATION_air_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_air_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Symbols",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="")+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+
+
+There is a strong and significant main effect for information manipulation (`r filter(SVIVA2_01,INFORMATION_air==1) %>% summarise(mean(TRUST_air_INDEX)) %>% max() %>% round(2)` vs. `r filter(SVIVA2_01,INFORMATION_air==0) %>% summarise(mean(TRUST_air_INDEX)) %>% max() %>% round(2)`). t= `r t.test(TRUST_air_INDEX~INFORMATION_air,data=SVIVA2_01)[["statistic"]] %>% round(3)`). 
+Significant main effect of symbol (`r filter(SVIVA2_01,SYMBOL==2)%>%summarise(mean(TRUST_air_INDEX))%>%round(3) %>% max()` [`r filter(SVIVA2_01,SYMBOL==2)%>%summarise(mean(TRUST_air_INDEX)+1.96*sd(TRUST_air_INDEX)/sqrt(n()))%>%round(3) %>% max()`,`r filter(SVIVA2_01,SYMBOL==2)%>%summarise(mean(TRUST_air_INDEX)-1.96*sd(TRUST_air_INDEX)/sqrt(n()))%>%round(3) %>% max()`] vs. `r filter(SVIVA2_01,SYMBOL==1)%>%summarise(mean(TRUST_air_INDEX))%>%round(3) %>% max()` and `r filter(SVIVA2_01,SYMBOL==0)%>%summarise(mean(TRUST_air_INDEX))%>%round(3) %>% max()` in control groups fake symbol and no symbol).   
+
+
+
+**By areas:**
+```{r}
+SVIVA2_01 %>%
+    group_by(AREA_names,SYMBOL_n,INFORMATION_air_n) %>%
+    summarise(n=n(),
+              mean = round(mean(TRUST_air_INDEX),3),
+              se = round(sd(TRUST_air_INDEX)/sqrt(n()),3))%>%
+    mutate(ci_95 = round(1.96*se,3),
+           ci_90 = round(1.65*se,3))
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(INFORMATION_air_n), TRUST_air_INDEX,fill=factor(INFORMATION_air_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_air_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_air_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names~INFORMATION_air_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+
+
+No interaction between areas and information manipulation. The effect of the symbol manipulation is strong and significant among Haifa subjects, yet the increase is not significant among Shfela subjects. Among Shfela subjects, the symbols had greater effect among those who received the weak policy.  
+
+
+
+
+**By Relevance manipulation**
+```{r}
+SVIVA2_01 %>%
+    group_by(RELEVANCE_exp_n,SYMBOL_n,INFORMATION_air_n) %>%
+    summarise(n=n(),
+              mean = round(mean(TRUST_air_INDEX),3),
+              se = round(sd(TRUST_air_INDEX)/sqrt(n()),3))%>%
+    mutate(ci = round(1.96*se,3))
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(INFORMATION_air_n), TRUST_air_INDEX,fill=factor(INFORMATION_air_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~RELEVANCE_exp_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_air_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~RELEVANCE_exp_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Air Trust index", breaks = c(1:7))
+```
+No interaction between relevance manipulation and information/symbol manipulations.
+
+
+##Main Models
+
+```{r}
+tmod_air_full_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=SVIVA2_01)
+tmod_air_full_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=SVIVA2_01)
+
+tmod_air_haifa_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+tmod_air_haifa_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_01,AREA==1))
+
+tmod_air_shfela_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+tmod_air_shfela_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_air_full_1,tmod_air_full_2,
+        tmod_air_haifa_1,tmod_air_haifa_2,
+        tmod_air_shfela_1,tmod_air_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in Air policy",
+       depvar.labels = paste0("(",1:6,")"," ",c(rep(c("Full","Haifa","Shfela"),each=2))))
+
+```
+
+
+```{r}
+tmod_air_full_11 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL+RELEVANCE_exp,data=SVIVA2_01)
+tmod_air_full_12 = lm(TRUST_air_INDEX~RELEVANCE_exp*(INFORMATION_air+SYMBOL),data=SVIVA2_01)
+
+tmod_air_haifa_11 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1))
+tmod_air_haifa_12 = lm(TRUST_air_INDEX~RELEVANCE_exp*(INFORMATION_air+SYMBOL),data=filter(SVIVA2_01,AREA==1))
+
+tmod_air_shfela_11 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0))
+tmod_air_shfela_12 = lm(TRUST_air_INDEX~RELEVANCE_exp*(INFORMATION_air+SYMBOL),data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_air_full_11,tmod_air_full_12,
+        tmod_air_haifa_11,tmod_air_haifa_12,
+        tmod_air_shfela_11,tmod_air_shfela_12,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE, 
+              pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "Relevance treatment",
+                       "Relevance treatment*Information",
+                       "Relevance treatment*SYMBOL (fake)",
+                       "Relevance treatment*SYMBOL (real)"),
+       string.dv = "Trust in Air policy",
+       depvar.labels = paste0("(",1:6,")"," ",c(rep(c("Full","Haifa","Shfela"),each=2))))
+
+```
+
+In sum, these analyses show that subjects in both areas were responsive to the differences in information. The real symbol increased the trust of Haifa bay subjects compared with the two control groups. The fake logo slightly increased the trust of Haifa bay subjects, but to a lesser extent. Among Shfela subjects, the real symbol did not had a significant effect. The effect was slightly stronger among those who saw the weak policy, but the effect is still only marginally significant. t= `r t.test(TRUST_air_INDEX~SYMBOL,data=filter(SVIVA2_01,AREA==0,INFORMATION_air==0,SYMBOL!=1))[["statistic"]] %>% round(3)`,sig = `r round(t.test(TRUST_air_INDEX~SYMBOL,data=filter(SVIVA2_01,AREA==0,INFORMATION_air==0,SYMBOL!=1))[["p.value"]]/2,3)` in one tailled test. There is no interaction bewteen the relevance treatment and the information or the symbol manipulations. 
+
+
+##Extreme values:
+Next, I analyzed the effect of the symbols manipulation on extremely low levels of trust (<=2, on a 1-7 scale). This analysis enables to estimate the extent to which the symbols can reduce distrust. 
+
+
+```{r}
+SVIVA2_01=SVIVA2_01%>% 
+  mutate(TRUST_air_INDEX_low = ifelse(TRUST_air_INDEX<=2,1,0),
+         TRUST_air_INDEX_high = ifelse(TRUST_air_INDEX>=6,1,0)) 
+```
+
+
+
+```{r}
+SVIVA2_01 %>%
+    group_by(AREA_names,SYMBOL_n) %>%
+    summarise(n=n(),
+              mean = mean(TRUST_air_INDEX_low),
+              se = sd(TRUST_air_INDEX_low)/sqrt(n()))%>%
+    mutate(ci_95 = 1.96*se,
+           ci_90 = 1.65*se) %>% 
+    mutate(mean = paste0(round(mean*100,1),"%"),
+           se = paste0(round(se*100,1),"%"),
+           ci_95 = paste0(round(ci_95*100,1),"%"),
+           ci_90 = paste0(round(ci_90*100,1),"%"))
+
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_air_INDEX_low))+ 
+  theme_bw()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names~INFORMATION_air_n)+
+  scale_y_continuous(name = "Low trust air",breaks = seq(0,0.4,by=0.05))
+
+sjt.grpmean(filter(SVIVA2_01,AREA==1)$TRUST_air_INDEX_low,
+            filter(SVIVA2_01,AREA==1)$SYMBOL_n)
+sjt.grpmean(filter(SVIVA2_01,AREA==0)$TRUST_air_INDEX_low,
+            filter(SVIVA2_01,AREA==0)$SYMBOL_n)
+
+
+```
+
+```{r}
+tmod_trust_air_low_full_1 = glm(TRUST_air_INDEX_low~INFORMATION_air+SYMBOL,data=SVIVA2_01,family="binomial")
+
+tmod_trust_air_low_haifa_1 = glm(TRUST_air_INDEX_low~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1),family="binomial")
+
+tmod_trust_air_low_shfela_1 = glm(TRUST_air_INDEX_low~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==0),family="binomial")
+
+
+sjt.glm(tmod_trust_air_low_full_1,
+       tmod_trust_air_low_haifa_1,
+       tmod_trust_air_low_shfela_1,          
+         separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Low trust in Air policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+```
+In both areas, real symbol decreased the likelihood of low trust in the policy. The fake symbol also decreased distrust but only in haifa, but to a lesser extent. 
+
+```{r}
+SVIVA2_01 %>%
+    group_by(AREA_names,SYMBOL_n) %>%
+    summarise(n=n(),
+              mean = mean(TRUST_air_INDEX_high),
+              se = sd(TRUST_air_INDEX_high)/sqrt(n()))%>%
+    mutate(ci_95 = 1.96*se,
+           ci_90 = 1.65*se) %>% 
+    mutate(mean = paste0(round(mean*100,1),"%"),
+           se = paste0(round(se*100,1),"%"),
+           ci_95 = paste0(round(ci_95*100,1),"%"),
+           ci_90 = paste0(round(ci_90*100,1),"%"))
+
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_air_INDEX_high))+ 
+  theme_bw()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names~INFORMATION_air_n)+
+  scale_y_continuous(name = "high trust air",breaks = seq(0,0.4,by=0.05))
+
+sjt.grpmean(filter(SVIVA2_01,AREA==1)$TRUST_air_INDEX_high,
+            filter(SVIVA2_01,AREA==1)$SYMBOL_n)
+sjt.grpmean(filter(SVIVA2_01,AREA==0)$TRUST_air_INDEX_high,
+            filter(SVIVA2_01,AREA==0)$SYMBOL_n)
+
+
+```
+
+```{r}
+tmod_trust_air_high_full_1 = glm(TRUST_air_INDEX_high~INFORMATION_air+SYMBOL,data=SVIVA2_01,family="binomial")
+
+tmod_trust_air_high_haifa_1 = glm(TRUST_air_INDEX_high~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1),family="binomial")
+
+tmod_trust_air_high_shfela_1 = glm(TRUST_air_INDEX_high~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==0),family="binomial")
+
+
+sjt.glm(tmod_trust_air_high_full_1,
+       tmod_trust_air_high_haifa_1,
+       tmod_trust_air_high_shfela_1,          
+         separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "high trust in Air policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+```
+
+
+
+##Trust aspects
+Next, I analyzed the effect of information and symbol manipulations on the three aspects of trust, in separate.
+```{r}
+tmod_air_competence_full = lm(TRUST_air_competence~INFORMATION_air+SYMBOL,data=SVIVA2_01)
+tmod_air_benevolence_full = lm(TRUST_air_benevolence~INFORMATION_air+SYMBOL,data=SVIVA2_01)
+tmod_air_integrity_full = lm(TRUST_air_q5~INFORMATION_air+SYMBOL,data=SVIVA2_01)
+
+tmod_air_competence_haifa = lm(TRUST_air_competence~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+tmod_air_benevolence_haifa = lm(TRUST_air_benevolence~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+tmod_air_integrity_haifa = lm(TRUST_air_q5~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+
+
+tmod_air_competence_shfela = lm(TRUST_air_competence~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+tmod_air_benevolence_shfela = lm(TRUST_air_benevolence~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+tmod_air_integrity_shfela = lm(TRUST_air_q5~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+
+
+
+
+sjt.lm(tmod_air_competence_full,tmod_air_benevolence_full,tmod_air_integrity_full,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real"),
+       depvar.labels = c(rep(c("Competence","Benevolence","Integrity"),each=1)))
+
+```
+
+Symbols had greater effect on benevolence and integrity (in line with Alon-Barkat & Gilad 2017). Information had slightly weaker effect on integrity, as expected.  
+
+
+##Elaboration
+
+I now turn to examine the hypothesis that the symbol manipulation decreased subjects' elaboration. 
+
+**perceived elaboration**
+```{r}
+ggplot(SVIVA2_01, aes(SYMBOL_n, ELABORATION_air_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration air index", breaks = c(1:7))
+
+```
+
+  
+
+
+**Elaboration time**
+```{r}
+ggplot(SVIVA2_01, aes(SYMBOL_n, ELABORATION_air_time_log,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration time (log)", breaks = c(1:6),limits = c(0.5,6))
+
+
+```
+
+
+
+**Memory score**
+
+Haifa
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_air_score[SVIVA2_01$AREA==1],
+           SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==1],
+           facet=T,
+           ylim=c(0,60),
+           show.prc =  F,
+           title = "Haifa")
+
+sjt.xtab(SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==1],
+         SVIVA2_01$MEMORY_air_score[SVIVA2_01$AREA==1],
+         show.row.prc = T)
+```
+
+Shfela
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_air_score[SVIVA2_01$AREA==0],
+           SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==0],
+           facet=T,
+           ylim=c(0,60),
+           show.prc =  F,
+           title = "Shfela")
+
+sjt.xtab(SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==0],
+         SVIVA2_01$MEMORY_air_score[SVIVA2_01$AREA==0],
+         show.row.prc = T)
+```
+
+
+**models**
+I now regress the three elaboration measures on the manipulations. In the analysis of memory score, which is an ordinal scale (1,2,3), I used logistic multinomial regression (predicting likelihood to score 1 and 2, compared with 0). 
+
+
+```{r}
+tmod_elaboration_air_index_full_1 = lm(ELABORATION_air_INDEX~SYMBOL+INFORMATION_air+RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_elaboration_air_index_haifa_1 = lm(ELABORATION_air_INDEX~SYMBOL+INFORMATION_air+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_elaboration_air_index_shfela_1 = lm(ELABORATION_air_INDEX~SYMBOL+INFORMATION_air+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+sjt.lm(tmod_elaboration_air_index_full_1,
+       tmod_elaboration_air_index_haifa_1,
+       tmod_elaboration_air_index_shfela_1,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Fake",
+                       "Real",
+                       "INFORMATION (1=strong policy)",
+                       "Relevance treatment"),
+       show.header = TRUE,
+       string.dv = "Elaboration in Air policy (perceived)",
+       depvar.labels = c("Full","Haifa","Shfela"))
+```
+No effect on perceived elaboration. However, as explained above, this measure is problematic due to its possible shaping by social desirability.
+
+
+```{r}
+tmod_elaboration_air_time_full_1 = lm(ELABORATION_air_time_log~SYMBOL+INFORMATION_air+RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_elaboration_air_time_haifa_1 = lm(ELABORATION_air_time_log~SYMBOL+INFORMATION_air+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_elaboration_air_time_shfela_1 = lm(ELABORATION_air_time_log~SYMBOL+INFORMATION_air+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+
+sjt.lm(tmod_elaboration_air_time_full_1,
+       tmod_elaboration_air_time_haifa_1,
+       tmod_elaboration_air_time_shfela_1,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Fake",
+                       "Real",
+                       "INFORMATION (1=strong policy)",
+                       "Relevance treatment"),
+       show.header = TRUE,
+       string.dv = "Elaboration in Air policy (Reaction time)",
+       depvar.labels = c("Full","Haifa","Shfela"))
+
+```
+The real Symbols spent less time in watching the air policy (by `r tmod_elaboration_air_time_full_1[["coefficients"]][["SYMBOL2"]] %>% abs() %>% exp() %>% round(2)` seconds on average). A possible issue which should be addressed is measures the time they spent whatching the policy plan, and not the time they dedicated to read it and think about it. They could have watched the images and graphics instead. So this means that for the fake symbol and real symbol groups, the "real" elaboration time is presumably even lower.    
+
+
+
+```{r,warning=F}
+library(nnet)
+library(stargazer)
+
+
+tmod_elaboration_air_memory_full_1 <- multinom(MEMORY_air_score ~ SYMBOL+INFORMATION_air+RELEVANCE_exp, data = SVIVA2_01)
+tmod_elaboration_air_memory_haifa_1=multinom(MEMORY_air_score ~ SYMBOL+INFORMATION_air+RELEVANCE_exp, data = filter(SVIVA2_01,AREA==1))
+tmod_elaboration_air_memory_shfela_1=multinom(MEMORY_air_score ~ SYMBOL+INFORMATION_air+RELEVANCE_exp, data = filter(SVIVA2_01,AREA==0))
+
+stargazer(tmod_elaboration_air_memory_full_1,
+          tmod_elaboration_air_memory_haifa_1,
+          tmod_elaboration_air_memory_shfela_1,
+          type="text",
+          report="vcsp",
+          dep.var.caption  = "Air Memory score (multinomial logit)",
+          dep.var.labels   = rep(c("1 vs. 0","2 vs. 0"),3),
+          column.labels = rep(c("Full","Haifa", "Shfela"),each=2))
+
+```
+The symbols decreased memory test score, but the effect is significant only among Haifa subjects.
+
+
+In sum, the symbols reduced elaboration (measured by RT and memory score) mainly among Haifa subjects. The relevance manipulation had a significant effect only on perceived elaboration index, only among Haifa subjects.  
+
+
+
+##Moderated mediation
+
+I showed above that symbols had a positive effect on trust, and that symbols had a negative effect on elaboration. Next, I examine whether the effect of symbols on trust is mediated by lower levels of elaboration. I showed that the effect of elaboration is moderated by information (in weak policy, low levels of elaboration increase trust). Therefore, I examine whether adding the interactions between information and elaboration (measures by RT and memory score) decreases the coefficient of real symbols.   
+
+
+```{r}
+xy_full = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air,data=SVIVA2_01)
+xmy_full_3 = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air+INFORMATION_air*(ELABORATION_air_time_log+MEMORY_air_score),data=SVIVA2_01)
+
+xy_haifa = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air,data=filter(SVIVA2_01,AREA==1))
+xmy_haifa_3 = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air+INFORMATION_air*(ELABORATION_air_time_log+MEMORY_air_score),data=filter(SVIVA2_01,AREA==1))
+
+xy_shfela = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air,data=filter(SVIVA2_01,AREA==0))
+xmy_shfela_3 = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air+INFORMATION_air*(ELABORATION_air_time_log+MEMORY_air_score),data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(xy_full,xmy_full_3,
+       xy_haifa,xmy_haifa_3,
+       xy_shfela,xmy_shfela_3,
+       separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+              pred.labels = c("Fake",
+                              "Real",
+                              "INFORMATION (1=strong policy)",
+                               "INFORMATION*SYMBOL (fake)",
+                              "INFORMATION*SYMBOL (real)",
+                              "Elaboration time (log)",
+                              "Memory score",
+                              "INFORMATION*Elaboration time",
+                              "INFORMATION*Memory score"),
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+
+```
+The effect of symbols is partly mediated by elaboration, in both areas. The coefficient of the real symbols decreases from `r xy_full[["coefficients"]][["SYMBOL2"]] %>% round(2)` to `r xmy_full_3[["coefficients"]][["SYMBOL2"]] %>% round(2)`, and is less significant. The coefficients of the fake symbols did not decrease. 
+
+
+<br>
+Next, I conducted causal mediaion analysis, using `mediation` package.
+
+Compared with control no logo. 
+
+```{r}
+library(mediation)
+
+med.fit_RT = lm(ELABORATION_total_time_log~SYMBOL*INFORMATION_air,data=filter(SVIVA2_01,SYMBOL!=1))
+med.out_RT = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air+ELABORATION_total_time_log*INFORMATION_air,data=filter(SVIVA2_01,SYMBOL!=1))
+
+
+med_RT_INFORMTION_0 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_air = 0), sims = 100)
+
+summary(med_RT_INFORMTION_0)
+plot(med_RT_INFORMTION_0)
+
+med_RT_INFORMTION_1 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_air = 1), sims = 100)
+
+summary(med_RT_INFORMTION_1)
+plot(med_RT_INFORMTION_1)
+```
+
+
+Compared with control fake logo. 
+
+```{r}
+library(mediation)
+
+med.fit_RT = lm(ELABORATION_total_time_log~SYMBOL*INFORMATION_air,data=filter(SVIVA2_01,SYMBOL!=0))
+med.out_RT = lm(TRUST_air_INDEX~SYMBOL*INFORMATION_air+ELABORATION_total_time_log*INFORMATION_air,data=filter(SVIVA2_01,SYMBOL!=0))
+
+
+med_RT_INFORMTION_0 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_air = 0), sims = 100)
+
+summary(med_RT_INFORMTION_0)
+plot(med_RT_INFORMTION_0)
+
+med_RT_INFORMTION_1 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_air = 1), sims = 100)
+
+summary(med_RT_INFORMTION_1)
+plot(med_RT_INFORMTION_1)
+```
+
+
+
+
+##Conclusions for air policy
+The results indicate that: 
+
++ Subjects reported higher trust in strong policy compared with weak policy. 
++ Subjects reported higher trust (and/or lower distrust) when the communication included symbols (compared with both control groups). The effect is greater among Haifa subjects, and marginally significant among shfela subjects, possibly due to ceiling effect. The fake symbols also had a positive, but weaker effect. 
++ The effect of symbols was higher among those who were presented with weak policy, but the interaction is not sufficiently significant.
++ No evidence that greater personal relevance (either operationalized via manipulation or via comparison between areas) moderates the effects of information and symbols, as expected. 
++ Symbols in communication decreased elaboration of the policy.
++ The effect of the symbols of trust is partly mediated by its negative effect on elaboration. 
+
+
+
+#Trust in waste policy
+
+##Descriptive results:
+
+**All sample:** 
+```{r}
+
+SVIVA2_01 %>%
+    group_by(SYMBOL_n,INFORMATION_waste_n) %>%
+    summarise(n=n(),
+              mean = round(mean(TRUST_waste_INDEX),3),
+              se = round(sd(TRUST_waste_INDEX)/sqrt(n()),3))%>%
+    mutate(ci_95 = round(1.96*se,3),
+           ci_90 = round(1.65*se,3))
+
+
+ggplot(SVIVA2_01, aes(factor(INFORMATION_waste_n), TRUST_waste_INDEX,fill=factor(INFORMATION_waste_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_waste_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Symbols",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="")+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+
+There is a strong and significant main effect for information manipulation (`r filter(SVIVA2_01,INFORMATION_waste==1) %>% summarise(mean(TRUST_waste_INDEX)) %>% max() %>% round(2)` vs. `r filter(SVIVA2_01,INFORMATION_waste==0) %>% summarise(mean(TRUST_waste_INDEX)) %>% max() %>% round(2)`). t= `r t.test(TRUST_waste_INDEX~INFORMATION_waste,data=SVIVA2_01)[["statistic"]] %>% round(3)`). 
+Significant main effect of symbol (`r filter(SVIVA2_01,SYMBOL==2)%>%summarise(mean(TRUST_waste_INDEX))%>%round(3) %>% max()` [`r filter(SVIVA2_01,SYMBOL==2)%>%summarise(mean(TRUST_waste_INDEX)+1.96*sd(TRUST_waste_INDEX)/sqrt(n()))%>%round(3) %>% max()`,`r filter(SVIVA2_01,SYMBOL==2)%>%summarise(mean(TRUST_waste_INDEX)-1.96*sd(TRUST_waste_INDEX)/sqrt(n()))%>%round(3) %>% max()`] vs. `r filter(SVIVA2_01,SYMBOL==1)%>%summarise(mean(TRUST_waste_INDEX))%>%round(3) %>% max()` and `r filter(SVIVA2_01,SYMBOL==0)%>%summarise(mean(TRUST_waste_INDEX))%>%round(3) %>% max()` in control groups fake symbol and no symbol). Difference from fake symbol is marginally significant. But the effect is weaker compared with the effect in air policy (perhaps weaker symbol).    
+
+
+
+**By areas:**
+```{r}
+SVIVA2_01 %>%
+    group_by(AREA_names,SYMBOL_n,INFORMATION_waste_n) %>%
+    summarise(n=n(),
+              mean = round(mean(TRUST_waste_INDEX),3),
+              se = round(sd(TRUST_waste_INDEX)/sqrt(n()),3))%>%
+    mutate(ci_95 = round(1.96*se,3),
+           ci_90 = round(1.65*se,3))
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(INFORMATION_waste_n), TRUST_waste_INDEX,fill=factor(INFORMATION_waste_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_waste_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_waste_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names~INFORMATION_waste_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+
+No interaction between areas and information manipulation. The effect of the symbol manipulation is strong and significant among Haifa subjects, yet the increase is not significant among Shfela subjects. The symbols had greater effect among those who received the weak policy.  
+
+
+
+
+**By Relevance manipulation**
+```{r}
+SVIVA2_01 %>%
+    group_by(RELEVANCE_exp_n,SYMBOL_n,INFORMATION_waste_n) %>%
+    summarise(n=n(),
+              mean = round(mean(TRUST_waste_INDEX),3),
+              se = round(sd(TRUST_waste_INDEX)/sqrt(n()),3))%>%
+    mutate(ci = round(1.96*se,3))
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(INFORMATION_waste_n), TRUST_waste_INDEX,fill=factor(INFORMATION_waste_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~RELEVANCE_exp_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_waste_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~RELEVANCE_exp_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+No interaction between relevance manipulation and information/symbol manipulations.
+
+
+
+
+##Main Models
+
+```{r}
+tmod_waste_full_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=SVIVA2_01)
+tmod_waste_full_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=SVIVA2_01)
+
+tmod_waste_haifa_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+tmod_waste_haifa_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_01,AREA==1))
+
+tmod_waste_shfela_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+tmod_waste_shfela_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_waste_full_1,tmod_waste_full_2,
+        tmod_waste_haifa_1,tmod_waste_haifa_2,
+        tmod_waste_shfela_1,tmod_waste_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = paste0("(",1:6,")"," ",c(rep(c("Full","Haifa","Shfela"),each=2))))
+
+```
+
+
+```{r}
+tmod_waste_full_11 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL+RELEVANCE_exp,data=SVIVA2_01)
+tmod_waste_full_12 = lm(TRUST_waste_INDEX~RELEVANCE_exp*(INFORMATION_waste+SYMBOL),data=SVIVA2_01)
+
+tmod_waste_haifa_11 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1))
+tmod_waste_haifa_12 = lm(TRUST_waste_INDEX~RELEVANCE_exp*(INFORMATION_waste+SYMBOL),data=filter(SVIVA2_01,AREA==1))
+
+tmod_waste_shfela_11 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0))
+tmod_waste_shfela_12 = lm(TRUST_waste_INDEX~RELEVANCE_exp*(INFORMATION_waste+SYMBOL),data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_waste_full_11,tmod_waste_full_12,
+        tmod_waste_haifa_11,tmod_waste_haifa_12,
+        tmod_waste_shfela_11,tmod_waste_shfela_12,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE, 
+              pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "Relevance treatment",
+                       "Relevance treatment*Information",
+                       "Relevance treatment*SYMBOL (fake)",
+                       "Relevance treatment*SYMBOL (real)"),
+       string.dv = "Trust in waste policy",
+       depvar.labels = paste0("(",1:6,")"," ",c(rep(c("Full","Haifa","Shfela"),each=2))))
+
+```
+
+
+
+Area+relevance_man.
+```{r}
+tmod_waste_full_11 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL+RELEVANCE_exp,data=SVIVA2_01)
+tmod_waste_full_12 = lm(TRUST_waste_INDEX~RELEVANCE_exp*(INFORMATION_waste+SYMBOL),data=SVIVA2_01)
+
+tmod_waste_haifa_11 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1))
+tmod_waste_haifa_12 = lm(TRUST_waste_INDEX~RELEVANCE_exp*(INFORMATION_waste+SYMBOL),data=filter(SVIVA2_01,AREA==1))
+
+tmod_waste_shfela_11 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0))
+tmod_waste_shfela_12 = lm(TRUST_waste_INDEX~RELEVANCE_exp*(INFORMATION_waste+SYMBOL),data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_waste_full_11,tmod_waste_full_12,
+        tmod_waste_haifa_11,tmod_waste_haifa_12,
+        tmod_waste_shfela_11,tmod_waste_shfela_12,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+
+```
+
+Results are largely compatible with air policy, but the effects of information and symbols are weaker. Again, there is no interaction bewteen the relevance treatment and the information or the symbol manipulations. Slightly greater effect of information on relevance treatment group. Interaction is marginally significant in Shfela. No interaction between relevance manipulation and symbols. 
+
+
+I also analyzed the effect on extremely low trust, or distrust (<=2).  
+
+
+
+```{r}
+SVIVA2_01=SVIVA2_01%>% 
+  mutate(TRUST_waste_INDEX_low = ifelse(TRUST_waste_INDEX<=2,1,0)) 
+```
+
+
+
+```{r}
+SVIVA2_01 %>%
+    group_by(AREA_names,SYMBOL_n) %>%
+    summarise(n=n(),
+              mean = mean(TRUST_waste_INDEX_low),
+              se = sd(TRUST_waste_INDEX_low)/sqrt(n()))%>%
+    mutate(ci_95 = 1.96*se,
+           ci_90 = 1.65*se) %>% 
+    mutate(mean = paste0(round(mean*100,1),"%"),
+           se = paste0(round(se*100,1),"%"),
+           ci_95 = paste0(round(ci_95*100,1),"%"),
+           ci_90 = paste0(round(ci_90*100,1),"%"))
+
+```
+
+
+
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), TRUST_waste_INDEX_low))+ 
+  theme_bw()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_y_continuous(name = "Low trust waste",breaks = seq(0,0.4,by=0.05))
+
+```
+
+```{r}
+tmod_trust_waste_low_full_1 = glm(TRUST_waste_INDEX_low~INFORMATION_waste+SYMBOL,data=SVIVA2_01,family="binomial")
+
+tmod_trust_waste_low_haifa_1 = glm(TRUST_waste_INDEX_low~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==1),family="binomial")
+
+tmod_trust_waste_low_shfela_1 = glm(TRUST_waste_INDEX_low~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==0),family="binomial")
+
+
+sjt.glm(tmod_trust_waste_low_full_1,
+       tmod_trust_waste_low_haifa_1,
+       tmod_trust_waste_low_shfela_1,          
+         separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Low trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+```
+
+Symbols decreased distrust, but only among Haifa subjects. The percentage of subjetcs in Shfela who reported very low levels of trust was very low, so there is probably a floor effect here.  
+
+
+
+##Trust aspects
+
+```{r}
+tmod_waste_competence_full = lm(TRUST_waste_competence~INFORMATION_waste+SYMBOL,data=SVIVA2_01)
+tmod_waste_benevolence_full = lm(TRUST_waste_benevolence~INFORMATION_waste+SYMBOL,data=SVIVA2_01)
+tmod_waste_integrity_full = lm(TRUST_waste_q5~INFORMATION_waste+SYMBOL,data=SVIVA2_01)
+
+tmod_waste_competence_haifa = lm(TRUST_waste_competence~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+tmod_waste_benevolence_haifa = lm(TRUST_waste_benevolence~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+tmod_waste_integrity_haifa = lm(TRUST_waste_q5~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==1))
+
+
+tmod_waste_competence_shfela = lm(TRUST_waste_competence~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+tmod_waste_benevolence_shfela = lm(TRUST_waste_benevolence~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+tmod_waste_integrity_shfela = lm(TRUST_waste_q5~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,AREA==0))
+
+
+
+
+sjt.lm(tmod_waste_competence_full,tmod_waste_benevolence_full,tmod_waste_integrity_full,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real"),
+       depvar.labels = c(rep(c("Competence","Benevolence","Integrity"),each=1)))
+
+
+```
+
+
+Again, symbols had greater effect on benevolence and integrity, and information had greater effect on competence.
+
+
+##Elaboration
+
+**perceived elaboration**
+```{r}
+ggplot(SVIVA2_01, aes(SYMBOL_n, ELABORATION_waste_INDEX,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration waste index", breaks = c(1:7))
+
+```
+
+  
+
+
+**Elaboration time**
+```{r}
+ggplot(SVIVA2_01, aes(SYMBOL_n, ELABORATION_waste_time_log,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Elaboration time (log)", breaks = c(1:6),limits = c(0.5,6))
+
+
+```
+
+
+
+**Memory score**
+
+Haifa
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_waste_score[SVIVA2_01$AREA==1],
+           SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==1],
+           facet=T,
+           ylim=c(0,80),
+           show.prc =  F,
+           title = "Haifa")
+
+sjt.xtab(SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==1],
+         SVIVA2_01$MEMORY_waste_score[SVIVA2_01$AREA==1],
+         show.row.prc = T)
+```
+
+Shfela
+```{r}
+sjp.grpfrq(SVIVA2_01$MEMORY_waste_score[SVIVA2_01$AREA==0],
+           SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==0],
+           facet=T,
+           ylim=c(0,60),
+           show.prc =  F,
+           title = "Shfela")
+
+sjt.xtab(SVIVA2_01$SYMBOL_n[SVIVA2_01$AREA==0],
+         SVIVA2_01$MEMORY_waste_score[SVIVA2_01$AREA==0],
+         show.row.prc = T)
+```
+
+
+**models**
+
+```{r}
+tmod_elaboration_waste_index_full_1 = lm(ELABORATION_waste_INDEX~SYMBOL+INFORMATION_waste+RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_elaboration_waste_index_haifa_1 = lm(ELABORATION_waste_INDEX~SYMBOL+INFORMATION_waste+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_elaboration_waste_index_shfela_1 = lm(ELABORATION_waste_INDEX~SYMBOL+INFORMATION_waste+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+sjt.lm(tmod_elaboration_waste_index_full_1,
+       tmod_elaboration_waste_index_haifa_1,
+       tmod_elaboration_waste_index_shfela_1,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Fake",
+                       "Real",
+                       "INFORMATION (1=strong policy)",
+                       "Relevance treatment"),
+       show.header = TRUE,
+       string.dv = "Elaboration in waste policy (perceived)",
+       depvar.labels = c("Full","Haifa","Shfela"))
+```
+Symbols slightly increased perceived elaboration. However, as explained above, this measure is problematic due to its possible shaping by social desirability.
+
+
+```{r}
+tmod_elaboration_waste_time_full_1 = lm(ELABORATION_waste_time_log~SYMBOL+INFORMATION_waste+RELEVANCE_exp,data=SVIVA2_01,na.action = na.omit)
+tmod_elaboration_waste_time_haifa_1 = lm(ELABORATION_waste_time_log~SYMBOL+INFORMATION_waste+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1),na.action = na.omit)
+tmod_elaboration_waste_time_shfela_1 = lm(ELABORATION_waste_time_log~SYMBOL+INFORMATION_waste+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0),na.action = na.omit)
+
+
+sjt.lm(tmod_elaboration_waste_time_full_1,
+       tmod_elaboration_waste_time_haifa_1,
+       tmod_elaboration_waste_time_shfela_1,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Fake",
+                       "Real",
+                       "INFORMATION (1=strong policy)",
+                       "Relevance treatment"),
+       show.header = TRUE,
+       string.dv = "Elaboration in waste policy (Reaction time)",
+       depvar.labels = c("Full","Haifa","Shfela"))
+
+```
+The real Symbols spent less time in watching the waste policy (by `r tmod_elaboration_waste_time_full_1[["coefficients"]][["SYMBOL2"]] %>% abs() %>% exp() %>% round(2)` seconds on average). Among Shfela subjects, the fake symbols had negative marginally significant effect on RT. 
+
+
+```{r,warning=F}
+library(nnet)
+library(stargazer)
+
+
+tmod_elaboration_waste_memory_full_1 <- multinom(MEMORY_waste_score ~ SYMBOL+INFORMATION_waste+RELEVANCE_exp, data = SVIVA2_01)
+tmod_elaboration_waste_memory_haifa_1=multinom(MEMORY_waste_score ~ SYMBOL+INFORMATION_waste+RELEVANCE_exp, data = filter(SVIVA2_01,AREA==1))
+tmod_elaboration_waste_memory_shfela_1=multinom(MEMORY_waste_score ~ SYMBOL+INFORMATION_waste+RELEVANCE_exp, data = filter(SVIVA2_01,AREA==0))
+
+stargazer(tmod_elaboration_waste_memory_full_1,
+          tmod_elaboration_waste_memory_haifa_1,
+          tmod_elaboration_waste_memory_shfela_1,
+          type="text",
+          report="vcsp",
+          dep.var.caption  = "waste Memory score (multinomial logit)",
+          dep.var.labels   = rep(c("1 vs. 0","2 vs. 0"),3),
+          column.labels = rep(c("Full","Haifa", "Shfela"),each=2))
+
+```
+Subjects in the symbol condition were less likely to remember the issues in the policy plan. 
+
+
+##Moderated mediation
+```{r}
+xy_full = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste,data=SVIVA2_01)
+xmy_full_3 = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste+INFORMATION_waste*(ELABORATION_waste_time_log+MEMORY_waste_score),data=SVIVA2_01)
+
+xy_haifa = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste,data=filter(SVIVA2_01,AREA==1))
+xmy_haifa_3 = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste+INFORMATION_waste*(ELABORATION_waste_time_log+MEMORY_waste_score),data=filter(SVIVA2_01,AREA==1))
+
+xy_shfela = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste,data=filter(SVIVA2_01,AREA==0))
+xmy_shfela_3 = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste+INFORMATION_waste*(ELABORATION_waste_time_log+MEMORY_waste_score),data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(xy_full,xmy_full_3,
+       xy_haifa,xmy_haifa_3,
+       xy_shfela,xmy_shfela_3,
+       separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+              pred.labels = c("Fake",
+                              "Real",
+                              "INFORMATION (1=strong policy)",
+                               "INFORMATION*SYMBOL (fake)",
+                              "INFORMATION*SYMBOL (real)",
+                              "Elaboration time (log)",
+                              "Memory score",
+                              "INFORMATION*Elaboration time",
+                              "INFORMATION*Memory score"),
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+
+```
+The effect of symbols is partly mediated by elaboration, in both areas. The coefficient of the real symbols decreases from `r xy_full[["coefficients"]][["SYMBOL2"]] %>% round(2)` to `r xmy_full_3[["coefficients"]][["SYMBOL2"]] %>% round(2)`, and is less significant. The coefficients of the fake symbols did not decrease. 
+
+<br>
+Next, I conducted causal mediaion analysis, using `mediation` package.
+
+Compared with control no logo. 
+
+```{r}
+library(mediation)
+
+med.fit_RT = lm(ELABORATION_total_time_log~SYMBOL*INFORMATION_waste,data=filter(SVIVA2_01,SYMBOL!=1))
+med.out_RT = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste+ELABORATION_total_time_log*INFORMATION_waste,data=filter(SVIVA2_01,SYMBOL!=1))
+
+
+med_RT_INFORMTION_0 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 0), sims = 100)
+
+summary(med_RT_INFORMTION_0)
+plot(med_RT_INFORMTION_0)
+
+med_RT_INFORMTION_1 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 1), sims = 100)
+
+summary(med_RT_INFORMTION_1)
+plot(med_RT_INFORMTION_1)
+```
+
+Compared with control fake logo. 
+
+```{r}
+library(mediation)
+
+med.fit_RT = lm(ELABORATION_total_time_log~SYMBOL*INFORMATION_waste,data=filter(SVIVA2_01,SYMBOL!=0))
+med.out_RT = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste+ELABORATION_total_time_log*INFORMATION_waste,data=filter(SVIVA2_01,SYMBOL!=0))
+
+
+med_RT_INFORMTION_0 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 0), sims = 100)
+
+summary(med_RT_INFORMTION_0)
+plot(med_RT_INFORMTION_0)
+
+med_RT_INFORMTION_1 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 1), sims = 100)
+
+summary(med_RT_INFORMTION_1)
+plot(med_RT_INFORMTION_1)
+```
+
+
+
+#Policies Combined
+```{r}
+xx0 = SVIVA2_01 %>% select(IP,AREA,AREA_names,
+                      RELEVANCE_exp,RELEVANCE_exp_n,
+                      SYMBOL,SYMBOL_n,
+                      INFORMATION_air,INFORMATION_air_n,
+                      INFORMATION_waste,INFORMATION_waste_n,
+                      TRUST_air_INDEX,
+                      TRUST_waste_INDEX,
+                      ELABORATION_air_time_log,
+                      ELABORATION_waste_time_log,
+                      GOV_TRUST) %>% 
+ gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
+  mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
+                              INFORMATION_waste),
+         INFORMATION_n = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air_n,
+                              INFORMATION_waste_n),
+         ELABORATION_time_log = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time_log,
+                              ELABORATION_waste_time_log))
+
+```
+
+
+
+##Descriptive results:
+
+**All sample:** 
+```{r}
+
+xx0 %>%
+    group_by(SYMBOL_n,INFORMATION_n) %>%
+    summarise(n=n(),
+              mean = round(mean(trust),3),
+              se = round(sd(trust)/sqrt(n()),3))%>%
+    mutate(ci_95 = round(1.96*se,3),
+           ci_90 = round(1.65*se,3))
+
+
+ggplot(xx0, aes(factor(INFORMATION_n), trust,fill=factor(INFORMATION_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Information",values=c("gray100","gray90"))+
+  scale_x_discrete(name="",labels=c("",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+
+```{r}
+ggplot(xx0, aes(factor(SYMBOL_n), trust,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  scale_fill_manual(name="Symbols",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="")+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+```
+
+
+There is a strong and significant main effect for information manipulation (`r filter(xx0,INFORMATION==1) %>% summarise(mean(trust)) %>% max() %>% round(2)` vs. `r filter(xx0,INFORMATION==0) %>% summarise(mean(trust)) %>% max() %>% round(2)`). t= `r t.test(trust~INFORMATION,data=xx0)[["statistic"]] %>% round(3)`). 
+Significant main effect of symbol (`r filter(xx0,SYMBOL==2)%>%summarise(mean(trust))%>%round(3) %>% max()` [`r filter(xx0,SYMBOL==2)%>%summarise(mean(trust)+1.96*sd(trust)/sqrt(n()))%>%round(3) %>% max()`,`r filter(xx0,SYMBOL==2)%>%summarise(mean(trust)-1.96*sd(trust)/sqrt(n()))%>%round(3) %>% max()`] vs. `r filter(xx0,SYMBOL==1)%>%summarise(mean(trust))%>%round(3) %>% max()` and `r filter(xx0,SYMBOL==0)%>%summarise(mean(trust))%>%round(3) %>% max()` in control groups fake symbol and no symbol). Difference from fake symbol is marginally significant. But the effect is weaker compared with the effect in air policy (perhaps weaker symbol).    
+
+
+
+**INFORMATION x SYMBOL**
+
+```{r}
+ggplot(xx0, aes(factor(SYMBOL_n), trust,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~INFORMATION_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+
+ggplot(xx0, aes(factor(SYMBOL_n),trust,color=factor(INFORMATION_n),linetype=factor(INFORMATION_n)))+ 
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.2,size=1,position=position_dodge(0.1),linetype=1) + 
+  stat_summary(fun.y = mean, geom = "point", size=2,position=position_dodge(0.1))+
+  stat_summary(fun.y = mean, geom = "line", size=1, aes(group = INFORMATION_n),position=position_dodge(0.1))+
+  scale_color_manual(name="Substantive information",values=c("gray35","gray1"))+
+    scale_linetype(guide = FALSE)+
+  scale_x_discrete(name="Symbolic elements",labels=c("no symbols","fake symbols","real symbols"))+
+  scale_y_continuous(name = "Trust in policy",breaks = seq(3,5,by=0.1))
+```
+
+```{r}
+ggplot(xx0, aes(factor(SYMBOL_n), trust,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~INFORMATION_n)+
+  scale_fill_manual(name="Information",values=c("gray100","gray90","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "waste Trust index", breaks = c(1:7))
+
+ggplot(xx0, aes(factor(SYMBOL_n),trust,color=factor(INFORMATION_n),linetype=factor(INFORMATION_n)))+ 
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.2,size=1,position=position_dodge(0.1),linetype=1) + 
+  stat_summary(fun.y = mean, geom = "point", size=2,position=position_dodge(0.1))+
+  stat_summary(fun.y = mean, geom = "line", size=1, aes(group = INFORMATION_n),position=position_dodge(0.1))+
+  scale_color_manual(name="Substantive information",values=c("gray35","gray1"))+
+    scale_linetype(guide = FALSE)+
+  scale_x_discrete(name="Symbolic elements",labels=c("no symbols","fake symbols","real symbols"))+
+  scale_y_continuous(name = "Trust in policy",breaks = seq(3,5,by=0.1))+
+  facet_grid(~AREA_names)
+```
+
+
+
+##Main Models
+
+```{r}
+library(lme4)
+
+tmod_combined_full_1 = lmer(trust~policy+AREA+INFORMATION+SYMBOL+(1|IP),data=xx0)
+tmod_combined_full_2 = lmer(trust~policy+AREA+SYMBOL*INFORMATION+(1|IP),data=xx0)
+tmod_combined_full_3 = lmer(trust~policy+AREA*SYMBOL+INFORMATION*SYMBOL+(1|IP),data=xx0)
+tmod_combined_full_4 = lmer(trust~policy+AREA*SYMBOL*INFORMATION+(1|IP),data=xx0)
+tmod_combined_full_5 = lmer(trust~policy*AREA*SYMBOL+SYMBOL*INFORMATION+(1|IP),data=xx0)
+tmod_combined_full_6 = lmer(trust~AREA*(SYMBOL+policy)+INFORMATION*SYMBOL+(1|IP),data=xx0)
+
+sjt.lmer(tmod_combined_full_1,
+       tmod_combined_full_2,
+       tmod_combined_full_6,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("POLICY (1=waste reduction)",
+                       "AREA (1=Haifa-bay)",
+                       "INFORMATION (1=strong policy)",
+                       "Fake symbols",
+                       "Real symbols",
+                       "INFORMATION*fake symbols",
+                       "INFORMATION*real symbols",
+                       "AREA*fake symbols",
+                       "AREA*real symbols",
+                       "AREA*POLICY"),
+       show.header = TRUE,
+       string.dv = "Trust in policy",
+       depvar.labels = paste0("(",1:3,")"," ",c(rep(c(""),each=2))))
+```
+I also analyzed the effect on extremely low trust, or distrust (<=2).  
+
+
+
+```{r}
+xx0=xx0%>% 
+  mutate(trust_low = ifelse(trust<=2,1,0)) 
+```
+
+
+
+```{r}
+xx0 %>%
+    group_by(SYMBOL_n) %>%
+    summarise(n=n(),
+              mean = mean(trust_low),
+              se = sd(trust_low)/sqrt(n()))%>%
+    mutate(ci_95 = 1.96*se,
+           ci_90 = 1.65*se) %>% 
+    mutate(mean = paste0(round(mean*100,1),"%"),
+           se = paste0(round(se*100,1),"%"),
+           ci_95 = paste0(round(ci_95*100,1),"%"),
+           ci_90 = paste0(round(ci_90*100,1),"%"))
+
+```
+
+
+
+```{r}
+ggplot(xx0, aes(factor(SYMBOL_n), trust_low))+ 
+  theme_bw()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 1))+
+  facet_grid(~INFORMATION_n)+
+  scale_y_continuous(name = "Low trust",breaks = seq(0,0.4,by=0.05))
+
+```
+
+```{r}
+tmod_trust_low_full_1 = glm(trust_low~SYMBOL+INFORMATION+AREA,data=xx0,family="binomial")
+tmod_trust_low_full_2 = glm(trust_low~SYMBOL*(INFORMATION+AREA),data=xx0,family="binomial")
+
+sjt.glm(tmod_trust_low_full_1,
+       tmod_trust_low_full_2,          
+         separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Fake",
+                       "Real",
+                       "INFORMATION (1=strong policy)",
+                       "AREA (1=Haifa)",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)",
+                       "AREA*SYMBOL (fake)",
+                       "AREA*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Low trust in policy")
+```
+
+
+
+##Trust aspects
+
+
+##Moderated mediation
+
+<br>
+Next, I conducted causal mediaion analysis, using `mediation` package.
+
+Compared with control no logo. 
+
+```{r}
+library(mediation)
+tmod_combined_full_2 = lmer(trust~policy+AREA+SYMBOL*INFORMATION+(1|IP),data=xx0)
+
+
+med.fit_RT = lm(ELABORATION_time_log~SYMBOL*INFORMATION+policy+AREA,data=filter(xx0,SYMBOL!=1))
+med.out_RT = lm(trust~SYMBOL*INFORMATION+policy+AREA+ELABORATION_time_log*INFORMATION,data=filter(xx0,SYMBOL!=1))
+
+
+med_RT_INFORMTION_0 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_time_log", 
+                      covariates = list(INFORMATION = 0), sims = 100)
+
+summary(med_RT_INFORMTION_0)
+plot(med_RT_INFORMTION_0)
+
+med_RT_INFORMTION_1 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 1), sims = 100)
+
+summary(med_RT_INFORMTION_1)
+plot(med_RT_INFORMTION_1)
+```
+
+Compared with control fake logo. 
+
+```{r}
+library(mediation)
+
+med.fit_RT = lm(ELABORATION_total_time_log~SYMBOL*INFORMATION_waste,data=filter(SVIVA2_01,SYMBOL!=0))
+med.out_RT = lm(TRUST_waste_INDEX~SYMBOL*INFORMATION_waste+ELABORATION_total_time_log*INFORMATION_waste,data=filter(SVIVA2_01,SYMBOL!=0))
+
+
+med_RT_INFORMTION_0 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 0), sims = 100)
+
+summary(med_RT_INFORMTION_0)
+plot(med_RT_INFORMTION_0)
+
+med_RT_INFORMTION_1 = mediate(med.fit_RT,
+                       med.out_RT,
+                      treat = "SYMBOL",
+                      mediator = "ELABORATION_total_time_log", 
+                      covariates = list(INFORMATION_waste = 1), sims = 100)
+
+summary(med_RT_INFORMTION_1)
+plot(med_RT_INFORMTION_1)
+```
+
+
+
+
+
+#Within subjects
+
+An alternative way to examine the hypothesis that symbols decrease elaboration, and hence reduce the effect of substantive information, is by conducting a within subject analysis (as opposed to between subjects). For each subject, I took the delta between her trust in strong and weak policy plans. 
+
+First, I show that the delta is positively correlated with the elaboration measures: 
+
+```{r}
+sjp.scatter(SVIVA2_01$ELABORATION_total_time_log,
+            SVIVA2_01$WITHIN_DELTA,
+            fit.line = TRUE,
+            show.ci = TRUE,
+            geom.size = 1,
+            axis.titles=c("Elaboration time (log)","Within subject (Delta strong - weak policy)"))
+```
+
+```{r}
+sjp.scatter(SVIVA2_01$MEMORY_total,
+            SVIVA2_01$WITHIN_DELTA,
+            fit.line = TRUE,
+            show.ci = TRUE,
+            geom.size = 1,
+            jitter.dots = T,
+            emph.dots = T,
+            axis.titles=c("Memory test score","Within subject (Delta strong - weak policy)"))
+```
+
+
+Next, I compared this delta across symbol conditions.  
+```{r}
+ggplot(SVIVA2_01, aes(factor(SYMBOL_n), WITHIN_DELTA,fill=factor(SYMBOL_n)))+ 
+  geom_boxplot()+
+  theme_classic()+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", colour = "red",width=0.1,size=1) + 
+  stat_summary(fun.y = mean, geom = "point", colour = "red",size=2)+
+  stat_summary(fun.y = mean, geom = "line", colour = "red",size=1, aes(group = 
+                                                                         1))+
+  facet_grid(~AREA_names)+
+  scale_fill_manual(name="Information",values=c("gray100","gray95","gray60"))+
+  scale_x_discrete(name="",labels=c("","",""))+
+  scale_y_continuous(name = "Delta (strong - weak policy)", breaks = c(-6:6))
+
+```
+
+```{r}
+tmod_delta_full_1 = lm(WITHIN_DELTA~INFORMATION_air+SYMBOL+RELEVANCE_exp,data=SVIVA2_01)
+
+tmod_delta_haifa_1 = lm(WITHIN_DELTA~INFORMATION_air+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==1))
+
+tmod_delta_shfela_1 = lm(WITHIN_DELTA~INFORMATION_air+SYMBOL+RELEVANCE_exp,data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_delta_full_1,
+        tmod_delta_haifa_1,
+        tmod_delta_shfela_1,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Air-strong & waste-weak",
+                       "Fake",
+                       "Real",
+                       "Relevance treatment"),
+       show.header = TRUE,
+       string.dv = "Delta (strong - weak policy)",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=1)))
+
+```
+In both areas the real symbols increased the delta between strong and weak policy plans. 
+
+
+Next, I test whether this latter effect is mediated by elaboration:
+
+
+```{r}
+tmod_delta_full_11 = lm(WITHIN_DELTA~INFORMATION_air+SYMBOL+RELEVANCE_exp+ELABORATION_total_time_log+MEMORY_total,data=SVIVA2_01)
+
+tmod_delta_haifa_11 = lm(WITHIN_DELTA~INFORMATION_air+SYMBOL+RELEVANCE_exp+ELABORATION_total_time_log+MEMORY_total,data=filter(SVIVA2_01,AREA==1))
+
+tmod_delta_shfela_11 = lm(WITHIN_DELTA~INFORMATION_air+SYMBOL+RELEVANCE_exp+ELABORATION_total_time_log+MEMORY_total,data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_delta_full_1,tmod_delta_full_11,
+        tmod_delta_haifa_1,tmod_delta_haifa_11,
+        tmod_delta_shfela_1,tmod_delta_shfela_11,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("Air-strong & waste-weak",
+                       "Fake",
+                       "Real",
+                       "Relevance treatment",
+                       "Elaboration time (log)",
+                       "Memory score"),
+       show.header = TRUE,
+       string.dv = "Delta (strong - weak policy)",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+
+```
+In both areas, the effect of the real symbols gets weaker. This indicated that the effect is partly mediated by the negative effect of symbols on elaboration.  
+
+
+#Conclusions
+The results indicate that: 
+
++ In both policies, subjects reported higher trust in strong policy compared with weak policy. 
++ In both policies, subjects reported higher trust (and/or lower distrust) when the communication included symbols (compared with both control groups). The effect is greater among Haifa subjects, and marginally significant among shfela subjects, possibly due to ceiling effect. The fake symbols also had a positive, but weaker effect. 
++ In both policies, the effect of symbols was higher among those who were presented with weak policy. The interaction is sufficiently significant in the waste policy.
++ In both policies, no evidence that greater personal relevance (either operationalized via manipulation or via comparison between areas) moderates the effects of information and symbols, as expected. 
++ In both policies, symbols in communication decreased elaboration of the policy.
++ In both policies, the effect of the symbols of trust is partly mediated by its negative effect on elaboration. 
+
+
+
+
+#Robust analyses
+
+Next, I show a series of robust analyses. In all these robust analyses, the results remain largely similar. 
+
+##Robust subset (symbols recognizability)
+First, I screen out those subjects who did not recognize the real symbols.
+
+```{r}
+SVIVA2_robust_air_1 = SVIVA2_01 %>% 
+  filter(RECOGNIZE_air_real>1)
+
+SVIVA2_robust_waste_1 = SVIVA2_01 %>% 
+  filter(RECOGNIZE_waste_real>1)
+
+```
+
+
+**Air policy**
+
+
+```{r}
+tmod_air_full_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=SVIVA2_robust_air_1)
+tmod_air_full_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=SVIVA2_robust_air_1)
+
+tmod_air_haifa_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_robust_air_1,AREA==1))
+tmod_air_haifa_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_robust_air_1,AREA==1))
+
+tmod_air_shfela_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_robust_air_1,AREA==0))
+tmod_air_shfela_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_robust_air_1,AREA==0))
+
+
+sjt.lm(tmod_air_full_1,tmod_air_full_2,
+        tmod_air_haifa_1,tmod_air_haifa_2,
+        tmod_air_shfela_1,tmod_air_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in Air policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+```
+
+The effect of the symbols slightly increases, as expected.
+
+**waste policy**
+
+```{r}
+tmod_waste_full_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=SVIVA2_robust_waste_1)
+tmod_waste_full_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=SVIVA2_robust_waste_1)
+
+tmod_waste_haifa_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_robust_waste_1,AREA==1))
+tmod_waste_haifa_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_robust_waste_1,AREA==1))
+
+tmod_waste_shfela_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_robust_waste_1,AREA==0))
+tmod_waste_shfela_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_robust_waste_1,AREA==0))
+
+
+sjt.lm(tmod_waste_full_1,tmod_waste_full_2,
+        tmod_waste_haifa_1,tmod_waste_haifa_2,
+        tmod_waste_shfela_1,tmod_waste_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+```
+The effect of the symbol is weaker compared with the main models.
+
+
+##1st order
+Next, I only analyzed the first policy which was presented to subjects, to rule out carryover effect. 
+
+**Air policy**
+
+```{r}
+tmod_air_full_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AIR_order==1))
+tmod_air_full_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_01,AIR_order==1))
+
+tmod_air_haifa_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AIR_order==1,AREA==1))
+tmod_air_haifa_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_01,AIR_order==1,AREA==1))
+
+tmod_air_shfela_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AIR_order==1,AREA==0))
+tmod_air_shfela_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_01,AIR_order==1,AREA==0))
+
+
+sjt.lm(tmod_air_full_1,tmod_air_full_2,
+        tmod_air_haifa_1,tmod_air_haifa_2,
+        tmod_air_shfela_1,tmod_air_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in Air policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+```
+
+
+
+**Waste policy**
+
+```{r}
+tmod_waste_full_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,WASTE_order==1))
+tmod_waste_full_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_01,WASTE_order==1))
+
+tmod_waste_haifa_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,WASTE_order==1,AREA==1))
+tmod_waste_haifa_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_01,WASTE_order==1,AREA==1))
+
+tmod_waste_shfela_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_01,WASTE_order==1,AREA==0))
+tmod_waste_shfela_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_01,WASTE_order==1,AREA==0))
+
+
+sjt.lm(tmod_waste_full_1,tmod_waste_full_2,
+        tmod_waste_haifa_1,tmod_waste_haifa_2,
+        tmod_waste_shfela_1,tmod_waste_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+```
+
+In both models, there were no differences to main models. 
+
+
+##Unfiltered sample
+
+Next, I analyzed the full sample, without any filters (N=`r N`).
+
+**Air**
+
+```{r}
+tmod_air_full_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=SVIVA2_00)
+tmod_air_full_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=SVIVA2_00)
+
+tmod_air_haifa_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_00,AREA==1))
+tmod_air_haifa_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_00,AREA==1))
+
+tmod_air_shfela_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_00,AREA==0))
+tmod_air_shfela_2 = lm(TRUST_air_INDEX~INFORMATION_air*SYMBOL,data=filter(SVIVA2_00,AREA==0))
+
+
+sjt.lm(tmod_air_full_1,tmod_air_full_2,
+        tmod_air_haifa_1,tmod_air_haifa_2,
+        tmod_air_shfela_1,tmod_air_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in Air policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+```
+
+
+**Waste**
+
+```{r}
+tmod_waste_full_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=SVIVA2_00)
+tmod_waste_full_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=SVIVA2_00)
+
+tmod_waste_haifa_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_00,AREA==1))
+tmod_waste_haifa_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_00,AREA==1))
+
+tmod_waste_shfela_1 = lm(TRUST_waste_INDEX~INFORMATION_waste+SYMBOL,data=filter(SVIVA2_00,AREA==0))
+tmod_waste_shfela_2 = lm(TRUST_waste_INDEX~INFORMATION_waste*SYMBOL,data=filter(SVIVA2_00,AREA==0))
+
+
+sjt.lm(tmod_waste_full_1,tmod_waste_full_2,
+        tmod_waste_haifa_1,tmod_waste_haifa_2,
+        tmod_waste_shfela_1,tmod_waste_shfela_2,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+       pred.labels = c("INFORMATION (1=strong policy)",
+                       "Fake",
+                       "Real",
+                       "INFORMATION*SYMBOL (fake)",
+                       "INFORMATION*SYMBOL (real)"),
+       show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = c(rep(c("Full","Haifa","Shfela"),each=2)))
+```
+
+
+
+
+##Haifa sample - air
+
+Next, I conduct several analyses only on sample of Haifa-bay.  
+
+* Model1 - Excluding relatives working in factories (*n* = `r filter(SVIVA2_01,AREA==1,FACTORIES_relatives==0) %>% nrow`).
+* Model2 - Control for subjects with young children (assuming that air pollution is most relevant to those with young children)
+* Model3 = Control for interest in environmental issues.
+
+```{r}
+x2 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL,data=filter(SVIVA2_01,AREA==1,FACTORIES_relatives==0))
+x3 = lm(TRUST_air_INDEX~CHILDREN_young*(INFORMATION_air+SYMBOL),data=filter(SVIVA2_01,AREA==1))
+x4 = lm(TRUST_air_INDEX~ENVIRONMENT_INTEREST*(INFORMATION_air+SYMBOL),data=filter(SVIVA2_01,AREA==1))
+
+sjt.lm(x2,x3,x4,separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05,
+        show.header = TRUE,
+       string.dv = "Trust in waste policy",
+       depvar.labels = paste0("(",1:4,")"))
+
+```
+
+Removing those with relatives working in the industrial area does not change the results. Having young children and interest in environmental issues do not decrease the effect of the symbol.
+
+
+
+##Perceived Relevance.
+
+Next, I test the interaction between the manipulations and perceived personal relevance (instead of areas).
+**Air**
+
+```{r}
+x2 = lm(TRUST_air_INDEX~RELEVANCE_air_obs+INFORMATION_air+SYMBOL,data=SVIVA2_01)
+x3 = lm(TRUST_air_INDEX~RELEVANCE_air_obs*(INFORMATION_air+SYMBOL),data=SVIVA2_01)
+
+sjt.lm(x2,x3,separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05)
+```
+
+**Waste**
+
+
+```{r}
+x2 = lm(TRUST_waste_INDEX~RELEVANCE_waste_obs+INFORMATION_waste+SYMBOL,data=SVIVA2_01)
+x3 = lm(TRUST_waste_INDEX~RELEVANCE_waste_obs*(INFORMATION_waste+SYMBOL),data=SVIVA2_01)
+
+sjt.lm(x2,x3,separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05)
+```
+No significant interaction between perceived personal relevance and the manipulations. 
+
+
+##Adding controls
+
+```{r}
+tmod_air_cov_full_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL+GOV_TRUST+IDEOLOGY+EDUCATION,data=SVIVA2_01)
+tmod_air_cov_full_2 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL*(GOV_TRUST+IDEOLOGY+EDUCATION),data=SVIVA2_01)
+tmod_air_cov_full_3 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL*GOV_TRUST+IDEOLOGY+EDUCATION,data=SVIVA2_01)
+
+tmod_air_cov_haifa_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL+GOV_TRUST+IDEOLOGY+EDUCATION,data=filter(SVIVA2_01,AREA==1))
+tmod_air_cov_haifa_2 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL*(GOV_TRUST+IDEOLOGY+EDUCATION),data=filter(SVIVA2_01,AREA==1))
+tmod_air_cov_haifa_3 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL*GOV_TRUST+IDEOLOGY+EDUCATION,data=filter(SVIVA2_01,AREA==1))
+
+tmod_air_cov_shfela_1 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL+GOV_TRUST+IDEOLOGY+EDUCATION,data=filter(SVIVA2_01,AREA==0))
+tmod_air_cov_shfela_2 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL*(GOV_TRUST+IDEOLOGY+EDUCATION),data=filter(SVIVA2_01,AREA==0))
+tmod_air_cov_shfela_3 = lm(TRUST_air_INDEX~INFORMATION_air+SYMBOL*GOV_TRUST+IDEOLOGY+EDUCATION,data=filter(SVIVA2_01,AREA==0))
+
+
+sjt.lm(tmod_air_cov_full_1,tmod_air_cov_full_2,tmod_air_cov_full_3,
+       #tmod_air_cov_haifa_1,tmod_air_cov_haifa_2,tmod_air_cov_haifa_3,
+       #tmod_air_cov_shfela_1,tmod_air_cov_shfela_2,tmod_air_cov_shfela_3,
+        separate.ci.col=F,show.ci=T,remove.spaces=T,cell.spacing=0.05)
+
+```
+
+The effect of symbols depends on subjects' trust vis-a-vis government. Symbols are more effective on those with higher trust in government.  
+
+
+#Summary statistics
+
+
+```{r, warning = FALSE, message = FALSE}
+sjt.df(SVIVA2_01)
+```
+
+
+```{r}
+sjt.corr(SVIVA2_01[,c("AREA",
+                      "INFORMATION_air",
+                      "SYMBOL_bi",
+                      "TRUST_air_INDEX",
+                      "TRUST_air_INDEX_1",
+                      "ELABORATION_air_INDEX",
+                      "ELABORATION_air_time_log",
+                      "MEMORY_air_score",
+                      "RELEVANCE_air_obs",
+                      "TRUST_waste_INDEX",
+                      "TRUST_waste_INDEX_1",
+                      "ELABORATION_waste_time_log",
+                      "RELEVANCE_waste_obs",
+                      "GOV_TRUST",
+                      "IDEOLOGY",
+                      "CHILDREN_young",
+                      "AGE",
+                      "EDUCATION",
+                      "INCOME",
+                      "GENDER")],
+         na.deletion = "pairwise",
+         triangle = "lower",
+         remove.spaces=T,
+         digits=2)
+```
+
+
+
+
+
