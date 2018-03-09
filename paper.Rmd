@@ -1,0 +1,153 @@
+---
+title: 'The effects of symbols and information in government communication on citizens  trust in policy: Evidence from a survey experiment'
+author: '**Saar Alon-Barkat**, PhD candidate; the Hebrew University of Jerusalem;   saar.barkat@mail.huji.ac.il'
+date: " "
+output:
+  word_document: default
+  pdf_document:
+    toc: yes
+  html_document:
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+      toc_depth: 3
+link-citations: yes
+bibliography: phd_paper_2.bib
+urlcolor: blue
+---
+
+
+Preliminary draft. Last edited at `r Sys.Date()`
+
+
+
+```{r , include=FALSE, echo=FALSE}
+load(".RData")
+```
+
+
+
+```{r silent-packages, echo = FALSE, eval = TRUE, message=FALSE, include = FALSE}
+library(knitr)
+library(tidyverse)
+```
+
+
+
+
+
+<br>
+
+---
+
+# Abstract
+
+*Effective public communications have been proposed as a remedy for citizens' distrust in government. The studies that explored the effectiveness of government communications have focused mainly on the extent to which they provide substantive information about bureaucracies' performance and policies. Recently, a few studies pointed to the effect of symbolic elements, entangled in these communications (e.g. logos, images and celebrities). Still, we lack theoretical understanding of the different mechanisms underlying citizens' responses to information and symbolic elements, and accordingly - the interaction between them. Building on the Elaboration Likelihood Model (ELM) from social psychology, I hypothesize that symbolic elements have a greater effect on citizens' trust the less citizens perceive the issue as personally relevant. Second, I hypothesize that symbolic elements are likely to lead citizens to dedicate less attention to the substantive information in the communication, and accordingly, to increase their trust in ill-conceived policies. I put these hypotheses to test through a survey experiment, where I examine 859 Israeli citizens' trust in the Environment Protection Ministry's policies for reducing the air pollution in a specific area (the Haifa-Bay) and reducing domestic waste. The policies are presented to subjects under different conditions of substantive information (logically persuasive vs. unpersuasive policies) and symbolic elements (logo, green color, and celebrities endorsers). I operationalize personal relevance both experimentally, and by comparing between citizens from the polluted Haifa-Bay area and others. The results do not support the hypothesis that personal relevance attenuates the effect of symbols. Rather, they suggest that symbolic elements increase citizens' trust in ill-perceived policies, by distracting them from scrutinizing their content.*
+
+
+---
+
+<br>
+
+# Introduction
+
+Public administration scholars are often concerned about the implications of citizens’ low trust in government, and their undervaluation of public-service performance. One of the main remedies which has been proposed for this problem is greater investment in direct government communications with citizens. Congruently, over the past generation, many economically-developed democratic countries have witnessed an increase in government public communications, specifically through advertising, social media, and e-government platforms [@deacon_2001; @eshuis_2012; @marland_2017; @mergel_2013; @mickoleit_2014]. In the US, for example, federal government agencies spend approximately 1.5 Billion dollars annually on public relations and advertising activities in traditional and digital media [@unitedstatesgovernmentaccountabilityoffice_2017]. 
+
+The public administration research on the effect of government public communications on citizens attitudes has focused mostly on the *informative* aspects these communications, whereby government organizations provide citizens with evidence about their performance and details and explanations about their policies and actions [e.g. @marvel_2015; @im_2014; @porumbescu_2017; @porumbescu_2016; @porumbescu_2017a; @porumbescu_2017b; @grimmelikhuijsen_2015; @ho_2017]. Congruently, public communications are expected to increase citizens' trust insofar as they provide citizens favorable information on organizations' performance and logically persuasive explanations for their policies. At the same time, experiment-based studies that explored the responses of citizens to variation in substantive information have revealed potential cognitive biases that may distort their processing of information in communications, and undermine its effectiveness [@baekgaard_2016; @grimmelikhuijsen_2013; @grimmelikhuijsen_2014; @hvidman_2016; @james_2011; @james_2014; @james_2017; @marvel_2015; @olsen_2017; @james_2017a; @grimmelikhuijsen_2017].  
+
+Recently, a few studies also pointed to the potential effect of the *symbolic* elements entangled in government communications, such as brand logos, figures, images and celebrity endorsements [@alonbarkat_2017; @karens_2016]. These symbolic elements are strategically designed to evoke citizens’ positive associations and emotions. Their processing requires relatively little cognitive effort, and is often unconscious and automatically activated without much thinking, as opposed to the processing of substantive information which requires elaboration. Whereas the responsiveness of citizens to substantive information is perceived as a positive phenomenon from a normative view of democratic theory, the potential effect of symbolic elements can be problematic. Shaping citizens' view of governments through symbols stands in tension with the normative expectation that citizens' judgments should be based on their critical thinking. Mainly, we should be concerned about the possibility that symbolic communication may elicit undue trust in poorly performing organizations and in ill-conceived policies, and enable public organizations to escape from justified public criticism [@alonbarkat_2017]. 
+
+Hence, in order to assess the positive and negative possible implications of government communications with citizens, we need to understand the nature of the psychological effect of symbolic elements on citizens' attitudes' formation, and its limitations. To date, public administration research still lacks theory and robust empirical evidence of the mechanisms through which symbolic elements in public communications can increase citizens trust, and their interaction with the substantive content of information in government communications, which is perceived as the basis for rational attitudes formation. Therefore, this study focuses on the following questions: *Under what conditions can symbolic elements in governemnt communication increase citizens' trust in governemnt policy?* Specifically, *does the effect of symbolic elements depend on the substantive information presented in the communication?* *Can these symbols offset the rational, negative effect of logically unpersuasive arguments?* 
+
+Given the theoretical gap in existing public administration literature, I address these research questions by introducing a theoretical framework from social psychology - the Elaboration Likelihood Model (ELM). ELM theorizes the varying psychological processes underlying individuals' responses to persuasive communication, and their consequences on attitude change [@petty_1986; @petty_2011]. Based on ELM, I suggest that symbolic elements in public communications can affect citizens' trust via two mechanisms: *First*, they may evoke positive feelings and associations that can be transferred to the government entity or policy, and thereby increasing their trust in it. This effect is likely to be attenuated the more citizens perceive the communication as personally relevant, and therefore motivated to elaborate on it. *Second*, symbolic elements may decrease citizens' inclination to elaborate on the communication and scrutinize it, thus causing them to disregard substantive information that would have affected their trust. Congruently, symbols are likely to have greater effect when entangled in communications that describe logically unpersuasive policies or report poor performance.  
+
+To empirically test these theoretical expectations about the effect of symbolic elements on citizens' trust, and their interaction with the substantive information in the communication and the personal relevance of the issue, I conducted a large randomized survey experiment in a fairly realistic setting among `r SVIVA2_01%>%nrow()` Israeli citizens. The experiment focuses on the empirical case of the Israeli Environment Protection Ministry (hereafter EPM), and examines citizens' trust in two policy plans: reducing the air pollution in a specific area in the country - the Bay of Haifa, and reducing domestic waste and increasing recycling. In the experiment, the two policies are presented to subjects under different experimental conditions of substantive information (logically persuasive vs. unpersuasive policy plans) and symbolic elements (ministry’s logo, green color, and celebrities from public campaigns, compared with two control groups). To account for variation in perceived personal relevance, I compared citizens who reside in the polluted Haifa-Bay area with other citizens from selected cities with a similar profile. In addition, I tested the effect of personal relevance experimentally, by priming subjects to think about environmental issues in their area of residence. 
+
+I find that the symbolic elements increased citizens' trust in both policies. In line with my theoretical expectations, the effect was greater among those who saw the logically unpersuasive policy plans, who were distracted by the symbols and thus were less inclined to think about the negative information. I did not find any support for the hypothesis that the effect of the symbolic elements is attenuated by the  perceived personal relevance of the policy issue. I discuss the theoretical and normative implications of these findings.   
+
+<br>
+
+# Symbolic elements in government communications and their shaping of citizens' attitudes: what do we know?
+
+
+Symbols are fundamental for almost any form of human interaction, as acknowledged by early scholars of social science [@blumer_1986]. A symbol can be broadly defined as *"any object used by human beings to index meanings that are not inherent in, nor discernible from, the object itself"* [@elder_1983, pp. 28-29]. My focus is on those symbols that are strategically used by government organizations in their public communications, and are designed to distinguish organizations and to evoke associations and emotions that stimulate audiences’ positive affect towards organizations and their operations. Prominent examples are unique logos, colors associated with specific meanings, icons, images, and the use of celebrities as endorsers. These elements are widely used by businesses and political candidates to attract targeted consumers and voters. Yet, they can be also found in the communications  of government bureaucracies with citizens, including in their mass-media advertising campaigns, social media accounts, internet pages, official publications, signboards in public places and personal mail notifications to citizens. 
+
+By comparison with the abundant research on citizens’ responses to informative elements in public communications [for reviews see: @cucciniello_2016; @grimmelikhuijsen_2017; @james_2017], public administration literature has devoted relatively little attention to the effect of symbolic elements. Recently, however, a few experimental studies tackled the issue. @marvel_2015 analyzed US citizens' responses to a television advertisement of the public Postal Service, which involved various symbolic elements, including the organization's logo, workers' images and upbeat background music. His study shows that participants who watched the advertisement evaluated the organization's performance more positively. Still, this study did not disentangle the effects of the symbolic and informational elements of the ad on participants’ attitudes. An additional study by @karens_2016 did examine the distinct effect of symbols on citizens' trust. The scholars surveyed university students from three European countries and examined their trust in two policy plans of the European Commission, and it's shaping by the appearance of the organization's logo in the communication of the policy plans. They found that including the organization’s logo significantly increased citizens' trust in these policies. Their results show an impressive effect size equivalent to 0.7 standard deviations [^1].
+
+[^1]: The effect size they found was smaller with regard to the "air quality" policy compared with the "digital skills" policy which were presented (Cohen's d = 0.7 vs. 0.6). Also, the effect was smaller among subjects from the Netherlands, compared with those from Belgium and Poland (Cohen's d = 0.5 vs. 0.7). 
+
+@alonbarkat_2017 explored whether symbolic element can increase citizens' trust in poorly performing organizations. To do so, they examined Israeli citizens' trust in the Israel Electricity Corporation, a state owned company, and it's shaping by their exposure to comic cartoon figures which were routinely presented in the organization's public campaigns. They compared between citizens who were personally exposed to prolonged power outages, and others who were not. They found that the symbolic element had a positive effect on citizens' trust in the organization (a modest effect size equivalent to 0.25 standard deviations), including among those who personally experienced poor performance. Building on social psychology theory and marketing research, the scholars suggested that the effect occurs by inducing an unconscious transfer of affect from the symbols to the organizations and policies associated with them (evaluative conditioning). They proposed that effectiveness of government symbolic elements depends on their familiarity, and aesthetic design, as well as on the ambiguity of the assessed government quality.  
+
+The aforementioned studies tend to suggest that public communications can increase citizens' trust in government organizations and their policies, not only by delivering substantive information, but also symbolically, by incorporating elements that evoke positive associations and emotions. Moreover, the findings of @alonbarkat_2017 suggest that incorporating symbolic elements in public communications can unduly compensate for poor government performance, thus pointing to their potential negative implications.                  
+
+Although these studies linked between the appearance of symbolic elements in communications and citizens' favorable attitudes, they did not directly investigate the causal mechanisms that underlie this effect. Therefore, we still lack understanding of the circumstances under which symbols are likely to be more/less effective. Additionally, non of these studies has theorized and empirically tested the interaction between symbolic elements and citizens’ internalization of substantive information in communications. We do not know whether well-designed symbols reinforce, or offsets, citizens' rational responses to information. Specifically, as I explained above, it is essential to assess the possibility that symbols can compensate for negative or logically unpersuasive information, that would have yielded negative responses. To address this theoretical gap in public administration research, I propose a nuanced theoretical framework for the effects of symbols in communications and their interaction with information, building on social psychology theory on persuasive communication. 
+
+<br>
+
+# The Elaboration Likelihood Model (ELM) of communication and persuasion 
+
+The Elaboration Likelihood Model (ELM), which has been developed in the social psychology literature to explain attitudinal responses to persuasive communication [@petty_1986; @petty_2011] provides a comprehensive theoretical framework for investigating peoples' varying responses to persuasive communications. In addition to it's general theoretical application in psychological research, this model has been applied to studies on persuasion in various areas, including commercial advertising [@petty_1983; @swasy_1985; @dotson_2000; @drge_1989; @wheeler_2005; @moore_1987], public health campaigns [@wilson_2007; @angst_2009; @ruiter_2001; @briol_2006], media coverage [@petty_2002; @vanderwurff_2016] and media entertainment [@young_2008; @slater_2002]. Yet, thus far, the relevance of ELM has not been directly examined in public administration research, in relation to citizens' responses to government communication. 
+
+According to ELM, people respond differently to persuasive communications, depending on the amount of thinking that they dedicate to the message content. Persuasion can occur when thinking is high or low, but the processes and consequences are likely to differ in each situation. This range between high and low degrees of thought is referred to as the "elaboration continuum". Along this continuum, there are numerous specific processes of persuasion or attitude change. At the high end of the elaboration continuum, people are likely to respond cognitively by scrutinizing the arguments central to the merits of the issue. At the low end, people may respond to simple cues automatically and unconsciously  through primitive psychological processes that require very little amount of cognitive effort. For instance, an attractive source would evoke positive emotions, that would be transferred to the evaluated object through evaluative conditioning, and lead to more favorable attitudes. These two different processes are referred to as the "central and peripheral routes for persuasion", a conceptualization that largely resembles the distinctions between heuristic and systematic processing [@chaiken_1980], and systems 1 and 2 [@kahneman_2011]. 
+
+People's placement along the elaboration continuum is determined by their motivation and ability to think about the communication. For instance, a person that perceives the issue as personally relevant is motivated to invest in thinking about it, and accordingly is likely to process the communication through the central route [@petty_1979; @petty_1981; @petty_1983]. On the other hand, a person that lacks profound knowledge about the subject in the communication, will not be able to scrutinize the content, and thus is more likely to rely on peripheral cues [For a review of motivational and ability factors affecting likelihood to elaborate see @petty_1986; @petty_1998]. These different persuasion mechanisms are also likely to yield different types of attitude change. Persuasion through the central route is expected to be relatively more enduring, resistant and predictive of behavior, compared with peripheral route persuasion. Of course, much of the time, persuasion is determined by a mixture of these processes. 
+
+Overall, ELM identifies several mechanisms by which variables can affect attitudes. Variables can function as one or more of the following: (1) Providing potential arguments regarding the evaluated issue that can be scrutinized based on their logical persuasive quality (central route processing); (2) Affecting the direction of thinking (bias) by making positive or negative thoughts more likely to come to mind (in central route processing); (3) Serving as potential peripheral cues that affect attitudes in a direction consistent with their valence, such as in the abovementioned example of the attractive source; (4) Affecting the ammount of thinking people devote to the communication by affecting motivation or ability to think, thus locating them along the elaboration continuum; (5) Affecting people's confidence in their thoughts. The same variable can have different functions for people at different locations along the elaboration continuum. For instance, test... number of lines.. Also, in principle, a variable can affect attitudes in multiple ways. For instance, @petty_1983 demonstrated in a lab experiment that a famous athlet endourser in an advertisment of a new disposable razor reduces the ammount of thinking about the content of the ad, and at the same time serves as a potential peripheral cue that increases positive attitudes towards the product by transferring the positive affect from the endourser to the product.                             
+
+
+
+
+# The multiple roles of symbols in government public communicatoins. 
+
+
+
+
+
+
+# Methodology
+
+
+
+## *Empirical case background*
+
+
+
+
+## *Experimental design*
+
+
+
+# Results
+
+---
+
+
+
+#Discussion 
+
+---
+
+
+
+#References
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
