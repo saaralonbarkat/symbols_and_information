@@ -3,10 +3,9 @@ title: "SVIVA_experiment 2"
 author: "Saar Alon-Barkat"
 date: "January 2018"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     code_folding: hide
+    always_allow_html: yes
     fig_captions: yes
     highlight: haddock
     number_sections: yes
@@ -16,6 +15,8 @@ output:
       collapsed: no
       smooth_scroll: yes
       toc_depth: 3
+  pdf_document:
+    toc: yes
 ---
 
 Last update: `r Sys.time()`
@@ -49,7 +50,7 @@ library(car)
 
 
 ```{r , include=FALSE, echo=FALSE}
-load(".RData")
+load("SVIVA_R_ENV.RData")
 ```
 
 
@@ -367,22 +368,6 @@ t = SVIVA2_00 %>%
 `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
 
 
-```{r}
-t = SVIVA2_00 %>%
-  filter(TRUST_air_timer>=10|
-           TRUST_waste_timer>=10)
-```
-*	Answering the two sets of DV questions (trust in air pollution and waste policies) in less than 10 seconds each: `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
-
-
-
-```{r}
-t = SVIVA2_00 %>%
-  filter(REPETITION_elaboration==0)
-```
-
-*	Repetition of the same value (except 4) in the elaboration questions (which include 2 reversed items, on a scale of 1 to 7): `r N-nrow(t)` observations (`r round((N-nrow(t))/N*100,1)`%)
-
 
 
 ```{r,warning=FALSE,message=FALSE}
@@ -390,10 +375,10 @@ SVIVA2_01 = SVIVA2_00 %>%
   distinct(IP,.keep_all=TRUE) %>% #exclude double IP
   filter(!(AGE %in% 1:17),
          IMC==1,
-         TIMER_total>=3,TIMER_total<=30,  
-         TRUST_air_timer>=10|
-           TRUST_waste_timer>=10, 
-         REPETITION_elaboration==0)
+         TIMER_total>=3,TIMER_total<=30)#,  
+         #TRUST_air_timer>=10|
+          # TRUST_waste_timer>=10, 
+         #REPETITION_elaboration==0)
 ```
 
 **In total**, of the `r N` observations, I filtered out `r N-nrow(SVIVA2_01)` (`r round((N-nrow(SVIVA2_01))/N*100,1)`%).
@@ -411,10 +396,7 @@ Next, I examined whether filtering out can be predicted by area, manipulations a
 SVIVA2_00 = SVIVA2_00 %>%
   mutate(FILTER_TOTAL = if_else(!(AGE %in% 1:17)&
                                  IMC==1&
-                                 TIMER_total>=3 & TIMER_total<=30 &  
-                                 (TRUST_air_timer>=10|
-                                   TRUST_waste_timer>=10)& 
-                                 REPETITION_elaboration==0,0,1))
+                                 TIMER_total>=3 & TIMER_total<=30,0,1))
 
 tmod_filter_1 = glm(FILTER_TOTAL~AREA_reside_haifa+RELEVANCE_exp+AIR_order+INFORMATION_air+SYMBOL,SVIVA2_00,family = "binomial",na.action=na.omit)
 
@@ -471,6 +453,8 @@ sjt.grpmean(SVIVA2_01[,c("ENVIRONMENT_PREFERENCE")],factor(SVIVA2_01$CONDITION_a
 
 ```{r}
 sjt.grpmean(SVIVA2_01[,c("GENDER")],factor(SVIVA2_01$AREA))
+
+sjt.grpmean(SVIVA2_01[,c("INCOME")],factor(SVIVA2_01$AREA))
 
 sjt.grpmean(SVIVA2_01[,c("AGE")],factor(SVIVA2_01$AREA))
 
@@ -679,7 +663,7 @@ sjp.frq(SVIVA2_01$ELABORATION_air_INDEX,
 **Elaboration time:** 
 
 The first plot shows the distribution of the reaction time (RT) measured in seconds. To reduce skewness, I log transformed this measure, according to the following formula: 
-$ELABORATION timelog = log(ELABORATIONtime+1)$
+
 
 ```{r}
 sjp.frq(SVIVA2_01$ELABORATION_air_time, 
@@ -2412,7 +2396,7 @@ plot(med_RT_INFORMTION_1)
 
 #Policies Combined
 ```{r}
-xx0 = SVIVA2_01 %>% select(IP,AREA,AREA_names,
+xx0 = SVIVA2_01 %>% dplyr::select(IP,AREA,AREA_names,
                       RELEVANCE_exp,RELEVANCE_exp_n,
                       SYMBOL,SYMBOL_n,
                       INFORMATION_air,INFORMATION_air_n,

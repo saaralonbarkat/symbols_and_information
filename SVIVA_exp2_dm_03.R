@@ -6,9 +6,7 @@
 
 library(tidyverse)
 #library(psych)
-library(stargazer)
 library(car)
-library(sjPlot)
 library(stringr)
 library(lubridate)
 
@@ -126,7 +124,7 @@ SVIVA2_00 = SVIVA2_00 %>%
   mutate(AREA_reside_haifa = Recode(t2,"'HAIFA'=1;'SHFELA'=0"),
          AREA_work_haifa = if_else(AREA_work==2,1,0))%>%
   mutate(AREA = if_else(AREA_reside_haifa+AREA_work_haifa>0,1,0))%>%
-  mutate(AREA_names = Recode(AREA,"0='Shfela';1='Haifa'"))%>%
+  mutate(AREA_names = Recode(AREA,"0='Center';1='Haifa-Bay'"))%>%
   #ouctome vars####
 #trust in Haifa Bay policy
 mutate(TRUST_air_q1 =  SVIVA2_raw$Q8.5+
@@ -210,12 +208,6 @@ mutate(TRUST_air_q1 =  SVIVA2_raw$Q8.5+
                               TRUST_air_q4+
                               TRUST_air_q5+
                               TRUST_air_q6)/6)%>%
-  mutate(TRUST_air_INDEX_1 = (TRUST_air_q1+
-                                  TRUST_air_q2+
-                                  TRUST_air_q3+
-                                  TRUST_air_q4+
-                                  TRUST_air_q5)/5)%>%
-  mutate(TRUST_air_INDEX=TRUST_air_INDEX_1) %>% 
   mutate(TRUST_air_timer = SVIVA2_raw$Q8.11_3+
                            SVIVA2_raw$Q9.11_3+
                            SVIVA2_raw$Q12.11_3+
@@ -310,13 +302,7 @@ mutate(TRUST_air_q1 =  SVIVA2_raw$Q8.5+
                                 TRUST_waste_q4+
                                 TRUST_waste_q5+
                                 TRUST_waste_q6)/6)%>%
-  mutate(TRUST_waste_INDEX_1 = (TRUST_waste_q1+
-                                TRUST_waste_q2+
-                                TRUST_waste_q3+
-                                TRUST_waste_q4+
-                                TRUST_waste_q5)/6)%>%
-  mutate(TRUST_waste_INDEX=TRUST_waste_INDEX_1) %>% 
-  
+
       mutate(TRUST_waste_timer = SVIVA2_raw$Q10.11_3+
              SVIVA2_raw$Q11.11_3+
              SVIVA2_raw$Q14.11_3+
@@ -510,6 +496,7 @@ mutate(RECOGNIZE_waste_real = SVIVA2_raw$Q25.6+
                          TRUST_air_INDEX-TRUST_waste_INDEX,
                          TRUST_waste_INDEX-TRUST_air_INDEX))
 
+####Datasets#####
 
 SVIVA2_01 = SVIVA2_00 %>%
   distinct(IP,.keep_all=TRUE) %>% #exclude double IP
@@ -521,7 +508,45 @@ SVIVA2_01 = SVIVA2_00 %>%
          REPETITION_elaboration==0)
        
 
-save.image()
+SVIVA2_01_comb = SVIVA2_01 %>% 
+  dplyr::select(IP,AREA,AREA_names,
+      RELEVANCE_exp,RELEVANCE_exp_n,
+      SYMBOL,SYMBOL_n,
+      INFORMATION_air,INFORMATION_air_n,
+      INFORMATION_waste,INFORMATION_waste_n,
+      TRUST_air_INDEX,
+      TRUST_waste_INDEX,
+      ELABORATION_air_time_log,
+      ELABORATION_waste_time_log,
+      ELABORATION_air_time,
+      ELABORATION_waste_time,
+      MEMORY_air_score,
+      MEMORY_waste_score,
+      GOV_TRUST,
+      AIR_order,
+      WASTE_order) %>% 
+  gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
+  mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
+                              INFORMATION_waste),
+         INFORMATION_n = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air_n,
+                                INFORMATION_waste_n),
+         ELABORATION_time_log = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time_log,
+                                       ELABORATION_waste_time_log),
+         MEMORY_score = ifelse(policy=="TRUST_air_INDEX",MEMORY_air_score,
+                               MEMORY_waste_score),
+         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
+                                       ELABORATION_waste_time)) %>% 
+  mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
+         TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
+         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"),
+         AREA_center = Recode(AREA,"0=1;1=0"),
+         SYMBOL_t = factor(Recode(SYMBOL,"1=2;2=1")),
+         SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
+         SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
+         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order))
+
+
+save.image("SVIVA_R_ENV.RData")
 
        
        
