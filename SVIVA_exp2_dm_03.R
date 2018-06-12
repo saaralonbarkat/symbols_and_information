@@ -404,7 +404,7 @@ mutate(TRUST_air_q1 =  SVIVA2_raw$Q8.5+
            SVIVA2_raw$Q41.2_3)%>%
   mutate(ELABORATION_air_time_log = log(ELABORATION_air_time+1),
          ELABORATION_waste_time_log = log(ELABORATION_waste_time+1)) %>%
-  mutate(ELABORATION_total_time_log = ELABORATION_air_time_log+ELABORATION_waste_time_log) %>% 
+  mutate(ELABORATION_total_time_log = log(ELABORATION_air_time+ELABORATION_waste_time+1)) %>% 
 
 ###memory score  
   mutate(MEMORY_air_correct = ifelse(AIR_order==2,
@@ -523,6 +523,7 @@ SVIVA2_01_comb = SVIVA2_01 %>%
       MEMORY_air_score,
       MEMORY_waste_score,
       GOV_TRUST,
+      GENDER,
       AIR_order,
       WASTE_order) %>% 
   gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
