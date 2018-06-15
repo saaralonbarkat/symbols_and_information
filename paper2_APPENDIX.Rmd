@@ -1,0 +1,130 @@
+---
+title: "Supplementary appendix"
+author: '**Saar Alon-Barkat**, PhD candidate; the Hebrew University of Jerusalem;   saar.barkat@mail.huji.ac.il'
+date: " "
+output:
+  html_document:
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+      toc_depth: 3
+  pdf_document:
+    toc: yes
+  word_document: default
+link-citations: yes
+bibliography: phd_paper_2.bib
+urlcolor: blue
+---
+
+<br>
+
+Last edited at `r Sys.Date()`.
+
+
+<br>
+
+
+```{r , include=FALSE, echo=FALSE}
+load(".RData")
+library(tidyverse)
+library(sjPlot)
+library(stargazer)
+
+```
+
+
+#Contents:
+
+1. Supplementary information about the images.
+
+2. The recognizability, affect and associations of the symbolic elements in the experiment 
+
+3. Summary statistics.
+
+4. Supplementary analyses.
+
+5. English translation of the survey experiment.
+
+
+<br>
+
+#1. Supplementary information about the images.
+
+In this section, I provide additional information about the real and fake symbols (logos, and campaign images) which were used in the survey.
+
+
+## Real symbols
+
+The images of the real symbols were downloaded from EPM's official website, from the section that archives the Ministry's publications and public campaigns. Thereafter, I cropped these images (via GIMP software), and to remove the text. The sources of the images are detailed below:
+
+**Air-pollution policy**
+
+Endorser: Tal Friedman; Campaign: "Starting to think green".
+
+Source: http://www.sviva.gov.il/InfoServices/ReservoirInfo/ResearchAndPublications/Pages/Publications/P0601-P0700/P0641.aspx
+
+**Recycling policy**
+
+Endorser: Ido Rosenblum; Campaign: "From now on, every bag is taken seriously". 
+
+Source: http://www.sviva.gov.il/InfoServices/NewsAndEvents/MessageDoverAndNews/Pages/2016/December2016/plastic-bags-campaign-2016-IR.aspx
+
+
+## Fake symbols
+
+To construct the images of the fake endorsers, I purchesed images of... from the website www.istockphoto.com. I sought to select modelers which resemble the general look of Friedman and Rosenblum, and their face expressions. Thereafter, I used these images to construct images which are aesthetically similar to the original images of Friedman and Rosenblum, without their symbolic aspects. For the recycling policy, I used the image from the EPM's campaign, while replacing Rosenblum's face with the face of the modeler, and changing the color of the bag from green to blue. For the The Air-pollution policy, I added a blue background (similar to the green background behind Friedman). Thereafter, to acount for the fact that Friedman's green hair represents a wierd and surprising element, that attracts attention, I also added the blue geometric object above his head. The original images and their sources are detailed below:
+
+**Air-pollution policy**
+
+Original image: 
+
+```{r, out.width = "400px", echo=FALSE,warning=FALSE,message=FALSE}
+knitr::include_graphics("D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/fake_air_model.jpg")
+```
+
+Source: https://www.istockphoto.com/il/photo/smiling-forty-something-man-gm469597956-62477336
+
+**Recycling policy**
+Original image: 
+
+```{r, out.width = "400px", echo=FALSE,warning=FALSE,message=FALSE}
+knitr::include_graphics("D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/fake_waste_model.jpg")
+```
+
+Source: https://www.istockphoto.com/il/photo/young-man-smiling-portrait-gm516728601-48347532
+
+<br>
+
+#2. The recognizability, affect and associations of the symbolic elements in the experiment.
+
+
+<br>
+
+#3. Summary statistics.
+
+```{r,results="asis", echo=FALSE,warning=FALSE,message=FALSE}
+SVIVA2_01 %>% 
+  select(TRUST_air_INDEX,
+         TRUST_waste_INDEX,
+         ELABORATION_air_time_log,
+         ELABORATION_waste_time_log,
+         GENDER) %>% 
+  stargazer(type="html",digits = 2)
+```
+
+
+<br>
+
+#4. Supplementary analyses.
+
+<br>
+
+#5. English translation of the survey experiment.
+
+
+
+
+
+
