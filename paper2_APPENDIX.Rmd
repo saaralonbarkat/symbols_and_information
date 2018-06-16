@@ -3,6 +3,9 @@ title: "Supplementary appendix"
 author: '**Saar Alon-Barkat**, PhD candidate; the Hebrew University of Jerusalem;   saar.barkat@mail.huji.ac.il'
 date: " "
 output:
+  word_document: default
+  pdf_document:
+    toc: yes
   html_document:
     theme: flatly
     toc: yes
@@ -10,9 +13,6 @@ output:
       collapsed: no
       smooth_scroll: yes
       toc_depth: 3
-  pdf_document:
-    toc: yes
-  word_document: default
 link-citations: yes
 bibliography: phd_paper_2.bib
 urlcolor: blue
@@ -27,7 +27,7 @@ Last edited at `r Sys.Date()`.
 
 
 ```{r , include=FALSE, echo=FALSE}
-load(".RData")
+load("SVIVA_R_ENV.RData")
 ```
 
 ```{r , include=FALSE, echo=FALSE}
@@ -77,9 +77,9 @@ Source: http://www.sviva.gov.il/InfoServices/NewsAndEvents/MessageDoverAndNews/P
 
 The fake logo and campaign images were specifically designed to represent graphical elements that resemble the look and aesthetic qualities of the real symbolic elements, as much as possible, while removing their symbolic aspects. 
 
-The fake logo was created via MS paint software. I replaced the leaves/hands from the original logo with a shape of stars with rounded edges, and replaced the green color with blue. I deliberately selected a natural element - star - as opposed to an abstract geometric element, since marketing studies have pointed to the "naturaleness" of logos, as one of the key aesthetic characteristics rendering logos more memorable and favorable [@henderson_1998]. 
+The fake logo was created via MS paint software. I replaced the leaves/hands from the original logo with a shape of stars with rounded edges, and replaced the green color with blue. I deliberately selected a natural element - star - as opposed to an abstract geometric element, since marketing studies have pointed to the "naturalness" of logos, as one of the key aesthetic characteristics rendering logos more memorable and favorable [@henderson_1998]. 
 
-To create the fake campaign images, I searched for photos of unfamiliar male models that resemble the look of the real endorsers, Tal Friedman and Ido Rosenblum, and their face expressions in the campaign images. For this purpose, I used the website www.istockphoto.com that offers multiple collections of professional images for purchase. The original photos which I purchased from the website, and their sources are detailed below. Thereafter, I took these images of models, and edited them (via GIMP software) to create images which are aesthetically similar to the original campaign images, yet without their symbolic aspects. For the recycling policy, I used the same image from EPM's reusable bags campaign, while replacing Rosenblum's face with the face of the unfamiliar model, and changing the color of the bag from green to blue. For the The Air-pollution policy, I took the purchased image of the unfamiliar model, and added a blue rectangle behind him (instead of the green background behind Friedman). I also added a blue geometric shape above the person's head, which I took from a logo of an Israeli mortgage bank, against Friedman's green hair. The latter addition was important, given that the green hair not only has a symbolic conotation, but also functions as an unusual, surprising element, that attracts people's attention.
+To create the fake campaign images, I searched for photos of unfamiliar male models that resemble the look of the real endorsers, Tal Friedman and Ido Rosenblum, and their face expressions in the campaign images. For this purpose, I used the website www.istockphoto.com that offers multiple collections of professional images for purchase. The original photos which I purchased from the website, and their sources are detailed below. Thereafter, I took these images of models, and edited them (via GIMP software) to create images which are aesthetically similar to the original campaign images, yet without their symbolic aspects. For the recycling policy, I used the same image from EPM's reusable bags campaign, while replacing Rosenblum's face with the face of the unfamiliar model, and changing the color of the bag from green to blue. For the The Air-pollution policy, I took the purchased image of the unfamiliar model, and added a blue rectangle behind him (instead of the green background behind Friedman). I also added a blue geometric shape above the person's head, which I took from a logo of an Israeli mortgage bank, against Friedman's green hair. The latter addition was important, given that the green hair not only has a symbolic connotation, but also functions as an unusual, surprising element, that attracts people's attention.
 
 **Air-pollution policy**
 
@@ -105,15 +105,11 @@ Source: https://www.istockphoto.com/il/photo/young-man-smiling-portrait-gm516728
 
 #2. The recognizability, affect and associations of the symbolic elements in the experiment
 
-In this section, I report the results from two prior surveys, with regard to the recognizability, affect and associations of the "real" and "fake" symbolic elements, which were included in the policy plans in the survey. I conducted these examinations before conducting the experiment in order to validate my empirical assumptions with regard to comparison between the real and fake symbols. I assume that the real symbols are recognized, and that they evoke positive feelings and associations which are related to carring for the environment. By comparison, I assume that the fake symbols are not recognized, and are more neutral. They do not have a strong positive or negative affect, or strong specific associations. 
+In this section, I report the results from two prior surveys, with regard to the recognizability, affect and associations of the "real" and "fake" symbolic elements, which were included in the policy plans in the survey. I conducted these examinations before conducting the experiment in order to validate my empirical assumptions with regard to comparison between the real and fake symbols. I assume that the real symbols are recognized, and that they evoke positive feelings and associations which are related to caring for the environment. By comparison, I assume that the fake symbols are not recognized, and are more neutral. They do not have a strong positive or negative affect, or strong specific associations. 
 
-The second prior survey was conducted on January 2018 among `r CELEBS_00%>%nrow()` participants. This survey was specifically designed to assess the recognizability, affect and associations of the real vs. fake campaign images. In both surveys, 
+##Logos (prior survey 1)
 
-##Prior survey 1
-
-The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` participants, which were recruited by iPanel. This survey was designed as a survey experiment, which was a first attempt to test the moderating role of personal relevance on the effects of symbols and information (but not the interaction between symbols and information). The experimental procedure had several methodological problems. Mainly, the assignment to experimental conditions yielded imbalanced groups, and the manipulations of symbolic elements and information was too subtle. Still, the survey included specific questions about the affect and symbolic associations of the logos and the colors, which provide valuable descriptive data. 
-
-In this survey, the participants were assigned to one of three conditions of symbols: real symbols, fake symbols and no symbols. The real and fake symbols conditions included the same logos and colors which were eventually used in the final experiment (but not the campaign images). At the end of the survey, participants were asked about their familiarity with the logos and colors that appeared in their policy plans, and their affect. These items and their descriptive results are presented below. 
+The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` participants, which were recruited by iPanel. This survey was designed as a survey experiment, which was a first attempt to test the moderating role of personal relevance on the effects of symbols and information (but not the interaction between symbols and information). The experimental procedure had several methodological problems. Mainly, the assignment to experimental conditions yielded imbalanced groups, and the manipulations of symbolic elements and information was too subtle. Still, the survey included specific questions about the affect and symbolic associations of the logos and the colors, which provide valuable descriptive data. In this survey, the participants were assigned to one of three conditions of symbols: real symbols, fake symbols and no symbols. The real and fake symbols conditions included the same logos and colors which were eventually used in the final experiment (but not the campaign images). At the end of the survey, participants were asked about their familiarity with the logos and colors that appeared in their policy plans, and their affect. These items and their descriptive results are presented below. 
 
 
 "How familiar are you with the symbol [that appeared in the policy plans]?" (1=not at all; 7=very much)
@@ -136,38 +132,200 @@ sjp.frq(filter(SVIVA1_01,FAKE_LOGO_recognize!=0)$FAKE_LOGO_recognize,
 ```
 
 
-"When you see the symbol [that appeared in the policy plans], what does it make you feel??" (1=very negative feeling; 7=very positive feeling)
+"When you see the symbol [that appeared in the policy plans], what does it make you feel?" (1=very negative feeling; 7=very positive feeling)
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
 set_theme("scatterw")
 
 sjp.frq(filter(SVIVA1_01,SYMBOL==2)$SVIVA_LOGO_affect,
-        geom.size = 0.9,
+        type="hist",
+        show.mean = T,
         ylim=c(0,160),
         axis.title="",
         title = "Real logo")
 
 sjp.frq(filter(SVIVA1_01,FAKE_LOGO_recognize!=0)$FAKE_LOGO_affect,
-        geom.size = 0.9,
-        ylim=c(0,155),
+        type="hist",
+        show.mean = T,
+        ylim=c(0,160),
         axis.title="",
-        title = "Fake logo")
+       title = "Fake logo")
 
 ```
 
 
+Overall, these results show that the real logo is relatively recognizable and has a fairly positive affect, whereas the fake logo is unrecognized and neutral. Participants were also asked "What is the first thought / association that comes to mind when you see the symbol?"  With regard to the real logo, many of the participants filled associations related to carting for the environment. Representative examples for such answers are: "environmental protection", "a desire to protect nature and the environment", "green policy", "together for the sake of nature", "connection between nature and man". The participants were similarly asked about the first thought / association that comes to their mind when they see the color. Representative answers for the green color were: "nature", "a green and healthy environment", "environment protection". The responses for the fake logo and the blue color were more diverse, and mostly unrelated to environmental issues. 
+
+##Campaign images (prior survey 2)
+
+The second prior survey was conducted on January 2018 among `r CELEBS_00%>%nrow()` participants, which were similarly recruited via iPanel. This survey was designed as a pre-test that was aimed at assessing the recognizability, affect and associations of the real vs. fake campaign images. Participants were presented with the four campaign images (two real and two fake), in a random order. After every image, they were asked a series of questions regarding the familiarity and affect of the image and of the person presented. The items and their descriptive results are presented below.
+
+"The person presented in the image is familiar to me" (1=weakly agree; 7=strongly agree)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real celeb (Tal Friedman)")
+
+sjp.frq(CELEBS_00$air_fake_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Unfamiliar model")
+
+```
+
+Waste policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real celeb (Ido Rosenblum)")
+
+sjp.frq(CELEBS_00$waste_fake_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        xlim=c(0,110),
+        axis.title="",
+        title = "Unfamiliar model")
+
+```
+
+"The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?" (1=not at all; 7=very much)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real campaign (starting to think green)")
+
+sjp.frq(CELEBS_00$air_fake_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+Waste policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real campaign (reusable bags)")
+
+sjp.frq(CELEBS_00$waste_fake_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Fake campaign")
+
+```
 
 
+"The image evokes a positive feeling" (1=weakly agree; 7=strongly agree)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_positive_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Real campaign (starting to think green)")
+
+sjp.frq(CELEBS_00$air_fake_positive_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+Waste policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_positive_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Real campaign (reusable bags)")
+
+sjp.frq(CELEBS_00$waste_fake_positive_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Fake campaign")
+
+```
 
 
+"The image evokes a negative feeling" (1=weakly agree; 7=strongly agree)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_negative_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,80),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Real campaign (starting to think green)")
+
+sjp.frq(CELEBS_00$air_fake_negative_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,80),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+Waste policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_negative_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,80),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Real campaign (reusable bags)")
+
+sjp.frq(CELEBS_00$waste_fake_negative_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,80),
+        axis.title="",
+        title = "Fake campaign")
+
+```
 
 
+These results similarly show that the real campaign images are relatively recognizable and have a fairly positive affect, whereas the fake images and models are unrecognized and do not evoke strong negative of positive feelings. Finally, I similarly asked subjects to describe their first thoughts/associations regarding the images of Friedman and Rosenblum from their campaigns (without any text). Most of the participants associated Rosenblum's image to the reducing the use of disposable grocery bags, in line with the campaign's message (e.g. "reusable bag", "reusable instead of disposable bag for protecting the environment"). With regard to Friedman's grass-head image from his "starting to think green" campaign, participants mostly mentioned associations related to environmental awareness (e.g. "green head, thinking about the environment", "green environment", "think green"), and to the humoristic aspect (e.g. "funny", "comedian", "Funny advertisement", "hahaha"). 
 
 
 
 <br>
 
 #3. Summary statistics
+
+
+**Table A1: summary statistics of research variables**
 
 ```{r,results="asis", echo=FALSE,warning=FALSE,message=FALSE}
 SVIVA2_01 %>% 
@@ -210,6 +368,8 @@ SVIVA2_01 %>%
 ```
 
 <br>
+
+**Table A2: Correlation matrix**
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 SVIVA2_01 %>% 
   select(TRUST_air_INDEX,
@@ -254,6 +414,200 @@ SVIVA2_01 %>%
 
 
 #4. Supplementary analyses
+
+
+**Table A3: Regression table - unfiltered sample**
+
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+library(lme4)
+library(car)
+
+SVIVA2_comb_robust_1 = SVIVA2_00 %>%
+  filter(!(AGE %in% 1:17)) %>% 
+  dplyr::select(IP,USER_ID,AREA,AREA_names,
+      RELEVANCE_exp,RELEVANCE_exp_n,
+      SYMBOL,SYMBOL_n,
+      INFORMATION_air,INFORMATION_air_n,
+      INFORMATION_waste,INFORMATION_waste_n,
+      TRUST_air_INDEX,
+      TRUST_waste_INDEX,
+      ELABORATION_air_time_log,
+      ELABORATION_waste_time_log,
+      ELABORATION_air_time,
+      ELABORATION_waste_time,
+      MEMORY_air_score,
+      MEMORY_waste_score,
+      GOV_TRUST,
+      GENDER,
+      AIR_order,
+      WASTE_order) %>% 
+  gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
+  mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
+                              INFORMATION_waste),
+         INFORMATION_n = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air_n,
+                                INFORMATION_waste_n),
+         ELABORATION_time_log = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time_log,
+                                       ELABORATION_waste_time_log),
+         MEMORY_score = ifelse(policy=="TRUST_air_INDEX",MEMORY_air_score,
+                               MEMORY_waste_score),
+         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
+                                       ELABORATION_waste_time)) %>% 
+  mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
+         TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
+         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"),
+         AREA_center = Recode(AREA,"0=1;1=0"),
+         SYMBOL_t = factor(Recode(SYMBOL,"1=2;2=1")),
+         SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
+         SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
+         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order))
+
+mod_1.1 = lmer(trust~SYMBOL_t+(1|USER_ID),data=SVIVA2_comb_robust_1)
+mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+(1|USER_ID),data=SVIVA2_comb_robust_1)
+mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+(1|USER_ID),data=SVIVA2_comb_robust_1)
+
+stargazer(mod_1.1,mod_1.2,mod_1.3,
+          type="html",style = "apsr",
+          dep.var.labels=c("Trust in policy (combined)"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Weak policy x Real symbols",
+                             "Weak policy x Fake symbols"),
+          initial.zero = FALSE,
+          omit.stat = c("aic","bic"),
+          notes = "*Notes*: Table entries are non-standardized random-effect GLS regression coefficients, clustered at the subject level. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
+          notes.append = FALSE)
+```
+
+&ast;*p*<.1; &ast;&ast;*p*<.05; &ast;&ast;&ast;*p*<.01
+
+<br>
+
+**Table A4: Regression table - adding control variables**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+library(lme4)
+
+mod_1.1 = lmer(trust~SYMBOL_t+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION+AREA+(1|IP),data=SVIVA2_01_comb)
+mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION+AREA+(1|IP),data=SVIVA2_01_comb)
+mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION+AREA+(1|IP),data=SVIVA2_01_comb)
+
+stargazer(mod_1.1,mod_1.2,mod_1.3,
+          type="html",style = "apsr",
+          dep.var.labels=c("Trust in policy (combined)"),
+          initial.zero = FALSE,
+          omit.stat = c("aic","bic"),
+          order = c(1,2,3,10,11,4,5,6,7,8,9),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Weak policy x Real symbols",
+                             "Weak policy x Fake symbols",
+                             "Gender (1=Woman)",
+                             "Ideology",
+                             "Trust in government ministries",
+                             "Income",
+                             "Education",
+                             "Residence in Haifa-Bay area"),
+          notes = "*Notes*: Table entries are non-standardized random-effect GLS regression coefficients, clustered at the subject level. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
+          notes.append = FALSE)
+```
+
+&ast;*p*<.1; &ast;&ast;*p*<.05; &ast;&ast;&ast;*p*<.01
+
+<br>
+
+**Table A5: Regression table - excluding participants who did not recognize EPM campaigns**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+SVIVA2_comb_robust_3 = SVIVA2_01_comb %>%
+  filter(#RECOGNIZE_SVIVA_logo>1,
+         RECOGNIZE_campaign>1)
+
+mod_1.1 = lmer(trust~SYMBOL_t+(1|IP),data=SVIVA2_comb_robust_3)
+mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_3)
+mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_3)
+
+stargazer(mod_1.1,mod_1.2,mod_1.3,
+          type="html",style = "apsr",
+          dep.var.labels=c("Trust in policy (combined)"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Weak policy x Real symbols",
+                             "Weak policy x Fake symbols"),
+          initial.zero = FALSE,
+          omit.stat = c("aic","bic"),
+          notes = "*Notes*: Table entries are non-standardized random-effect GLS regression coefficients, clustered at the subject level. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
+          notes.append = FALSE)
+```
+
+&ast;*p*<.1; &ast;&ast;*p*<.05; &ast;&ast;&ast;*p*<.01
+
+<br>
+
+**Table A6: Regression table - excluding participants who did not recognize EPM logo**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+SVIVA2_comb_robust_4 = SVIVA2_01_comb %>%
+  filter(RECOGNIZE_SVIVA_logo>1)
+
+mod_1.1 = lmer(trust~SYMBOL_t+(1|IP),data=SVIVA2_comb_robust_4)
+mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_4)
+mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_4)
+
+stargazer(mod_1.1,mod_1.2,mod_1.3,
+          type="html",style = "apsr",
+          dep.var.labels=c("Trust in policy (combined)"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Weak policy x Real symbols",
+                             "Weak policy x Fake symbols"),
+          initial.zero = FALSE,
+          omit.stat = c("aic","bic"),
+           notes = "*Notes*: Table entries are non-standardized random-effect GLS regression coefficients, clustered at the subject level. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
+          notes.append = FALSE)
+```
+
+&ast;*p*<.1; &ast;&ast;*p*<.05; &ast;&ast;&ast;*p*<.01
+
+<br>
+
+**Table A7: Regression table - adding interaction with the policy plans**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+
+mod_1.1 = lmer(trust~policy*SYMBOL_t+(1|IP),data=SVIVA2_01_comb)
+mod_1.2 = lmer(trust~policy*(SYMBOL_t+INFORMATION_weak)+(1|IP),data=SVIVA2_01_comb)
+mod_1.3 = lmer(trust~policy*SYMBOL_t*INFORMATION_weak+(1|IP),data=SVIVA2_01_comb)
+mod_1.4 = lmer(trust~policy*(SYMBOL_t+INFORMATION_weak)+SYMBOL_t*INFORMATION_weak+(1|IP),data=SVIVA2_01_comb)
+
+
+stargazer(mod_1.1,mod_1.2,mod_1.3,mod_1.4,
+          type="html",style = "apsr",
+          dep.var.labels=c("Trust in policy (combined)"),
+          order = c(2,3,4,8,9,1,5,6,7,10,11),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Weak policy x Real symbols",
+                             "Weak policy x Fake symbols",
+                             "Policy (1=recycling)",
+                             "Policy x Real symbols",
+                             "Policy x Fake symbols",
+                             "Policy x Weak policy",
+                             "Policy x Weak policy x Real symbols",
+                             "Policy x Weak policy x Fake symbols"),
+          initial.zero = FALSE,
+          omit.stat = c("aic","bic"),
+          notes = "*Notes*: Table entries are non-standardized random-effect GLS regression coefficients, clustered at the subject level. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
+          notes.append = FALSE)
+```
+
+&ast;*p*<.1; &ast;&ast;*p*<.05; &ast;&ast;&ast;*p*<.01
+
 
 <br>
 
