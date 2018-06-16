@@ -28,12 +28,13 @@ Last edited at `r Sys.Date()`.
 
 ```{r , include=FALSE, echo=FALSE}
 load(".RData")
+```
+
+```{r , include=FALSE, echo=FALSE}
 library(tidyverse)
 library(sjPlot)
 library(stargazer)
-
 ```
-
 
 #Contents:
 
@@ -50,31 +51,35 @@ library(stargazer)
 
 <br>
 
-#1. Supplementary information about the images.
+#1. Supplementary information about the images
 
-In this section, I provide additional information about the real and fake symbols (logos, and campaign images) which were used in the survey.
+In this section, I provide additional details about the creation of the "real" and "fake" symbolic elements that were included in the policy plans in the survey. 
 
+##Real symbols
 
-## Real symbols
-
-The images of the real symbols were downloaded from EPM's official website, from the section that archives the Ministry's publications and public campaigns. Thereafter, I cropped these images (via GIMP software), and to remove the text. The sources of the images are detailed below:
+The campaign images which were included in the policy plans in the real symbols condition were downloaded from EPM's official website (http://www.sviva.gov.il), from the section that archives the Ministry's publications and public campaigns. After downloading the images, I cropped them (via GIMP software). The sources of the images are detailed below:
 
 **Air-pollution policy**
 
-Endorser: Tal Friedman; Campaign: "Starting to think green".
+Campaign name: "Starting to think green"; Endorser: Tal Friedman.
 
 Source: http://www.sviva.gov.il/InfoServices/ReservoirInfo/ResearchAndPublications/Pages/Publications/P0601-P0700/P0641.aspx
 
 **Recycling policy**
 
-Endorser: Ido Rosenblum; Campaign: "From now on, every bag is taken seriously". 
+Campaign name: "From now on, every bag is taken seriously"; Endorser: Ido Rosenblum.
 
 Source: http://www.sviva.gov.il/InfoServices/NewsAndEvents/MessageDoverAndNews/Pages/2016/December2016/plastic-bags-campaign-2016-IR.aspx
 
+<br>
 
-## Fake symbols
+##Fake symbols
 
-To construct the images of the fake endorsers, I purchesed images of... from the website www.istockphoto.com. I sought to select modelers which resemble the general look of Friedman and Rosenblum, and their face expressions. Thereafter, I used these images to construct images which are aesthetically similar to the original images of Friedman and Rosenblum, without their symbolic aspects. For the recycling policy, I used the image from the EPM's campaign, while replacing Rosenblum's face with the face of the modeler, and changing the color of the bag from green to blue. For the The Air-pollution policy, I added a blue background (similar to the green background behind Friedman). Thereafter, to acount for the fact that Friedman's green hair represents a wierd and surprising element, that attracts attention, I also added the blue geometric object above his head. The original images and their sources are detailed below:
+The fake logo and campaign images were specifically designed to represent graphical elements that resemble the look and aesthetic qualities of the real symbolic elements, as much as possible, while removing their symbolic aspects. 
+
+The fake logo was created via MS paint software. I replaced the leaves/hands from the original logo with a shape of stars with rounded edges, and replaced the green color with blue. I deliberately selected a natural element - star - as opposed to an abstract geometric element, since marketing studies have pointed to the "naturaleness" of logos, as one of the key aesthetic characteristics rendering logos more memorable and favorable [@henderson_1998]. 
+
+To create the fake campaign images, I searched for photos of unfamiliar male models that resemble the look of the real endorsers, Tal Friedman and Ido Rosenblum, and their face expressions in the campaign images. For this purpose, I used the website www.istockphoto.com that offers multiple collections of professional images for purchase. The original photos which I purchased from the website, and their sources are detailed below. Thereafter, I took these images of models, and edited them (via GIMP software) to create images which are aesthetically similar to the original campaign images, yet without their symbolic aspects. For the recycling policy, I used the same image from EPM's reusable bags campaign, while replacing Rosenblum's face with the face of the unfamiliar model, and changing the color of the bag from green to blue. For the The Air-pollution policy, I took the purchased image of the unfamiliar model, and added a blue rectangle behind him (instead of the green background behind Friedman). I also added a blue geometric shape above the person's head, which I took from a logo of an Israeli mortgage bank, against Friedman's green hair. The latter addition was important, given that the green hair not only has a symbolic conotation, but also functions as an unusual, surprising element, that attracts people's attention.
 
 **Air-pollution policy**
 
@@ -87,6 +92,7 @@ knitr::include_graphics("D:/UNIVERSITY/R/SVIVA/experiment 2 01-2018/myfigures/fa
 Source: https://www.istockphoto.com/il/photo/smiling-forty-something-man-gm469597956-62477336
 
 **Recycling policy**
+
 Original image: 
 
 ```{r, out.width = "400px", echo=FALSE,warning=FALSE,message=FALSE}
@@ -97,34 +103,164 @@ Source: https://www.istockphoto.com/il/photo/young-man-smiling-portrait-gm516728
 
 <br>
 
-#2. The recognizability, affect and associations of the symbolic elements in the experiment.
+#2. The recognizability, affect and associations of the symbolic elements in the experiment
+
+In this section, I report the results from two prior surveys, with regard to the recognizability, affect and associations of the "real" and "fake" symbolic elements, which were included in the policy plans in the survey. I conducted these examinations before conducting the experiment in order to validate my empirical assumptions with regard to comparison between the real and fake symbols. I assume that the real symbols are recognized, and that they evoke positive feelings and associations which are related to carring for the environment. By comparison, I assume that the fake symbols are not recognized, and are more neutral. They do not have a strong positive or negative affect, or strong specific associations. 
+
+The second prior survey was conducted on January 2018 among `r CELEBS_00%>%nrow()` participants. This survey was specifically designed to assess the recognizability, affect and associations of the real vs. fake campaign images. In both surveys, 
+
+##Prior survey 1
+
+The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` participants, which were recruited by iPanel. This survey was designed as a survey experiment, which was a first attempt to test the moderating role of personal relevance on the effects of symbols and information (but not the interaction between symbols and information). The experimental procedure had several methodological problems. Mainly, the assignment to experimental conditions yielded imbalanced groups, and the manipulations of symbolic elements and information was too subtle. Still, the survey included specific questions about the affect and symbolic associations of the logos and the colors, which provide valuable descriptive data. 
+
+In this survey, the participants were assigned to one of three conditions of symbols: real symbols, fake symbols and no symbols. The real and fake symbols conditions included the same logos and colors which were eventually used in the final experiment (but not the campaign images). At the end of the survey, participants were asked about their familiarity with the logos and colors that appeared in their policy plans, and their affect. These items and their descriptive results are presented below. 
+
+
+"How familiar are you with the symbol [that appeared in the policy plans]?" (1=not at all; 7=very much)
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+set_theme("scatterw")
+
+sjp.frq(filter(SVIVA1_01,SYMBOL==2)$SVIVA_LOGO_recognize,
+        geom.size = 0.9,
+        ylim=c(0,155),
+        axis.title="",
+        title = "Real logo")
+
+sjp.frq(filter(SVIVA1_01,FAKE_LOGO_recognize!=0)$FAKE_LOGO_recognize,
+        geom.size = 0.9,
+        ylim=c(0,155),
+        axis.title="",
+        title = "Fake logo")
+
+```
+
+
+"When you see the symbol [that appeared in the policy plans], what does it make you feel??" (1=very negative feeling; 7=very positive feeling)
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+set_theme("scatterw")
+
+sjp.frq(filter(SVIVA1_01,SYMBOL==2)$SVIVA_LOGO_affect,
+        geom.size = 0.9,
+        ylim=c(0,160),
+        axis.title="",
+        title = "Real logo")
+
+sjp.frq(filter(SVIVA1_01,FAKE_LOGO_recognize!=0)$FAKE_LOGO_affect,
+        geom.size = 0.9,
+        ylim=c(0,155),
+        axis.title="",
+        title = "Fake logo")
+
+```
+
+
+
+
+
+
+
+
+
 
 
 <br>
 
-#3. Summary statistics.
+#3. Summary statistics
 
 ```{r,results="asis", echo=FALSE,warning=FALSE,message=FALSE}
 SVIVA2_01 %>% 
   select(TRUST_air_INDEX,
          TRUST_waste_INDEX,
+         WITHIN_DELTA,
          ELABORATION_air_time_log,
          ELABORATION_waste_time_log,
-         GENDER) %>% 
-  stargazer(type="html",digits = 2)
+         MEMORY_total,         GENDER,
+         AGE,
+         MOBILE,
+         GOV_TRUST,
+         IDEOLOGY,
+         CHILDREN,
+         EDUCATION,
+         INCOME,
+         HOME,
+         AREA_reside_haifa,
+         ENVIRONMENT_INTEREST) %>% 
+  stargazer(type="html",
+            digits = 3,
+            covariate.labels = c("1. Trust in Air-pollution policy",
+                                 "2. Trust in recycling policy",
+                                 "3. Delta (within subjects)",
+                                 "4. Reaction time (log) - Air-pollution policy",
+                                 "5. Reaction time (log) - recycling policy",
+                                 "6. Memory score - Air-pollution policy",
+                                 "7. Memory score - recycling policy",
+                                 "8. Gender (Woman=1)",
+                                 "9. Age",
+                                 "10. Interface (PC = 0; Mobile = 1)",
+                                 "11. Trust in government ministries",
+                                 "12. Political Ideology (10 = extreme left)",
+                                 "13. Having children",
+                                 "14. Education",
+                                 "15. Income",
+                                 "16. Home ownership",
+                                 "17. Residence in Haifa-Bay area",
+                                 "18. Interest in environmental issues"))
+```
+
+<br>
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+SVIVA2_01 %>% 
+  select(TRUST_air_INDEX,
+         TRUST_waste_INDEX,
+         WITHIN_DELTA,
+         ELABORATION_air_time_log,
+         ELABORATION_waste_time_log,
+         MEMORY_total,
+         GENDER,
+         AGE,
+         MOBILE,
+         GOV_TRUST,
+         IDEOLOGY,
+         CHILDREN,
+         EDUCATION,
+         INCOME,
+         HOME,
+         AREA_reside_haifa,
+         ENVIRONMENT_INTEREST) %>%
+  sjt.corr(triangle="lower",
+           remove.spaces=T,
+           digits = 2,
+           na.deletion="pairwise",
+           var.labels = c("1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6+7",
+                          "8",
+                          "9",
+                          "10",
+                          "11",
+                          "12",
+                          "13",
+                          "14",
+                          "15",
+                          "16",
+                          "17",
+                          "18"))
 ```
 
 
-<br>
-
-#4. Supplementary analyses.
+#4. Supplementary analyses
 
 <br>
 
-#5. English translation of the survey experiment.
+#5. English translation of the survey experiment
 
 
 
 
 
-
+#References
