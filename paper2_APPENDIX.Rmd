@@ -419,8 +419,6 @@ SVIVA2_01 %>%
 #4. Supplementary analyses
 
 
-**Table A3: Regression table - unfiltered sample**
-
 
 ```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
 library(lme4)
@@ -464,6 +462,26 @@ SVIVA2_comb_robust_1 = SVIVA2_00 %>%
          SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
          SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
          ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order))
+
+SVIVA2_comb_robust_3 = SVIVA2_01_comb %>%
+  filter(#RECOGNIZE_SVIVA_logo>1,
+         RECOGNIZE_campaign>1)
+
+SVIVA2_comb_robust_4 = SVIVA2_01_comb %>%
+  filter(RECOGNIZE_SVIVA_logo>1)
+```
+
+
+
+In the tables below, I present additional robust analyses for the effect of symbols on trust in policy and its interaction with the information of the policy plans. In **Table A3**, I replicate table 1 of the main paper on the full, unfiltered sample, excluding subjects who are under the age of 18 (n_subjects = `r SVIVA2_comb_robust_1 %>%distinct(IP) %>% nrow()`). In **Table A4**, I add a set of control variables. In **Table A5** and **Table A6**, I exclude those subjects who did not recognize the real symbols which were included in the communications. Table A5 excludes those who did not recognize the campaign images (n_subjects = `r SVIVA2_comb_robust_3 %>%distinct(IP) %>% nrow()`) and Table A6 excludes those who did not recognize EPM's logo (n_subjects = `r SVIVA2_comb_robust_4 %>%distinct(IP) %>% nrow()`). Finally, in **Table A7**, I add interactions with the policy plan, to examine whether the effect of the symbols were significanly different for these two policies. All these analyses are random-effect GLS regressions clustered at the subject level, similarly to the main models presented in the paper.  
+
+In all these supplementary analyses, the main effect of the real symbols on trust in policy is significant, and the interaction bewteen the real symbols and the weak inforamtion remains positive and significant.   
+
+
+**Table A3: Regression table - unfiltered sample**
+
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
 
 mod_1.1 = lmer(trust~SYMBOL_t+(1|USER_ID),data=SVIVA2_comb_robust_1)
 mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+(1|USER_ID),data=SVIVA2_comb_robust_1)
@@ -524,9 +542,7 @@ stargazer(mod_1.1,mod_1.2,mod_1.3,
 **Table A5: Regression table - excluding participants who did not recognize EPM campaigns**
 
 ```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-SVIVA2_comb_robust_3 = SVIVA2_01_comb %>%
-  filter(#RECOGNIZE_SVIVA_logo>1,
-         RECOGNIZE_campaign>1)
+
 
 mod_1.1 = lmer(trust~SYMBOL_t+(1|IP),data=SVIVA2_comb_robust_3)
 mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_3)
@@ -542,7 +558,7 @@ stargazer(mod_1.1,mod_1.2,mod_1.3,
                              "Weak policy x Fake symbols"),
           initial.zero = FALSE,
           omit.stat = c("aic","bic"),
-          notes = "*Notes*: Table entries are non-standardized random-effect GLS regression coefficients, clustered at the subject level. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
+          notes = "*Notes*: Table entries are non-standardized coefficients. Standard errors are in parentheses. The reference category for the symbols manipulation conditions is the control no-symbols.",
           notes.append = FALSE)
 ```
 
@@ -553,8 +569,7 @@ stargazer(mod_1.1,mod_1.2,mod_1.3,
 **Table A6: Regression table - excluding participants who did not recognize EPM logo**
 
 ```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-SVIVA2_comb_robust_4 = SVIVA2_01_comb %>%
-  filter(RECOGNIZE_SVIVA_logo>1)
+
 
 mod_1.1 = lmer(trust~SYMBOL_t+(1|IP),data=SVIVA2_comb_robust_4)
 mod_1.2 = lmer(trust~SYMBOL_t+INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_4)
@@ -616,31 +631,22 @@ stargazer(mod_1.1,mod_1.2,mod_1.3,mod_1.4,
 
 #5. English translation of the survey experiment
 
-[Introduction]
+Below is the full text of the survey. Additional comments are presented in square beackets. The different experimental conditions of the two policy plans are included in the appendix of the main paper, and therefore were not included here. The original Qualtrics file is available upon request. 
 
-Greetings, 
 
-We are researchers from the Department of Political Science at the Hebrew University.
-The short questionnaire below is part of an academic study designed to teach us about the attitudes of Israeli citizens regarding environmental policy. Therefore, it is important for us that you answer the questionnaire seriously and honestly.
 
-The questionnaire filling time is about 5-10 minutes.
+**Greetings, We are researchers from the Department of Political Science at the Hebrew University. The short questionnaire below is part of an academic study designed to teach us about the attitudes of Israeli citizens regarding environmental policy. Therefore, it is important for us that you answer the questionnaire seriously and honestly. The questionnaire filling time is about 5-10 minutes.**
 
-It is important for us to clarify that the questionnaire is being voluntarily filled out. Filling out the questionnaire and submitting it are an agreement to participate in the research.
+**It is important for us to clarify that the questionnaire is voluntary. Filling out the questionnaire and submitting it represent your agreement to participate in the research. In addition, we wish to emphasize that the personal details of all the participants will remain confidential and that the data collected in the research will be used for research purposes only. Non-consent to participate will be expressed in not filling of the questionnaire. The questionnaire is phrased in masculine form [in Hebrew] but addresses both men and women.**
 
-In addition, we wish to emphasize that the personal details of all the participants will remain confidential and that the data collected in the research will be used for research purposes only.
-Non-consent to participate will be expressed in non-filling of the questionnaire.
-
-The questionnaire is phrased in masculine form but addresses both men and women.
-
-Thank you for your cooperation!
+**Thank you for your cooperation!**
 
 ---
 
-[Pre-manipulation items]
 
-First, we would like to ask you a few general questions about your attitudes towards Israeli government ministries.
+**First, we would like to ask you a few general questions about your attitudes towards Israeli government ministries.**
 
-
+<br>
 
 **How would you evaluate the functioning of National Government Ministries in Israel?**
 
@@ -701,12 +707,13 @@ First, we would like to ask you a few general questions about your attitudes tow
 
 ---
 
-[Manipulation of perceived personal relevance of policy plans: participants are randomly assigned to treatment and control conditions].
+[The following section includes a manipulation of perceived personal relevance of policy plans. Participants were randomly assigned to treatment and control conditions, as detailed below].
 
+<br>
 
 [Treatment]
 
-Now, we would like to ask you a few general questions about your interest in environmental issues.
+**Now, we would like to ask you a few general questions about your interest in environmental issues.**
 
 
 **To what extent are you interested in environmental issues?**
@@ -763,6 +770,7 @@ Now, we would like to ask you a few general questions about your interest in env
 
 
 **In which residential area do you currently live?**
+
 1. North
 
 2. Haifa and the Krayot 
@@ -781,15 +789,17 @@ Now, we would like to ask you a few general questions about your interest in env
 
 
 
-**What is the name of the locality where you live today?**
+**What is the name of the locality where you live today? _________________**
 
 
-**In your opinion, what is the most disturbing environmental problem in your area?**
+**In your opinion, what is the most disturbing environmental problem in your area? ________________________________________**
 
 
 [Control]
 
-Now, we would like to ask you a few general questions about your area of occupation
+<br>
+
+**Now, we would like to ask you a few general questions about your area of occupation**
 
 
 **In which sector are you currently employed:?**
@@ -803,7 +813,7 @@ Now, we would like to ask you a few general questions about your area of occupat
 4. Other 
 
 
-**What is your field of profession/study?**
+**What is your field of profession/study? ______________**
 
 
 **To what extent do you think your profession is interesting?**
@@ -856,17 +866,17 @@ Now, we would like to ask you a few general questions about your area of occupat
 7. Assist much more
 
 
-**What, in your opinion, might attract people to choose your occupation??**
+**What, in your opinion, might attract people to choose your occupation?? _________________________________________**
 
 ---
 
-Next, we will present you two policy plans on specific environmental issues. The programs are taken from the publication of the "Work Plans for 2018" of the Ministry of Environmental Protection, which is published in the Ministry's website.
+**Next, we will present you two policy plans on specific environmental issues. The programs are taken from the publication of the "Work Plans for 2018" of the Ministry of Environmental Protection, which is published in the Ministry's website.**
 
-At the top of each policy plan presented the specific policy issue, followed by the main actions taken by the Ministry to promote the issue.
+**At the top of each policy plan presented the specific policy issue, followed by the main actions taken by the Ministry to promote the issue.**
 
-[Participants are presented with the two policy plans. See description about the manipulations and the procedure in the main paper; Each policy plan is followed by the following questions]
+[Participants are then presented with the two policy plans (air-pollution and recycling), in a random order. See description about the manipulations and the procedure in the main paper; Each policy plan is followed by the following questions]
 
-Now, we'd like to ask you a few questions about your position on the policy for ["Reducing waste and increase recycling" / "Reducing the air-pollution in the Haifa-Bay"]:
+**Now, we'd like to ask you a few questions about your position on the policy for "Reducing waste and increase recycling" / "Reducing the air-pollution in the Haifa-Bay":**
 
 **State to what extent do you agree with each of the following sentences.**
 
@@ -954,9 +964,7 @@ Now, we'd like to ask you a few questions about your position on the policy for 
 
 ---
 
-[Questions about elaboration and personal relevance]
-
-The following sentences describe the way in which you read the latest policy plan that regarded to ["Reducing waste and increase recycling" / "Reducing the air-pollution in the Haifa-Bay"].
+**The following sentences describe the way in which you read the latest policy plan that regarded to "Reducing waste and increase recycling" / "Reducing the air-pollution in the Haifa-Bay".**
 
 **State to what extent do you agree with each of the following sentences.**
 
@@ -1056,7 +1064,7 @@ The following sentences describe the way in which you read the latest policy pla
 7. Strongly agree
 
 
-Try recalling the content of the latest policy plan.
+**Try recalling the content of the latest policy plan.**
 [Each subjects was asked about the latest policy plan presenter to her]
 
 **Which of the following issues was mentioned in the framework of the Ministry's actions to reduce air pollution in Haifa Bay?**
@@ -1134,17 +1142,17 @@ Try recalling the content of the latest policy plan.
 
 7. Very much
 
-8. Other: ___
+8. Other: ______
 
 
 ---
 
-[Demographic questions]
 
-We would like to ask you a few general questions: 
+**We would like to ask you a few general questions:**
 
 
-**How old are you?**
+**HWhat is your age?**
+10----20----30----40----50----60----70----80
 
 
 **What is your highest level of education?**
@@ -1203,7 +1211,7 @@ We would like to ask you a few general questions:
 
 8. South
 
-**What is your place of residence?**
+**What is your place of residence? ___________**
 
 
 **Are you or one of your first-degree relatives working (or worked) in one of the factories in the Haifa Bay industrial area?**
@@ -1212,7 +1220,7 @@ We would like to ask you a few general questions:
 
 2. Yes
 
-**State the name of the place where you lived at high-school graduation**
+**State the name of the place where you lived at high-school graduation: ____________**
 
 **Area where you are currently working/studying?**
 
@@ -1261,13 +1269,14 @@ We would like to ask you a few general questions:
 
 ---
 
-[Manipulation check for symbols]
+[The following section is a manipulation check for the symbols]
 
+<br>
 
-[For real symbols]:
-Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.
+[For subjects assigned to the real symbols]:
+**Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.**
 
-This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"
+**This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"**
 
 
 **When you see the image, what does it make you feel?**
@@ -1304,7 +1313,7 @@ This is the image that appeared in the policy program "Reducing Waste and Increa
 7. Very much
 
 
-This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"
+**This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"**
 
 
 **When you see the image, what does it make you feel?**
@@ -1357,31 +1366,12 @@ This is the image that appeared in the policy program "Reducing the air-pollutio
 
 7. Very much:
 
+<br>
 
-[For fake symbols]:
-Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.
+[For subjects assigned to the fake symbols]:
+**Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.**
 
-This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"
-
-
-**When you see the image, what does it make you feel?**
-
-1. Very negative feeling
-
-2.  
-
-3.  
-
-4.  
-
-5. 
-
-6. 
-
-7. Very positive feeling
-
-
-This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"
+**This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"**
 
 
 **When you see the image, what does it make you feel?**
@@ -1401,9 +1391,29 @@ This is the image that appeared in the policy program "Reducing the air-pollutio
 7. Very positive feeling
 
 
-We would like to show you additional images, taken from advertisements of the Environmental Protection Ministry.
+**This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"**
 
-[Respondents are displayed with the two "real" images, and then asked the following two questions]
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+**We would like to show you additional images, taken from advertisements of the Environmental Protection Ministry.**
+
+[Respondents are displayed with the two "real" images, and then asked for each of them the following two questions]
 
 
 **When you see the image, what does it make you feel?**
@@ -1457,11 +1467,13 @@ We would like to show you additional images, taken from advertisements of the En
 
 7. Very much:
 
-[For no symbols]:
+<br>
 
-Finally, we would like to show you a few images which were taken from advertisements of the Environmental Protection Ministry.
+[For subjets assigned to the no symbols]:
 
-[Respondents are displayed with the two "real" images, and then asked the following two questions]
+**Finally, we would like to show you a few images which were taken from advertisements of the Environmental Protection Ministry.**
+
+[Respondents are displayed with the two "real" images, and then asked for each of them the following two questions]
 
 
 **When you see the image, what does it make you feel?**
@@ -1516,12 +1528,8 @@ Finally, we would like to show you a few images which were taken from advertisem
 
 ---
 
-[Debrief]
 
-
-Thank you very much for participating in the study.
-
-Some of the policy programs presented to you during the questionnaire included content that was different from the original work plan or was presented differently. The tasks related to "raising awareness" and "reducing supervision" are invented tasks that are not part of the Ministry of Environmental Protection's policy. [For the fake symbols: In addition, the pictures of the people presented in the programs were not taken from the ministry's broadcasts, and their characters were used only for research purposes.]
+**Thank you very much for participating in the study. Some of the policy programs presented to you during the questionnaire included content that was different from the original work plan or was presented differently. The tasks related to "raising awareness" and "reducing supervision" are invented tasks that are not part of the Ministry of Environmental Protection's policy. [For the fake symbols: In addition, the pictures of the people presented in the programs were not taken from the ministry's broadcasts, and their characters were used only for research purposes.]**
 
 You can review the original policies of the Environmental Protection Ministry regarding the policy issues which were presented at the website of government work plans: plans.gov.il and at the Ministry's website: sviva.gov.il.
 
