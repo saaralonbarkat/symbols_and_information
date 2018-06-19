@@ -3,9 +3,6 @@ title: "Supplementary appendix"
 author: '**Saar Alon-Barkat**, PhD candidate; the Hebrew University of Jerusalem;   saar.barkat@mail.huji.ac.il'
 date: " "
 output:
-  word_document: default
-  pdf_document:
-    toc: yes
   html_document:
     theme: flatly
     toc: yes
@@ -13,6 +10,9 @@ output:
       collapsed: no
       smooth_scroll: yes
       toc_depth: 3
+  pdf_document:
+    toc: yes
+  word_document: default
 link-citations: yes
 bibliography: phd_paper_2.bib
 urlcolor: blue
@@ -27,7 +27,10 @@ Last edited at `r Sys.Date()`.
 
 
 ```{r , include=FALSE, echo=FALSE}
-load("SVIVA_R_ENV.RData")
+source("SVIVA_exp2_dm_03.R")
+
+SVIVA1_01 = read.csv("SVIVA1_01.csv")
+CELEBS_00 = read.csv("CELEBS.csv")
 ```
 
 ```{r , include=FALSE, echo=FALSE}
@@ -613,8 +616,914 @@ stargazer(mod_1.1,mod_1.2,mod_1.3,mod_1.4,
 
 #5. English translation of the survey experiment
 
+[Introduction]
+
+Greetings, 
+
+We are researchers from the Department of Political Science at the Hebrew University.
+The short questionnaire below is part of an academic study designed to teach us about the attitudes of Israeli citizens regarding environmental policy. Therefore, it is important for us that you answer the questionnaire seriously and honestly.
+
+The questionnaire filling time is about 5-10 minutes.
+
+It is important for us to clarify that the questionnaire is being voluntarily filled out. Filling out the questionnaire and submitting it are an agreement to participate in the research.
+
+In addition, we wish to emphasize that the personal details of all the participants will remain confidential and that the data collected in the research will be used for research purposes only.
+Non-consent to participate will be expressed in non-filling of the questionnaire.
+
+The questionnaire is phrased in masculine form but addresses both men and women.
+
+Thank you for your cooperation!
+
+---
+
+[Pre-manipulation items]
+
+First, we would like to ask you a few general questions about your attitudes towards Israeli government ministries.
 
 
+
+**How would you evaluate the functioning of National Government Ministries in Israel?**
+
+1. Very poor
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very good
+
+
+
+**To what extent do you do you have confidence/trust in Israeli Government Ministries?**
+
+1. I have no confidence/trust
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. I have great confidence/trust
+
+
+**How would you rate your ideological standpoint on a left-right continuum?**
+
+1. Extreme right
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. 
+
+8.
+
+9.
+
+10. Extreme Left
+
+---
+
+[Manipulation of perceived personal relevance of policy plans: participants are randomly assigned to treatment and control conditions].
+
+
+[Treatment]
+
+Now, we would like to ask you a few general questions about your interest in environmental issues.
+
+
+**To what extent are you interested in environmental issues?**
+
+1. Little interested
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very interested
+
+
+**To what extent do you follow environmental issues in the media and/or in social networks?**
+
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+
+**Compared to the current situation, do you think the government should invest more or less in dealing with environmental issues?**
+
+1. Invest much less
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Invest much more
+
+
+**In which residential area do you currently live?**
+1. North
+
+2. Haifa and the Krayot 
+
+3. Center 
+
+4. Tel Aviv
+
+5. Lower Galilee
+
+6. Jerusalem
+
+7. Judea and Samaria
+
+8. South
+
+
+
+**What is the name of the locality where you live today?**
+
+
+**In your opinion, what is the most disturbing environmental problem in your area?**
+
+
+[Control]
+
+Now, we would like to ask you a few general questions about your area of occupation
+
+
+**In which sector are you currently employed:?**
+
+1. Private sector
+
+2. Public sector 
+
+3. Third Sector 
+
+4. Other 
+
+
+**What is your field of profession/study?**
+
+
+**To what extent do you think your profession is interesting?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**To what extent do you follow topics related to your area of occupation in the media and/or social networks?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+**Compared to the current situation, do you think the government should assist more or less to promote your field of occupation?**
+
+1. Assist much less
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Assist much more
+
+
+**What, in your opinion, might attract people to choose your occupation??**
+
+---
+
+Next, we will present you two policy plans on specific environmental issues. The programs are taken from the publication of the "Work Plans for 2018" of the Ministry of Environmental Protection, which is published in the Ministry's website.
+
+At the top of each policy plan presented the specific policy issue, followed by the main actions taken by the Ministry to promote the issue.
+
+[Participants are presented with the two policy plans. See description about the manipulations and the procedure in the main paper; Each policy plan is followed by the following questions]
+
+Now, we'd like to ask you a few questions about your position on the policy for ["Reducing waste and increase recycling" / "Reducing the air-pollution in the Haifa-Bay"]:
+
+**State to what extent do you agree with each of the following sentences.**
+
+**I believe that the actions mentioned in the policy plan will assist in fulfilling the policy goal**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the actions mentioned in the policy plan were designed in a professional manner**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the policy plan is in the interest of citizens**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the policy plan reflects a genuine attempt to improve the well-being of citizens.**
+
+**I believe that EPM made an honest attempt to design a good policy plan**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the Ministry of Environmental Protection aims to keep its commitments in that policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+---
+
+[Questions about elaboration and personal relevance]
+
+The following sentences describe the way in which you read the latest policy plan that regarded to ["Reducing waste and increase recycling" / "Reducing the air-pollution in the Haifa-Bay"].
+
+**State to what extent do you agree with each of the following sentences.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I paid much attention to reading the policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+
+**I skimmed the actions in the policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I tried to thoroughly understand the the policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**While going through the policy plan I was thinking about other things which are not related to it.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I tried to think how the policy plan will personally affect me.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+
+Try recalling the content of the latest policy plan.
+[Each subjects was asked about the latest policy plan presenter to her]
+
+**Which of the following issues was mentioned in the framework of the Ministry's actions to reduce air pollution in Haifa Bay?**
+
+1. Supervision on the factories
+
+2. Clean air area
+
+3. Investment in public relations
+
+4. The ammonia tank
+
+5. I can not remember
+
+**Which of the following issues was mentioned in the framework of the Ministry's actions to reduce waste and increase recycling?**
+
+1. Supervision on the manufacturers
+
+2. compulsory charge on bags
+
+3. Investment in public relations
+
+4. plastic bottles
+
+5. I can not remember
+
+
+**To what extent did you feel that the policy on "reducing waste and increasing recycling" is personally relevant to you?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**To what extent did you feel that the policy on "Reducing the air-pollution in the Haifa-Bay" is personally relevant to you?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**In order to make sure you read the question carefully, please type the number 9 under "Other"?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+8. Other: ___
+
+
+---
+
+[Demographic questions]
+
+We would like to ask you a few general questions: 
+
+
+**How old are you?**
+
+
+**What is your highest level of education?**
+
+1.	Primary education or less
+
+2.	Partial secondary education
+
+3.	High education without high school diploma
+
+4.	High education with high school diploma
+
+5.	Non-academic tertiary education
+
+6.	Partial academic degree
+
+7.	Full academic degree (first degree)
+
+8.	Full academic degree (second degree or higher).   
+
+
+**According to Israel's Central Bureau of Statistics the monthly average net income per household is approximately 15,500 NIS. Is your income: **
+
+1.	Far below average
+
+2.	Slightly below average
+
+3.	Near average
+
+4.	Slightly above average
+
+5.	Far above average
+
+
+**Are you a home owner?**
+
+1. Yes
+
+2. No
+
+
+**In which residential area do you currently live?**
+1. North
+
+2. Haifa and the Krayot 
+
+3. Center 
+
+4. Tel Aviv
+
+5. Lower Galilee
+
+6. Jerusalem
+
+7. Judea and Samaria
+
+8. South
+
+**What is your place of residence?**
+
+
+**Are you or one of your first-degree relatives working (or worked) in one of the factories in the Haifa Bay industrial area?**
+
+1. No
+
+2. Yes
+
+**State the name of the place where you lived at high-school graduation**
+
+**Area where you are currently working/studying?**
+
+1. North
+
+2. Haifa and the Krayot 
+
+3. Center 
+
+4. Tel Aviv
+
+5. Lower Galilee
+
+6. Jerusalem
+
+7. Judea and Samaria
+
+8. South
+
+**Gender**
+
+1.	Man
+
+2. Woman
+
+3.	I prefer not to answer
+
+**What is the age of your oldest son/daughter?**
+
+1. 0-6
+
+2. 7-12
+
+3. 13-18
+
+4. 19 or more
+
+5. I don't have any children
+
+
+**Is Hebrew your native language?**
+
+1. Yes
+
+2. No
+
+---
+
+[Manipulation check for symbols]
+
+
+[For real symbols]:
+Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.
+
+This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"
+
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"
+
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent do you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**This is the symbol of the Ministry of Environmental Protection, which appeared in the policy program. To what extent are you familiar with the symbol?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much:
+
+
+[For fake symbols]:
+Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.
+
+This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"
+
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"
+
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+We would like to show you additional images, taken from advertisements of the Environmental Protection Ministry.
+
+[Respondents are displayed with the two "real" images, and then asked the following two questions]
+
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+
+**This is the symbol of the Ministry of Environmental Protection, which appeared in the policy program. To what extent are you familiar with the symbol?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much:
+
+[For no symbols]:
+
+Finally, we would like to show you a few images which were taken from advertisements of the Environmental Protection Ministry.
+
+[Respondents are displayed with the two "real" images, and then asked the following two questions]
+
+
+**When you see the image, what does it make you feel?**
+
+1. Very negative feeling
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feeling
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+**This is the symbol of the Ministry of Environmental Protection, which appeared in the policy program. To what extent are you familiar with the symbol?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much:
+
+
+---
+
+[Debrief]
+
+
+Thank you very much for participating in the study.
+
+Some of the policy programs presented to you during the questionnaire included content that was different from the original work plan or was presented differently. The tasks related to "raising awareness" and "reducing supervision" are invented tasks that are not part of the Ministry of Environmental Protection's policy. [For the fake symbols: In addition, the pictures of the people presented in the programs were not taken from the ministry's broadcasts, and their characters were used only for research purposes.]
+
+You can review the original policies of the Environmental Protection Ministry regarding the policy issues which were presented at the website of government work plans: plans.gov.il and at the Ministry's website: sviva.gov.il.
 
 
 #References
