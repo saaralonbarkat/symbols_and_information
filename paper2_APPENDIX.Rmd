@@ -39,6 +39,8 @@ library(sjPlot)
 library(stargazer)
 ```
 
+---
+
 #Contents:
 
 1. Supplementary information about the images.
@@ -51,6 +53,7 @@ library(stargazer)
 
 5. English translation of the survey experiment.
 
+---
 
 <br>
 
@@ -473,9 +476,7 @@ SVIVA2_comb_robust_4 = SVIVA2_01_comb %>%
 
 
 
-In the tables below, I present additional robust analyses for the effect of symbols on trust in policy and its interaction with the information of the policy plans. In **Table A3**, I replicate table 1 of the main paper on the full, unfiltered sample, excluding subjects who are under the age of 18 (n_subjects = `r SVIVA2_comb_robust_1 %>%distinct(IP) %>% nrow()`). In **Table A4**, I add a set of control variables. In **Table A5** and **Table A6**, I exclude those subjects who did not recognize the real symbols which were included in the communications. Table A5 excludes those who did not recognize the campaign images (n_subjects = `r SVIVA2_comb_robust_3 %>%distinct(IP) %>% nrow()`) and Table A6 excludes those who did not recognize EPM's logo (n_subjects = `r SVIVA2_comb_robust_4 %>%distinct(IP) %>% nrow()`). Finally, in **Table A7**, I add interactions with the policy plan, to examine whether the effect of the symbols were significanly different for these two policies. All these analyses are random-effect GLS regressions clustered at the subject level, similarly to the main models presented in the paper.  
-
-In all these supplementary analyses, the main effect of the real symbols on trust in policy is significant, and the interaction bewteen the real symbols and the weak inforamtion remains positive and significant.   
+In the tables below, I report the results of additional robust analyses testing the effect of the manipulation of symbols on trust in policy and its interaction with the manipulation of information in policy plans. **Table A3** replicates table 1 of from the paper, while adding those subjects who were filttered, except for those who are under the age of 18 (n_subjects = `r SVIVA2_comb_robust_1 %>%distinct(IP) %>% nrow()`). In **Table A4**, replicate Table 1 while adding a set of control variables. In **Table A5** and **Table A6**, I exclude those subjects who did not recognize the real symbols which were included in the communications. Table A5 excludes those who did not recognize the campaign images (n_subjects = `r SVIVA2_comb_robust_3 %>%distinct(IP) %>% nrow()`) and Table A6 excludes those who did not recognize EPM's logo (n_subjects = `r SVIVA2_comb_robust_4 %>%distinct(IP) %>% nrow()`). Finally, in **Table A7**, I examine whether the effect of the symbols were significanly different for the two policies, by adding the interactions with the policy plan. All these analyses are random-effect GLS regressions clustered at the subject level, similarly to the main models presented in the paper. In all these supplementary analyses, the effects of the real symbols and their interaction with information are consistent with the main models presented in the paper. The main effect of the real symbols on trust in policy is significant, and the interaction bewteen the real symbols and the weak inforamtion remains positive and significant.   
 
 
 **Table A3: Regression table - unfiltered sample**
@@ -489,7 +490,7 @@ mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+(1|USER_ID),data=SVIVA2_comb_robu
 
 stargazer(mod_1.1,mod_1.2,mod_1.3,
           type="html",style = "apsr",
-          dep.var.labels=c("Trust in policy (combined)"),
+          dep.var.labels=c("Trust in policy"),
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
                              "Weak policy (0=strong policy)",
@@ -516,7 +517,7 @@ mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+GENDER+IDEOLOGY+GOV_TRUST+INCOME+
 
 stargazer(mod_1.1,mod_1.2,mod_1.3,
           type="html",style = "apsr",
-          dep.var.labels=c("Trust in policy (combined)"),
+          dep.var.labels=c("Trust in policy"),
           initial.zero = FALSE,
           omit.stat = c("aic","bic"),
           order = c(1,2,3,10,11,4,5,6,7,8,9),
@@ -550,7 +551,7 @@ mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_3)
 
 stargazer(mod_1.1,mod_1.2,mod_1.3,
           type="html",style = "apsr",
-          dep.var.labels=c("Trust in policy (combined)"),
+          dep.var.labels=c("Trust in policy"),
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
                              "Weak policy (0=strong policy)",
@@ -577,7 +578,7 @@ mod_1.3 = lmer(trust~SYMBOL_t*INFORMATION_weak+(1|IP),data=SVIVA2_comb_robust_4)
 
 stargazer(mod_1.1,mod_1.2,mod_1.3,
           type="html",style = "apsr",
-          dep.var.labels=c("Trust in policy (combined)"),
+          dep.var.labels=c("Trust in policy"),
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
                              "Weak policy (0=strong policy)",
@@ -605,7 +606,7 @@ mod_1.4 = lmer(trust~policy*(SYMBOL_t+INFORMATION_weak)+SYMBOL_t*INFORMATION_wea
 
 stargazer(mod_1.1,mod_1.2,mod_1.3,mod_1.4,
           type="html",style = "apsr",
-          dep.var.labels=c("Trust in policy (combined)"),
+          dep.var.labels=c("Trust in policy"),
           order = c(2,3,4,8,9,1,5,6,7,10,11),
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
@@ -635,7 +636,9 @@ Below is the full text of the survey. Additional comments are presented in squar
 
 
 
-**Greetings, We are researchers from the Department of Political Science at the Hebrew University. The short questionnaire below is part of an academic study designed to teach us about the attitudes of Israeli citizens regarding environmental policy. Therefore, it is important for us that you answer the questionnaire seriously and honestly. The questionnaire filling time is about 5-10 minutes.**
+**Greetings,** 
+
+**We are researchers from the Department of Political Science at the Hebrew University. The short questionnaire below is part of an academic study designed to teach us about the attitudes of Israeli citizens regarding environmental policy. Therefore, it is important for us that you answer the questionnaire seriously and honestly. The questionnaire filling time is about 5-10 minutes.**
 
 **It is important for us to clarify that the questionnaire is voluntary. Filling out the questionnaire and submitting it represent your agreement to participate in the research. In addition, we wish to emphasize that the personal details of all the participants will remain confidential and that the data collected in the research will be used for research purposes only. Non-consent to participate will be expressed in not filling of the questionnaire. The questionnaire is phrased in masculine form [in Hebrew] but addresses both men and women.**
 
@@ -799,10 +802,10 @@ Below is the full text of the survey. Additional comments are presented in squar
 
 <br>
 
-**Now, we would like to ask you a few general questions about your area of occupation**
+**Now, we would like to ask you a few general questions about your area of occupation.**
 
 
-**In which sector are you currently employed:?**
+**In which sector are you currently employed?**
 
 1. Private sector
 
@@ -866,7 +869,7 @@ Below is the full text of the survey. Additional comments are presented in squar
 7. Assist much more
 
 
-**What, in your opinion, might attract people to choose your occupation?? _________________________________________**
+**What, in your opinion, might attract people to choose your occupation? _________________________________________**
 
 ---
 
@@ -1151,7 +1154,8 @@ Below is the full text of the survey. Additional comments are presented in squar
 **We would like to ask you a few general questions:**
 
 
-**HWhat is your age?**
+**What is your age?**
+
 10----20----30----40----50----60----70----80
 
 
@@ -1195,6 +1199,7 @@ Below is the full text of the survey. Additional comments are presented in squar
 
 
 **In which residential area do you currently live?**
+
 1. North
 
 2. Haifa and the Krayot 
@@ -1531,7 +1536,7 @@ Below is the full text of the survey. Additional comments are presented in squar
 
 **Thank you very much for participating in the study. Some of the policy programs presented to you during the questionnaire included content that was different from the original work plan or was presented differently. The tasks related to "raising awareness" and "reducing supervision" are invented tasks that are not part of the Ministry of Environmental Protection's policy. [For the fake symbols: In addition, the pictures of the people presented in the programs were not taken from the ministry's broadcasts, and their characters were used only for research purposes.]**
 
-You can review the original policies of the Environmental Protection Ministry regarding the policy issues which were presented at the website of government work plans: plans.gov.il and at the Ministry's website: sviva.gov.il.
+**You may review the original policies of the Environmental Protection Ministry regarding the policy issues which were presented at the website of government work plans: plans.gov.il and at the Ministry's website: sviva.gov.il.**
 
 
 #References

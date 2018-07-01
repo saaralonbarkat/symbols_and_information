@@ -24,6 +24,7 @@ SVIVA2_raw[is.na(SVIVA2_raw)] <- 0
 SVIVA2_00 = SVIVA2_raw %>%
   dplyr::select(V4,V5) %>%
   mutate(IP = SVIVA2_raw$V6,
+         USER_ID = SVIVA2_raw$i.user3,
          START_DATE = dmy_hm(SVIVA2_raw$V8),
          END_DATE = dmy_hm(SVIVA2_raw$V9)) %>%  
          mutate(TIMER_total = as.integer(END_DATE-START_DATE),
@@ -509,7 +510,7 @@ SVIVA2_01 = SVIVA2_00 %>%
        
 
 SVIVA2_01_comb = SVIVA2_01 %>% 
-  dplyr::select(IP,AREA,AREA_names,
+  dplyr::select(IP,USER_ID,AREA,AREA_names,
       RELEVANCE_exp,RELEVANCE_exp_n,
       SYMBOL,SYMBOL_n,
       INFORMATION_air,INFORMATION_air_n,
@@ -525,7 +526,13 @@ SVIVA2_01_comb = SVIVA2_01 %>%
       GOV_TRUST,
       GENDER,
       AIR_order,
-      WASTE_order) %>% 
+      WASTE_order,
+      IDEOLOGY,
+      INCOME,
+      EDUCATION,
+      RECOGNIZE_SVIVA_logo,
+      RECOGNIZE_air_real,
+      RECOGNIZE_waste_real) %>% 
   gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
   mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
                               INFORMATION_waste),
@@ -544,7 +551,8 @@ SVIVA2_01_comb = SVIVA2_01 %>%
          SYMBOL_t = factor(Recode(SYMBOL,"1=2;2=1")),
          SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
          SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
-         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order))
+         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order),
+         RECOGNIZE_campaign = ifelse(policy=="TRUST_air_INDEX",RECOGNIZE_air_real,RECOGNIZE_waste_real))
 
 
 save.image("SVIVA_R_ENV.RData")
