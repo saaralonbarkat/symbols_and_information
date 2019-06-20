@@ -1,0 +1,1718 @@
+---
+title: "Supplementary appendix"
+author: '**Saar Alon-Barkat**, PhD candidate; the Hebrew University of Jerusalem;   saar.barkat@mail.huji.ac.il'
+date: " "
+output:
+  html_document:
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+      toc_depth: 3
+  pdf_document:
+    toc: yes
+  word_document: default
+link-citations: yes
+bibliography: phd_paper_2.bib
+urlcolor: blue
+---
+
+<br>
+
+Last edited at `r Sys.Date()`.
+
+
+<br>
+
+
+```{r , include=FALSE, echo=FALSE}
+source("C:/SAAR/UNIVERSITY/R/SVIVA/code/experiment 2/SVIVA_exp2_dm_03.R")
+
+SVIVA1_01 = read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/SVIVA1_01.csv")
+CELEBS_00 = read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/CELEBS.csv")
+
+SVIVA2_01 = SVIVA2_01 %>%  
+mutate(AREA_center = Recode(AREA,"0=1;1=0"))
+
+SVIVA2_01_haifa = filter(SVIVA2_01,AREA==1)
+SVIVA2_01_center = filter(SVIVA2_01,AREA==0)
+
+```
+
+```{r , include=FALSE, echo=FALSE}
+library(tidyverse)
+library(sjPlot)
+library(stargazer)
+```
+
+---
+
+# Contents:
+
+1. Supplementary information about the symbolic elements
+
+2. Manipulation and validity checks
+
+3. Summary statistics
+
+4. Supplementary analyses
+
+5. English translation of the survey experiment
+
+---
+
+<br>
+
+# 1. Supplementary information about the symbolic elements
+
+In this section, I provide additional details about the of EPM's "real" symbols which were used in the experiment, as well as on the fictional, "fake", symbols.
+
+## Real symbols
+
+The three EPM symbols which were used in the experiment are displayed in **Figure A1**. The first element is the unique brand logo of the EPM (Figure A1a). This logo consists a pair of green and orange leaves that resemble two hands, designed to symbolize peace and harmony with the environment. The second symbol is the color green, which is strongly associated with taking care of the environment. The EPM's logo and the green color are used in almost all of EPM's visual communications, and they represent key elements of its unique "visual identity". The third element is celebrity endorsements. The EPM's logo and the green color can be seen in almost all of the visual communications of the EPM, and they represent key elements of its unique "visual identity". The third element is celebrity endorsements. I selected two high-profile celebrity comedians, *Tal Friedman* and *Ido Rosenblum*, who previously endorsed two salient advertising campaigns of the EPM. The campaign starring the comedian Tal Friedman (Figure A1b) was launched in 2010, and included a series of advertisements in which Friedman was presented with a head covered in green grass, and accordingly the campaign's slogan was: "starting to think green". The campaign starring the comedian Ido Rosenblum (image c.) was launched in 2017, and focused on reducing the use of disposable bags. The two campaigns were highly successful in terms of their recognizability and likability, as suggested by their evaluation reports by the Government advertising agency.[^footnote_lapam_reports] The campaign images were downloaded from EPM's website, and thereafter were cropped, to remove any text (using GIMP software).
+
+<br>
+**Figure A1: symbolic elements of EPM**
+![](C:/SAAR/UNIVERSITY/R/SVIVA/papers/paper2_JPART/revision/myfigures/EPM_symbols.png) 
+<font size="0.5">
+
+Notes:
+
+a. EPM logo.
+b. Tal Friedman, comedian,  EPM campaign “starting to think green” (2010): "Isn't money growing on trees? Moving to environmental consumption and saving at least 6,000 NIS per year!", "starting to think green", "The Environmental Protection Ministry".
+c. Ido Rosenblum, comedian, EPM campaign  “taking every bag seriously” (2017): "Did you forget your reusable carrier bag at home again? A tip from Ido: Hang it on the door handle and you will not leave without it", "Taking every bag seriously", "The Environmental Protection Ministry".
+
+</font>
+
+
+[^footnote_lapam_reports]: The Multimedia files and evaluation reports for the  "starting to think green" campaign, starring Tal Friedman, are available in the following link: http://www.sviva.gov.il/InfoServices/ReservoirInfo/ResearchAndPublications/Pages/Publications/P0601-P0700/P0641.aspx The media files for the "reusable bags" campaign, starring Ido Rosenblum, are available at: http://www.sviva.gov.il/InfoServices/NewsAndEvents/MessageDoverAndNews/Pages/2016/December2016/plastic-bags-campaign-2016-IR.aspx. The evaluation report for this campaign is available at: https://cdn.the7eye.org.il/uploads/2017/09/plastic-bags2017.pdf. All these materials are available in Hebrew [last entered: July 2017]. 
+
+<br>
+ 
+## Fake symbols
+
+The fake symbols were specifically designed to represent graphical elements that resemble the look and aesthetic qualities of the familiar EPM symbols, as much as possible, while removing their symbolic aspects (i.e. without activating emotions and associations which can be attached to the government ministry and environmental issues). Accordingly, the green color was replaced with blue, the EPM logo is replaced by a fake logo and the images of celebrities from the campaigns are replaced with two edited images of unfamiliar people. 
+
+The fake logo was created using MS Paint software. I replaced the leaves/hands from the original logo with a shape of stars with rounded edges and replaced the green color with blue. I deliberately selected a natural element - star - as opposed to an abstract geometric element, since marketing studies have pointed to the "naturalness" of logos, as one of the key aesthetic characteristics rendering logos more memorable and favorable [@henderson_1998]. 
+
+To create the fake campaign images, I searched for photos of unfamiliar male models that resemble the look of the real endorsers, Tal Friedman and Ido Rosenblum, and their face expressions in the campaign images. For this purpose, I used the website www.istockphoto.com that offers multiple collections of professional images for purchase.[^footnote_sources_fake_models] Thereafter, I took these images of models, and edited them (using GIMP software) to create images which are aesthetically similar to the original campaign images, yet without their symbolic aspects. For the recycling policy, I used the same image from EPM's reusable bags campaign, while replacing Rosenblum's face with the face of the unfamiliar model, and changing the color of the bag from green to blue. For the Air-pollution policy, I took the purchased image of the unfamiliar model, and added a blue rectangle behind him (instead of the green background behind Friedman). I also added a blue geometric shape above the person's head, which I took from a logo of an Israeli mortgage bank, against Friedman's green hair. The latter addition was important, given that the green hair not only has a symbolic connotation, but also functions as an unusual, surprising element, that attracts people's attention. The original and edited photos are displayed below: 
+
+
+<br>
+
+**Figure A2: fake symbolic elements.**
+![](C:/SAAR/UNIVERSITY/R/SVIVA/papers/paper2_JPART/revision/myfigures/fake_symbols_appendix.png) 
+
+<br>
+
+
+[^footnote_sources_fake_models]: The original photo for the air-pollution policy was purchased from the following link: https://www.istockphoto.com/il/photo/smiling-forty-something-man-gm469597956-62477336, The original photo for the recycling policy was purchased from the following link:
+https://www.istockphoto.com/il/photo/young-man-smiling-portrait-gm516728601-48347532
+
+<br>
+
+ 
+# 2. Manipulation and validity checks
+
+In this section, I report the results of the manipulation checks for the symbols and relevance manipulations, and analyses regarding the validity of the comparison between the two areas. These analyses are based on the survey data, and on two prior surveys, as described below. 
+
+## Symbols manipulation
+
+In two prior surveys, I confirmed that the real EPM symbols are recognizable and have a positive affect, whereas the fake logo is unrecognizable, do not have strong positive or negative affect, and are not strongly associated with environment policy and EPM. 
+
+The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` participants, which were recruited by iPanel. This survey was designed as a survey experiment, which was a first attempt to test the moderating role of personal relevance on the effects of symbols and information. However, after analyzing the results, I came to the conclusion that the experimental procedure had several methodological problems. Mainly, the assignment to experimental conditions yielded imbalanced groups, and the manipulations of symbolic elements and information ware too subtle. In addition, perceived personal relevance was measured only through the comparison between the areas (i.e. without the relevance manipulation), and the information was manipulated only with regard to the air-pollution policy. Despite these weaknesses, the survey included specific questions about the affect and symbolic associations of the logos and the colors, which provide valuable descriptive data.[^footnote_prior_survey_1] In this survey, the participants were assigned to one of three conditions of symbols: real symbols, fake symbols and no symbols. The real and fake symbols conditions included the same logos and colors which were eventually used in the final experiment (but not the campaign images). At the end of the survey, participants were asked about their familiarity with the logos and colors that appeared in their policy plans, and their affect. These items and their descriptive results are presented below. 
+
+[^footnote_prior_survey_1]: Overall, the findings of this limited prior study are consistent Consistent with the findings of the main experiment, reported in the paper. The effect of the real symbols were greater among those who reside in the Haifa-Bay. Congruently, the statistical analyses yielded a negative and significant interaction between the real symbols and residence in the center. Also consistent with the main experiment, the interaction between the areas and the information manipulation was not significant.  
+
+
+"How familiar are you with the symbol [that appeared in the policy plans]?" (1=not at all; 7=very much)
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+set_theme("scatterw")
+
+sjp.frq(filter(SVIVA1_01,SYMBOL==2)$SVIVA_LOGO_recognize,
+        geom.size = 0.9,
+        ylim=c(0,155),
+        axis.title="",
+        title = "Real logo")
+
+sjp.frq(filter(SVIVA1_01,FAKE_LOGO_recognize!=0)$FAKE_LOGO_recognize,
+        geom.size = 0.9,
+        ylim=c(0,155),
+        axis.title="",
+        title = "Fake logo")
+
+```
+
+
+"When you see the symbol [that appeared in the policy plans], what does it make you feel?" (1=very negative feeling; 7=very positive feeling)
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+set_theme("scatterw")
+
+sjp.frq(filter(SVIVA1_01,SYMBOL==2)$SVIVA_LOGO_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,160),
+        axis.title="",
+        title = "Real logo")
+
+sjp.frq(filter(SVIVA1_01,FAKE_LOGO_recognize!=0)$FAKE_LOGO_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,160),
+        axis.title="",
+       title = "Fake logo")
+
+```
+
+
+Overall, these results show that the real logo is relatively recognizable and has a fairly positive affect, whereas the fake logo is unrecognized and neutral. Participants were also asked "What is the first thought / association that comes to mind when you see the symbol?"  With regard to the real logo, many of the participants filled associations related to carting for the environment. Representative examples for such answers are: "environmental protection", "a desire to protect nature and the environment", "green policy", "together for the sake of nature", "connection between nature and man". The participants were similarly asked about the first thought / association that comes to their mind when they see the color. Representative answers for the green color were: "nature", "a green and healthy environment", "environment protection". The responses for the fake logo and the blue color were more diverse, and mostly unrelated to environmental issues. 
+
+The second prior survey was conducted on January 2018 among `r CELEBS_00%>%nrow()` participants, which were similarly recruited via iPanel. This survey was designed as a pre-test that was aimed at assessing the recognizability, affect and associations of the real vs. fake campaign images. Participants were presented with the four campaign images (two real and two fake), in a random order. After every image, they were asked a series of questions regarding the familiarity and affect of the image and of the person presented. The items and their descriptive results are presented below.
+
+"The person presented in the image is familiar to me" (1=weakly agree; 7=strongly agree)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real celeb (Tal Friedman)")
+
+sjp.frq(CELEBS_00$air_fake_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Unfamiliar model")
+
+```
+
+Recycling policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real celeb (Ido Rosenblum)")
+
+sjp.frq(CELEBS_00$waste_fake_person_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        xlim=c(0,110),
+        axis.title="",
+        title = "Unfamiliar model")
+
+```
+
+"The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?" (1=not at all; 7=very much)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real campaign (starting to think green)")
+
+sjp.frq(CELEBS_00$air_fake_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+Recycling policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Real campaign (reusable bags)")
+
+sjp.frq(CELEBS_00$waste_fake_ad_familiar,
+        geom.size = 0.9,
+        ylim=c(0,110),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+
+"The image evokes a positive feeling" (1=weakly agree; 7=strongly agree)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_positive_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Real campaign (starting to think green)")
+
+sjp.frq(CELEBS_00$air_fake_positive_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+Recycling policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_positive_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Real campaign (reusable bags)")
+
+sjp.frq(CELEBS_00$waste_fake_positive_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,40),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+
+"The image evokes a negative feeling" (1=weakly agree; 7=strongly agree)
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$air_real_negative_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,80),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Real campaign (starting to think green)")
+
+sjp.frq(CELEBS_00$air_fake_negative_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,80),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+Recycling policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(CELEBS_00$waste_real_negative_affect,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,80),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Real campaign (reusable bags)")
+
+sjp.frq(CELEBS_00$waste_fake_negative_affect,
+         type="hist",
+        show.mean = T,
+        ylim=c(0,80),
+        axis.title="",
+        title = "Fake campaign")
+
+```
+
+
+These results similarly show that the real campaign images are relatively recognizable and have a fairly positive affect, whereas the fake images and models are unrecognized and do not evoke strong negative of positive feelings. Finally, I similarly asked subjects to describe their first thoughts/associations regarding the images of Friedman and Rosenblum from their campaigns (without any text). Most of the participants associated Rosenblum's image to the reducing the use of disposable grocery bags, in line with the campaign's message (e.g. "reusable bag", "reusable instead of disposable bag for protecting the environment"). With regard to Friedman's grass-head image from his "starting to think green" campaign, participants mostly mentioned associations related to environmental awareness (e.g. "green head, thinking about the environment", "green environment", "think green"), and to the humoristic aspect (e.g. "funny", "comedian", "Funny advertisement", "hahaha"). 
+
+<br>
+
+## Comparison between Haifa-Bay and Center
+
+The comparison between the two areas is based on the assumption that the Air-pollution policy is perceived as more personally relevant by Haifa-Bay subjects, whereas the recycling policy is perceived as equally relevant by both groups. To test that assumption, I relied on the following question, which was included in the survey, regarding both policy plans: 
+
+"To what extent did you feel that the policy on ["Reducing the air-pollution in the Haifa-Bay" / “reducing waste and increasing recycling”] is personally relevant to you?" (1="very little"; 7="very much").
+
+The air-pollution policy is perceived as more personally relevant by Haifa Bay residents compared with center residents. As for the recycling policy, it is perceived by both groups as relatively personally relevant by both groups, with no statistically significant differences between them. The distribution of the perceived personal relevance variable of the two policies, across the two areas, is displayed in the following figures. 
+
+Air-pollution policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(filter(SVIVA2_01_comb,AREA==0)$RELEVANCE_air_obs,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,600),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Center")
+
+sjp.frq(filter(SVIVA2_01_comb,AREA==1)$RELEVANCE_air_obs,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,600),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Haifa-bay")
+
+```
+
+Recycling policy
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE, out.width=c('50%', '50%'),fig.show='hold', fig.width=5,fig.height=4}
+sjp.frq(filter(SVIVA2_01_comb,AREA==0)$RELEVANCE_waste_obs,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,600),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Center")
+
+sjp.frq(filter(SVIVA2_01_comb,AREA==1)$RELEVANCE_waste_obs,
+        type="hist",
+        show.mean = T,
+        ylim=c(0,600),xlim=c(0.5,7.5),
+        axis.title="",
+        title = "Haifa-bay")
+
+```
+
+Moreover, Participants in the relevance treatment group were asked to describe the most salient environmental issue in their area of residence. Indeed, most of the Haifa-Bay subjects regarded in their responses to the air-pollution generated from the industrial area, and many of them linked it to higher morbidity rates in the area. Subjects from center cities regarded to a variety of issues, including recycling, traffic jams and cleanliness, whereas relatively few of them mentioned air-pollution as a prominent environmental concern in their area.   
+
+In the first prior survey, I also tested the empirical assumption that Haifa-bay subjects do not have greater knowledge on the air-pollution in their area issue, compared with the participants who reside in the Center. *First*, I assessed participants prior knowledge about the causes of the air-pollution in that area. Participants were given a list of three causes, and were asked to rank them based on their contribution to air-pollution.[^footnote_air-pollution_causes] There were no significant differences between the two areas regarding the performance in this task. *Second*, I examined participants knowledge of the effectiveness of the previous EPM policy by asking participants whether air-pollution during the past years has decreased (the correct answer), increased, or remained the same, according to EPM reports. In both groups, the vast majority of subjects were incorrect. Haifa-bay residents were only slightly more likely to state that it had decreased (`r filter(SVIVA1_01,AREA==1)%>%summarise(mean(HAIFA_knowledge_2)*100)%>%max()%>%round(0)`% compared with `r filter(SVIVA1_01,AREA==0)%>%summarise(mean(HAIFA_knowledge_2)*100)%>%max()%>%round(0)`%). *Third*, subjects were asked about the frequency in which they monitor the air quality (in their area of residence). Haifa-bay subjects reported that they tend to monitor air pollution more frequently. Congruently, 48.9% of them reported that they tend to monitor it occasionally ("from time to time", but less than once a week), compared with only 28.2% of Center subjects. 34.6% of Center subjects reported that they do not monitor air pollution at all, compared with only 18.7% of Center subjects. Still, in both areas, only 2-3% of subjects reported that they monitor air pollution once a week or more frequently. Taken together, these comparisons indicate that in both areas, most people tend to have relatively little prior knowledge of the air-pollution. At the same time, some Haifa-bay subjects do have greater knowledge about it. This might suggest that on average, Haifa-bay subjects not only have greater motivation to scrutinize the communication on the policy, but also slightly greater ability to do so. 
+
+[^footnote_air-pollution_causes]: The three causes are: emissions of pollutants from the factories and refineries in the area; emissions of diesel smoke from vehicles in the area; emissions of pollutants from unauthorized coal production sites. 
+<br>
+
+## Relevance manipulation
+
+I tested whether the priming questions in the relevance treatment condition increased the perceived personal relevance of the two policy plans (in each of the two areas). For this purpose, I relied on the above perceived personal relevance items. Table A1 shows the results of regression analyses. For each of the two policy plans, I first regress perceived personal relevance on the relevance treatment and the areas, and thereafter I add their interaction. Counter to my expectations, the relevance manipulation did not have a positive main effect on either of these two policy plans. Regarding the air-pollution policy, the interaction between the relevance treatment and the center area is positive and significant, and the coefficient of the relevance treatment is negative (model 2). The interpretation of this interaction suggests that the priming questions decreased the perceived personal relevance of the air-pollution policy among Haifa-Bay subjects, but increased it among those who reside in the Center. Regarding the recycling policy, the interaction is insignificant.      
+
+**Table A1: Regression table - effect of relevance manipulation, across areas, on perceived personal relevance**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_relevance_air_1.1_apx = lm(RELEVANCE_air_obs~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+mod_relevance_air_1.2_apx = update(mod_relevance_air_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+mod_relevance_waste_1.1_apx = lm(RELEVANCE_waste_obs~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+mod_relevance_waste_1.2_apx = update(mod_relevance_waste_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+stargazer(mod_relevance_air_1.1_apx,mod_relevance_air_1.2_apx,
+          mod_relevance_waste_1.1_apx,mod_relevance_waste_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Air-pollution","Recycling"),
+          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Area x Relevance treatment"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+```
+
+
+<br>
+
+# 3. Summary statistics
+
+
+**Table A2: summary statistics of research variables**
+
+```{r,results="asis", echo=FALSE,warning=FALSE,message=FALSE}
+SVIVA2_01 %>% 
+  select(TRUST_air_INDEX,
+         TRUST_waste_INDEX,
+         WITHIN_DELTA,
+         AREA_center,
+         RELEVANCE_air_obs,
+         RELEVANCE_waste_obs,
+         ENVIRONMENT_INTEREST,
+         CHILDREN,
+         CHILDREN_young,
+         GENDER,
+         AGE,
+         GOV_TRUST,
+         IDEOLOGY,
+         EDUCATION,
+         INCOME,
+         HOME) %>% 
+  stargazer(type="html",
+            digits = 3,
+            covariate.labels = c("1. Trust in Air-pollution policy",
+                                 "2. Trust in recycling policy",
+                                 "3. Delta (within subjects)",
+                                 "4. Area (0=Haifa-Bay; 1=center)",
+                                 "5. Perceived personal relevance - air-pollution",
+                                 "6. Perceived personal relevance - recycling",
+                                 "7. Interest in environmental issues",
+                                 "8. Having children",
+                                 "9. Having young children (under 12)",
+                                 "10. Gender (Woman=1)",
+                                 "11. Age",
+                                 "12. Trust in government ministries",
+                                 "13. Political Ideology (10 = extreme left)",
+                                 "14. Education",
+                                 "15. Income (5=high)",
+                                 "16. Home ownership"))
+```
+
+<br>
+
+**Table A3: Correlation matrix**
+
+<font size="0.5">
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+SVIVA2_01 %>% 
+  select(TRUST_air_INDEX,
+         TRUST_waste_INDEX,
+         WITHIN_DELTA,
+         AREA_center,
+         RELEVANCE_air_obs,
+         RELEVANCE_waste_obs,
+         ENVIRONMENT_INTEREST,
+         CHILDREN,
+         CHILDREN_young,
+         GENDER,
+         AGE,
+         GOV_TRUST,
+         IDEOLOGY,
+         EDUCATION,
+         INCOME,
+         HOME) %>% 
+  sjt.corr(triangle="lower",
+           remove.spaces=T,
+           digits = 2,
+           na.deletion="pairwise",
+           var.labels = c("1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                          "9",
+                          "10",
+                          "11",
+                          "12",
+                          "13",
+                          "14",
+                          "15",
+                          "16"))
+```
+
+</font>
+
+# 4. Supplementary analyses
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+library(car)
+
+SVIVA2_comb_robust_1 = SVIVA2_00 %>%
+  filter(!(AGE %in% 1:17)) %>% 
+  dplyr::select(IP,USER_ID,AREA,AREA_names,
+      RELEVANCE_exp,RELEVANCE_exp_n,
+      SYMBOL,SYMBOL_n,
+      INFORMATION_air,INFORMATION_air_n,
+      INFORMATION_waste,INFORMATION_waste_n,
+      TRUST_air_INDEX,
+      TRUST_waste_INDEX,
+      ELABORATION_air_time_log,
+      ELABORATION_waste_time_log,
+      ELABORATION_air_time,
+      ELABORATION_waste_time,
+      MEMORY_air_score,
+      MEMORY_waste_score,
+      GOV_TRUST,
+      GENDER,
+      AIR_order,
+      WASTE_order) %>% 
+  gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
+  mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
+                              INFORMATION_waste),
+         INFORMATION_n = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air_n,
+                                INFORMATION_waste_n),
+         ELABORATION_time_log = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time_log,
+                                       ELABORATION_waste_time_log),
+         MEMORY_score = ifelse(policy=="TRUST_air_INDEX",MEMORY_air_score,
+                               MEMORY_waste_score),
+         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
+                                       ELABORATION_waste_time)) %>% 
+  mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
+         TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
+         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"),
+         AREA_center = Recode(AREA,"0=1;1=0"),
+         SYMBOL_t = factor(Recode(SYMBOL,"1=2;2=1")),
+         SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
+         SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
+         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order))
+
+```
+
+
+
+In the tables below, I report the results of additional robust analyses testing the moderating role of the perceived personal relevance of the communications. 
+
+In **Tables A4 - A6**, I examine the effects of relevance treatment and the differences between the areas on subjects elaboration of the two policy plans, using three additional measures. The first measure is the number of seconds participants spent on scanning the policy plans, log transformed (hereafter: reaction time). The second measure is participants' score in a memory test, which was conducted during the survey. Participants were asked to indicate whether a list of four items were included in the second policy plan which was presented to them, of which two were/were not included (participants could also select “I don’t know”). The memory score is calculated as the number of correct items selected by the participant minus the number of incorrect items, with a minimum score of zero. Accordingly, participants could receive the scores of 0, 1 or 2. The third measure is the delta between trust in the strong and weak policy plans presented to each subject. This within-subject analysis utilizes the research design in which every participant was presented with one weak and one strong policies. Neither residing in the Haifa-bay nor the relevance treatment increase the elaboration of policy plans, based on these three measures.  
+
+In **Tables A7 and A8**, I replicate the main analyses while adding additional control variables. In Tables A7, I control for demographics and additional individual-level covariates, including ideology and trust in government ministries in general. In Table A8 I further control for factors that can be related to participants' motivation to elaborate, including having young children, general interest in environmental issues and following environmental issues in the media. The two final variables are based on survey items which were presented only to those subjects assigned to the relevance treatment condition, and therefore, their analysis is based only on that sample (*n* = `r SVIVA2_01 %>% filter(RELEVANCE_exp==1) %>% nrow()`). Finally, in **Table A9**, I add those subjects who were filtered, except for those who are under the age of 18 (*n* = `r SVIVA2_comb_robust_1 %>%distinct(IP) %>% nrow()`). In all these analyses, the effects of the symbols and information manipulations and their interaction with the areas and the relevance manipulation are consistent with the main models.       
+
+In **Table A10** I analyze subjects' subjective reporting on the personal relevance of each of the two policy plans, and its interaction with the symbols and information manipulations, controlling for the areas. These analyses show that higher scores of perceived personal relevance did not attenuate the positive effect of the real symbols. However, it did slightly increase the effect of the weak information with regard to the air-pollution policy, consistent with Hypothesis 2.
+
+<br>
+
+
+
+<br>
+
+**Table A4: Regression table - effect of personal relevance on reaction time**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_RT_air_1.1_apx = lm(ELABORATION_air_time_log~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+mod_RT_air_1.2_apx = update(mod_RT_air_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+mod_RT_waste_1.1_apx = lm(ELABORATION_waste_time_log~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+mod_RT_waste_1.2_apx = update(mod_RT_waste_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+
+stargazer(mod_RT_air_1.1_apx,mod_RT_air_1.2_apx,
+          mod_RT_waste_1.1_apx,mod_RT_waste_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Air-pollution","Recycling"),
+          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Area x Relevance treatment"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+**Table A5: Regression table - effect of personal relevance on memory score**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_memory_air_1.1_apx = lm(MEMORY_air_score~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+mod_memory_air_1.2_apx = update(mod_memory_air_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+mod_memory_waste_1.1_apx = lm(MEMORY_waste_score~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+mod_memory_waste_1.2_apx = update(mod_memory_waste_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+
+stargazer(mod_memory_air_1.1_apx,mod_memory_air_1.2_apx,
+          mod_memory_waste_1.1_apx,mod_memory_waste_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Air-pollution","Recycling"),
+          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Area x Relevance treatment"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+**Table A6: Regression table - effect of personal relevance on within-subject delta between strong and weak policies**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_delta_1.1_apx = lm(WITHIN_DELTA~AREA_center+RELEVANCE_exp,data=SVIVA2_01)
+mod_delta_1.2_apx = update(mod_delta_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+
+
+stargazer(mod_delta_1.1_apx,mod_delta_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Within-subject delta"),
+          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Area x Relevance treatment"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+
+**Table A7: Regression table - adding control variables**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION,data=SVIVA2_01_comb)
+mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+
+mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION,data=SVIVA2_01_comb)
+mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+
+
+
+stargazer(mod_air_1.1_apx,mod_air_1.2_apx,
+          mod_waste_1.1_apx,mod_waste_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Air-pollution","Recycling"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Gender (1=Woman)",
+                             "Ideology",
+                             "Trust in government ministries",
+                             "Income",
+                             "Education",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information",
+                             "Relevance treatment x Real symbols",
+                             "Relevance treatment x Fake symbols",
+                             "Relevance treatment x Weak Information"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+
+**Table A8: Regression table - adding personal relevance and motivational control variables**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp+CHILDREN_young,data=SVIVA2_01_comb)
+mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+mod_air_1.3_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+ENVIRONMENT_INTEREST+ENVIRONMENT_FOLLOW+CHILDREN_young,data=SVIVA2_01_comb)
+mod_air_1.4_apx = update(mod_air_1.3_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak))
+
+mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+ENVIRONMENT_INTEREST+ENVIRONMENT_FOLLOW+CHILDREN_young,data=SVIVA2_01_comb)
+mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak))
+
+
+stargazer(mod_air_1.1_apx,mod_air_1.2_apx,mod_air_1.3_apx,mod_air_1.4_apx,
+          mod_waste_1.1_apx,mod_waste_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Air-pollution","Recycling"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Interest in environmental issues",
+                             "Follows environmental issues in media",
+                             "Having young children (under 12)",
+                              "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information",
+                             "Relevance treatment x Real symbols",
+                             "Relevance treatment x Fake symbols",
+                             "Relevance treatment x Weak Information"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+**Table A9: Regression table - unfiltered sample**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp,data=SVIVA2_comb_robust_1)
+mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+
+mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp,data=SVIVA2_comb_robust_1)
+mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+
+
+
+stargazer(mod_air_1.1_apx,mod_air_1.2_apx,
+          mod_waste_1.1_apx,mod_waste_1.2_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Air-pollution","Recycling"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak policy (0=strong policy)",
+                             "Area (0=Haifa-Bay; 1=center)",
+                             "Relevance treatment",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information",
+                             "Relevance treatment x Real symbols",
+                             "Relevance treatment x Fake symbols",
+                             "Relevance treatment x Weak Information"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+**Table A10: Regression table - subjective reporting of perceived personal relevance**
+
+```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak,data=SVIVA2_01_comb)
+mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ .+RELEVANCE_obs+AREA_center)
+mod_air_1.3_apx = update(mod_air_1.1_apx,. ~ .+RELEVANCE_obs*(SYMBOL_t+INFORMATION_weak)+AREA_center)
+
+mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak,data=SVIVA2_01_comb)
+mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ .+RELEVANCE_obs+AREA_center)
+mod_waste_1.3_apx = update(mod_waste_1.1_apx,. ~ .+RELEVANCE_obs*(SYMBOL_t+INFORMATION_weak)+AREA_center)
+
+
+stargazer(mod_air_1.2_apx,mod_air_1.3_apx,
+          mod_waste_1.2_apx,mod_waste_1.3_apx,
+          type="html",style = "apsr",
+          dep.var.labels=c("Trust in air-pollution policy","Trust in recycling policy"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Reported relevance",
+                             "Area (0=Haifa-Bay; 1=center)",
+                             "Reported relevance x Real symbols",
+                             "Reported relevance x Fake symbols",
+                             "Reported relevance x Weak Information"),
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+# 5. English translation of the survey experiment
+
+Below is the full text of the survey. Additional comments are presented in square brackets. The different experimental conditions of the two policy plans are included in the appendix of the main paper, and therefore were not included here. The original Qualtrics file is available upon request. 
+
+
+
+**Greetings,** 
+
+**We are researchers from the Department of Political Science at the Hebrew University. The short questionnaire below is part of an academic study designed to teach us about the attitudes of Israeli citizens regarding environmental policy. Therefore, it is important for us that you answer the questionnaire seriously and honestly. You have around 5-10 minutes to complete the questionnaire.**
+
+**It is important for us to clarify that the questionnaire is voluntary. Filling out the questionnaire and submitting it represents your agreement to participate in the research. In addition, we wish to emphasize that the personal details of all the participants will remain confidential and that the data collected in the research will be used for research purposes only. You can express non-consent to participate by not filling in the questionnaire. The questionnaire is phrased in masculine form [in Hebrew] but addresses both men and women.**
+
+**Thank you for your cooperation!**
+
+---
+
+
+**First, we would like to ask you a few general questions about your attitudes towards Israeli government ministries.**
+
+<br>
+
+**How would you evaluate the functioning of National Government Ministries in Israel?**
+
+1. Very poor
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very good
+
+
+
+**To what extent do you do you have confidence/trust in Israeli Government Ministries?**
+
+1. I have no confidence/trust
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. I have full confidence/trust
+
+
+**How would you rate your ideological standpoint on a left-right continuum?**
+
+1. Extreme right
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. 
+
+8.
+
+9.
+
+10. Extreme Left
+
+---
+
+[The following section includes a manipulation of perceived personal relevance of policy plans. Participants were randomly assigned to treatment and control conditions, as detailed below].
+
+<br>
+
+[Treatment]
+
+**Now, we would like to ask you a few general questions about your interest in environmental issues.**
+
+
+**To what extent are you interested in environmental issues?**
+
+1. Hardly interested
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very interested
+
+
+**To what extent do you follow environmental issues in the media and/or in social networks?**
+
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+
+**Compared to the current situation, do you think the government should invest more or less in dealing with environmental issues?**
+
+1. Invest much less
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Invest much more
+
+
+**In which residential area do you currently live?**
+
+1. North
+
+2. Haifa and the Krayot 
+
+3. Center 
+
+4. Tel Aviv
+
+5. Lower Galilee
+
+6. Jerusalem
+
+7. Judea and Samaria
+
+8. South
+
+
+
+**What is the name of the locality where you live today? _________________**
+
+
+**In your opinion, what is the most disturbing environmental problem in your area? ________________________________________**
+
+
+[Control]
+
+<br>
+
+**Now, we would like to ask you a few general questions about your occupation.**
+
+
+**In which sector are you currently employed?**
+
+1. Private sector
+
+2. Public sector 
+
+3. 3.	Civic Sector 
+
+4. Other 
+
+
+**What is your profession/field of study? ______________**
+
+
+**To what extent do you think your profession is interesting?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**To what extent do you follow topics related to your area of occupation in the media and/or social networks?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+**Compared to the current situation, do you think the government should assist more, or less to promote your field of occupation?**
+
+1. Assist much less
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Assist much more
+
+
+**What, in your opinion, might attract others to choose your occupation? _________________________________________**
+
+---
+
+**Next, we will present to you two policy plans on specific environmental issues. The policy plans are taken from the publication “Work Plans for 2018” of the Ministry of Environmental Protection, which can be downloaded from the Ministry’s website.**
+
+**The specific policy issue is presented at the top of each policy plan, and is followed by the main actions taken by the Ministry to promote the issue.**
+
+[Participants are then presented with the two policy plans (air-pollution and recycling), in random order. See description about the manipulations and the procedure in the main paper; Each policy plan is followed by the following questions]
+
+**Now, we’d like to ask you a few questions about your position on the policy for “Reducing the air-pollution in the Haifa-Bay”:**
+
+**State to what extent do you agree with each of the following sentences.**
+
+**I believe that the actions mentioned in the policy plan will assist in fulfilling the policy goal.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the actions mentioned in the policy plan were designed in a professional manner**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the policy plan is in the citizens’ interest.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the policy plan reflects a genuine attempt to improve the well-being of citizens.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that EPM made an honest attempt to design a good policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I believe that the Ministry of Environmental Protection aims to keep its commitments as laid out in the policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+---
+
+**The following sentences describe the way in which you read the latest policy plan regarding “Reducing the air-pollution in the Haifa-Bay”.**
+
+**State to what extent do you agree with each of the following sentences.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I paid full attention to reading the policy plan [I read the policy plan in depth].**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+
+**I only skimmed the actions in the policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I tried to thoroughly understand the policy plan.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**While going through the policy plan I was distracted by unrelated thoughts.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+**I tried to think how the policy plan will personally affect me.**
+
+1. Weakly agree
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Strongly agree
+
+
+**Try recalling the content of the latest policy plan.**
+[Each subject was asked about the latest policy plan presented to her]
+
+**Which of the following issues was mentioned in the framework of the Ministry's actions to reduce air pollution in Haifa Bay?**
+
+1. Supervision of factories
+
+2. Clean air area
+
+3. Investment in public relations
+
+4. The ammonia tank
+
+5. I cannot remember
+
+**Which of the following issues was mentioned in the framework of the Ministry's actions to reduce waste and increase recycling?**
+
+1. Supervision of manufacturers
+
+2. compulsory charge on carrier bags
+
+3. Investment in public relations
+
+4. Plastic bottles
+
+5. I cannot remember
+
+
+**To what extent did you feel that the policy on "reducing waste and increasing recycling" is personally relevant to you?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**To what extent did you feel that the policy on "Reducing the air-pollution in the Haifa-Bay" is personally relevant to you?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**In order to make sure you read the question carefully, please type the number 9 under "Other"?**
+
+1. Very little
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+8. Other: ______
+
+
+---
+
+
+**We would like to ask you a few general questions:**
+
+
+**What is your age?**
+
+10----20----30----40----50----60----70----80
+
+
+**What is your highest level of education?**
+
+1.	Primary education or less
+
+2.	Partial secondary education
+
+3.	High education without high school diploma
+
+4.	High education with high school diploma
+
+5.	Non-academic tertiary education
+
+6.	Partial academic degree
+
+7.	Full academic degree (first degree)
+
+8.	Full academic degree (second degree or higher).   
+
+
+**According to Israel's Central Bureau of Statistics the monthly average net income per household is approximately 15,500 NIS. Is your income: **
+
+1.	Far below average
+
+2.	Slightly below average
+
+3.	Near average
+
+4.	Slightly above average
+
+5.	Far above average
+
+
+**Are you a home owner?**
+
+1. Yes
+
+2. No
+
+
+**In which residential area do you currently live?**
+
+1. North
+
+2. Haifa and the Krayot 
+
+3. Center 
+
+4. Tel Aviv
+
+5. Lower Galilee
+
+6. Jerusalem
+
+7. Judea and Samaria
+
+8. South
+
+**What is your place of residence? ___________**
+
+
+**Are you or one of your first-degree relatives working (or worked) in one of the factories in the Haifa Bay industrial area?**
+
+1. No
+
+2. Yes
+
+**State the name of the place where you lived at high-school graduation: ____________**
+
+**Area where you are currently working/studying?**
+
+1. North
+
+2. Haifa and the Krayot 
+
+3. Center 
+
+4. Tel Aviv
+
+5. Lower Galilee
+
+6. Jerusalem
+
+7. Judea and Samaria
+
+8. South
+
+**Gender**
+
+1.	Man
+
+2. Woman
+
+3.	I prefer not to answer
+
+**What is the age of your oldest son/daughter?**
+
+1. 0-6
+
+2. 7-12
+
+3. 13-18
+
+4. 19 or more
+
+5. I don't have any children
+
+
+**Is Hebrew your native language?**
+
+1. Yes
+
+2. No
+
+---
+
+[The following section is a manipulation check for the symbols]
+
+<br>
+
+[For subjects assigned to the real symbols]:
+**Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.**
+
+**This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"**
+
+
+**When you see the image, what feelings does it invoke?**
+
+1. Very negative feelings
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feelings
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent do you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"**
+
+
+**When you see the image, what feelings does it invoke?**
+
+1. Very negative feelings
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feelings
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent do you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+**This is the symbol of the Ministry of Environmental Protection, which appeared in the policy program. To what extent are you familiar with the symbol?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much:
+
+<br>
+
+[For subjects assigned to the fake symbols]:
+**Finally, we would like to ask you a few questions about the design of the policies that have been presented to you.**
+
+**This is the image that appeared in the policy program "Reducing Waste and Increasing Recycling"**
+
+
+**When you see the image, what feelings does it invoke?**
+
+1. Very negative feelings
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feelings
+
+
+**This is the image that appeared in the policy program "Reducing the air-pollution in the Haifa-Bay"**
+
+
+**When you see the image, what feelings does it invoke?**
+
+1. Very negative feelings
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feelings
+
+
+**We would like to show you additional images, taken from advertisements of the Environmental Protection Ministry.**
+
+[Respondents are displayed with the two "real" images, and then asked for each of them the following two questions]
+
+
+**When you see the image, what feelings does it invoke?**
+
+1. Very negative feelings
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feelings
+
+
+**The image is taken from an advertisement of the Environmental Protection Ministry. To what extent do you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+
+
+**This is the symbol of the Ministry of Environmental Protection, which appeared in the policy program. To what extent are you familiar with the symbol?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much:
+
+<br>
+
+[For subjets assigned to the no symbols]:
+
+**Finally, we would like to show you a few images which were taken from advertisements of the Environmental Protection Ministry.**
+
+[Respondents are displayed with the two "real" images, and then asked for each of them the following two questions]
+
+
+**When you see the image, what feelings does it invoke?**
+
+1. Very negative feelings
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very positive feelings
+
+
+**The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent do you remember the advertisement?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much
+
+**This is the symbol of the Ministry of Environmental Protection, which appeared in the policy program. To what extent are you familiar with the symbol?**
+
+1. Not at all
+
+2.  
+
+3.  
+
+4.  
+
+5. 
+
+6. 
+
+7. Very much:
+
+
+---
+
+
+**Thank you very much for participating in the study. Some of the policy programs presented to you during the questionnaire included content that was different from the original work plan or was presented differently. The tasks related to “raising awareness” and “reducing supervision” are fictional tasks that are not part of the Ministry of Environmental Protection’s policy. [For the fake symbols: In addition, the pictures of the people presented in the programs were not taken from the ministry’s broadcasts, and their characters were used only for research purposes.]**
+
+**You may review the original policies of the Environmental Protection Ministry regarding the policy issues which were presented at the website of government work plans: plans.gov.il and at the Ministry's website: sviva.gov.il.**
+
+
+<br>
+
+# References

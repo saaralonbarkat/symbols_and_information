@@ -1,0 +1,682 @@
+---
+title: "power calculations"
+author: "Saar Alon-Barkat"
+date: "6/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r , include=FALSE, echo=FALSE}
+library(dummies)
+library(plyr)
+library(tidyverse)
+library(pwr)
+
+set.seed(2018)
+```
+
+```{r , include=FALSE, echo=FALSE}
+source("C:/SAAR/UNIVERSITY/R/SVIVA/code/experiment 2/SVIVA_exp2_dm_03.R")
+
+SVIVA1_01 = read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/SVIVA1_01.csv")
+CELEBS_00 = read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/CELEBS.csv")
+
+SVIVA2_01 = SVIVA2_01 %>%  
+mutate(AREA_center = Recode(AREA,"0=1;1=0"))
+
+SVIVA2_01_haifa = filter(SVIVA2_01,AREA==1)
+SVIVA2_01_center = filter(SVIVA2_01,AREA==0)
+
+```
+
+
+I sought to get a sample of 800 respondents 
+
+
+# Power for main effects
+
+
+Main effect for symbols:
+```{r}
+pwr.t.test(power = 0.8,
+           n=nrow(SVIVA2_01)/3,
+           #d=0.22,
+           sig.level = 0.1)
+```
+
+For sample of 286 subjects in each group, detectable effect (sig. = 0.05, one-tailed test, power = 0.8) is Cohen's D = 0.20.
+
+
+<br>
+Main effect for information:
+```{r}
+pwr.t.test(power = 0.8,
+           n=nrow(SVIVA2_01)/2,
+           #d=0.18,
+           sig.level = 0.1)
+```
+For sample of 430 subjects in each group, detectable effect (sig. = 0.05, one-tailed test, power = 0.8) is Cohen's D = 0.17.
+
+
+<br>
+
+# Power for conditional effects (within each area)
+
+## symbols
+
+Conditional effect for symbols in Haifa-bay area:
+```{r}
+pwr.t.test(power = 0.8,
+           n=nrow(SVIVA2_01_haifa)/3,
+           #d=0.22,
+           sig.level = 0.1)
+```
+For sample of 165 subjects in each group, detectable effect (sig. = 0.05, one-tailed test, power = 0.8) is Cohen's D = 0.27.
+
+Conditional effect for symbols in Center area:
+```{r}
+pwr.t.test(power = 0.8,
+           n=nrow(SVIVA2_01_center)/3,
+           #d=0.22,
+           sig.level = 0.1)
+```
+For sample of 121 subjects in each group, detectable effect (sig. = 0.05, one-tailed test, power = 0.8) is Cohen's D = 0.32.
+
+
+<br>
+
+## Information
+
+Conditional effect for information in Haifa-bay area:
+```{r}
+pwr.t.test(power = 0.8,
+           n=nrow(SVIVA2_01_haifa)/2,
+           #d=0.18,
+           sig.level = 0.1)
+```
+For sample of 248 subjects in each group, detectable effect (sig. = 0.05, one-tailed test, power = 0.8) is Cohen's D = 0.22.
+
+
+<br>
+
+Conditional effect for information in center area:
+```{r}
+pwr.t.test(power = 0.8,
+           n=nrow(SVIVA2_01_center)/2,
+           #d=0.18,
+           sig.level = 0.1)
+```
+For sample of 248 subjects in each group, detectable effect (sig. = 0.05, one-tailed test, power = 0.8) is Cohen's D = 0.26.
+
+<br>
+
+
+# Power for interactions 
+
+<br>
+
+the code is based on http://disjointedthinking.jeffhughes.ca/2017/09/power-simulations-r/
+
+<br>
+
+
+## Actual models
+
+First - creating models (for air pollution policy)
+```{r}
+mod_air_1.1 = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak,data=SVIVA2_01_comb)
+mod_air_1.2 = update(mod_air_1.1,. ~ .+AREA_center)
+mod_air_1.3 = update(mod_air_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+```
+
+
+```{r}
+n.mod_air_1.3=mod_air_1.3$fitted.values %>% length()
+
+#intercept
+b0.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="(Intercept)") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of real symbols 
+b1.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="SYMBOL_t1") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of fake symbols 
+b2.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="SYMBOL_t2") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of weak information
+b3.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="INFORMATION_weak") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of center area
+b4.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="AREA_center") %>% 
+  select("estimate") %>% 
+  max()
+
+#real symbols x area
+b5.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="SYMBOL_t1:AREA_center") %>% 
+  select("estimate") %>% 
+  max()
+
+#fake symbols x area
+b6.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="SYMBOL_t2:AREA_center") %>% 
+  select("estimate") %>% 
+  max()
+
+b7.mod_air_1.3 = mod_air_1.3 %>% broom::tidy() %>% 
+  filter(term=="INFORMATION_weak:AREA_center") %>% 
+  select("estimate") %>% 
+  max()
+
+
+# p = character, which variable do you want to test for? for interactions, specify x1:x2. See below.
+
+# err_mean = mean of residuals. Worth checking in your data. Using 0 for now.
+err_mean.mod_air_1.3 = mean(mod_air_1.3$residuals)
+
+# err_sd = sd of residuals. Using 1 for now. Even more important, if you can add this based on your data, your power calculations will be most accurate
+err_sd.mod_air_1.3 = sd(mod_air_1.3$residuals)
+```
+
+
+```{r}
+regression_simT1 <- function(simNum, 
+                             n, 
+                             b0, 
+                             b1, 
+                             b2, 
+                             b3, 
+                             b4, 
+                             b5, 
+                             b6, 
+                             b7, 
+                             p,
+                             err_mean, 
+                             err_sd) {
+  # create independent variables that match your data
+  symbols <- sample(1:3, n, replace=TRUE)
+  symbols <- dummy(symbols) # this is because we need two separate b's
+  symbols1 <- symbols[,1]
+  symbols2 <- symbols[,2]
+  info <- sample(0:1, n, replace=TRUE)
+  area <- sample(0:1, n, prob = c(1-mean(SVIVA2_01$AREA_center),mean(SVIVA2_01$AREA_center)), replace=TRUE)
+  
+  # DV is based on your variables, coefficients and a random error
+  # if you have the mean and sd of your residuals, according to your model,
+  # plug them into argument err_mean and err_sd; will be more accurate.
+  y <- b0 + (b1 * symbols1) + (b2 * symbols2) + (b3 * info) + 
+    (b4 * area) + (b5 * area * symbols1) + (b6 * area * symbols2) +
+    (b7 * area * info) + rnorm(n, mean=err_mean, sd=err_sd)
+  
+  model <- lm(y ~ area*symbols1 + area*symbols2 + area*info)
+  summary(model)
+  
+  output <- summary(model)$coefficients
+  ps <- output[which(row.names(output)==p), 4]
+  names(ps) <- "p"
+  return(ps)
+}
+
+```
+
+
+Power for real symbols versus control no symbols
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT1, 
+              n = n.mod_air_1.3, 
+              b0 = b0.mod_air_1.3,
+              b1 = b1.mod_air_1.3,
+              b2 = b2.mod_air_1.3, 
+              b3 = b3.mod_air_1.3, 
+              b4 = b4.mod_air_1.3, 
+              b5 = b5.mod_air_1.3, 
+              b6 = b6.mod_air_1.3, 
+              b7 = b7.mod_air_1.3, 
+              p = "area:symbols1", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=err_mean.mod_air_1.3, 
+              err_sd=err_sd.mod_air_1.3)
+(power_air <- sum(sims$p < .05) / nrow(sims))
+
+```
+
+
+Power for weak information
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT1, 
+              n = n.mod_air_1.3, 
+              b0 = b0.mod_air_1.3,
+              b1 = b1.mod_air_1.3,
+              b2 = b2.mod_air_1.3, 
+              b3 = b3.mod_air_1.3, 
+              b4 = b4.mod_air_1.3, 
+              b5 = b5.mod_air_1.3, 
+              b6 = b6.mod_air_1.3, 
+              b7 = b7.mod_air_1.3, 
+              p = "area:info", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=err_mean.mod_air_1.3, 
+              err_sd=err_sd.mod_air_1.3)
+(power_air <- sum(sims$p < .05) / nrow(sims))
+
+```
+
+
+<br>
+
+## Effects from Petty et al. 1983
+
+
+Petty, R. E., Cacioppo, J. T., & Schumann, D. (1983). Central and Peripheral Routes to Advertising Effectiveness: The Moderating Role of Involvement. The Journal of Consumer Research, 10(2), 135. doi:10.1086/208954
+
+Table in p. 141
+
+```{r}
+b0.petty <- 1.98
+b1.petty <- (1.80-1.63)/2 - (1.98-1.10)/2
+b2.petty <- 0
+b3.petty <- (-1.10+(-1.36))/2 - (1.98+1.80)/2
+b4.petty <- 0.98 - 1.98
+b5.petty <- ((1.21+1.85)/2 - (-0.12+0.98)/2) - b1.petty
+b6.petty <- 0
+b7.petty <- ((-0.12+1.21)/2 - (0.98+1.85)/2) - b3.petty
+
+
+sd.petty.dv <- (1.81+1.52+1.66+1.25+2.28+1.59+1.65+1.07)/8
+```
+
+DV = ~ 1.60
+
+Coefficients:
+Conditional effect of symbols on low involvment group = `r b1.petty+b5.petty` (1.1).
+coefficient of interaction symbols*involvement = `r b5.petty` (1.455).
+
+Conditional effect of information on high involvement group = `r b3.petty` (-3.12)
+coefficient of interaction weak_information*involvement = `r b7.petty` (2.25). 
+
+
+Power for real_symbols*low_involvement
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT1, 
+              n = n.mod_air_1.3, 
+              b0 = b0.petty,
+              b1 = b1.petty,
+              b2 = b2.petty, 
+              b3 = b3.petty, 
+              b4 = b4.petty, 
+              b5 = b5.petty, 
+              b6 = b6.petty, 
+              b7 = b7.petty, 
+              p = "area:symbols1", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .05) / nrow(sims))
+```
+
+
+Power for weak_information*low_involvement
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT1, 
+              n = n.mod_air_1.3, 
+              b0 = b0.petty,
+              b1 = b1.petty,
+              b2 = b2.petty, 
+              b3 = b3.petty, 
+              b4 = b4.petty, 
+              b5 = b5.petty, 
+              b6 = b6.petty, 
+              b7 = b7.petty, 
+              p = "area:info", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .05) / nrow(sims))
+
+```
+
+
+##Simulating other interactions
+
+```{r}
+sd.trust.air = sd(SVIVA2_01_comb$TRUST_air_INDEX,na.rm = T)
+```
+
+
+SD of Trust in air-pollution = 1.54
+
+### interactions with area
+
+Simulations show that an interaction (symbol*area) coefficient of more than 0.27 SDs is detectible (sig. = 0.05, one-tailed test, minimum power = 0.8). 
+
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT1, 
+              n = n.mod_air_1.3, 
+              b0 = b0.mod_air_1.3,
+              b1 = sd.trust.air*0.5,
+              b2 = 0, 
+              b3 = 0, 
+              b4 = b4.mod_air_1.3, 
+              b5 = sd.trust.air*0.27, 
+              b6 = 0, 
+              b7 = 0, 
+              p = "area:symbols1", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .1) / nrow(sims))
+
+```
+
+
+
+Simulations show that an interaction (information*area) coefficient of more than 0.23 SDs is detectible (sig. = 0.05, one-tailed test, minimum power = 0.8).
+
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT1, 
+              n = n.mod_air_1.3, 
+              b0 = b0.mod_air_1.3,
+              b1 = 0,
+              b2 = 0, 
+              b3 = sd.trust.air*0, 
+              b4 = b4.mod_air_1.3, 
+              b5 = 0, 
+              b6 = 0, 
+              b7 = -sd.trust.air*0.23, 
+              p = "area:info", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .1) / nrow(sims))
+
+```
+
+
+
+# Relevance manipulation 
+
+
+```{r}
+regression_simT2 <- function(simNum, 
+                             n, 
+                             b0, #intercept
+                             b1, #real symbols
+                             b2, #fake symbols
+                             b3, #weak information
+                             b4, #relevance manipulation
+                             b5, #real symbols*relevance manipulation
+                             b6, #fake symbols*relevance manipulation
+                             b7, #weak information*relevance manipulation
+                             p,
+                             err_mean, 
+                             err_sd) {
+  # create independent variables that match your data
+  symbols <- sample(1:3, n, replace=TRUE)
+  symbols <- dummy(symbols) # this is because we need two separate b's
+  symbols1 <- symbols[,1]
+  symbols2 <- symbols[,2]
+  info <- sample(0:1, n, replace=TRUE)
+  relevance <- sample(0:1, n, replace=TRUE)
+  
+  # DV is based on your variables, coefficients and a random error
+  # if you have the mean and sd of your residuals, according to your model,
+  # plug them into argument err_mean and err_sd; will be more accurate.
+  y <- b0 + (b1 * symbols1) + (b2 * symbols2) + (b3 * info) + 
+    (b4 * relevance) + (b5 * relevance * symbols1) + (b6 * relevance * symbols2) +
+    (b7 * relevance * info) + rnorm(n, mean=err_mean, sd=err_sd)
+  
+  model <- lm(y ~ relevance*symbols1 + relevance*symbols2 + relevance*info)
+  summary(model)
+  
+  output <- summary(model)$coefficients
+  ps <- output[which(row.names(output)==p), 4]
+  names(ps) <- "p"
+  return(ps)
+}
+
+
+```
+
+
+```{r}
+mod_air_relevance = lm(TRUST_air_INDEX~RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak),data=filter(SVIVA2_01_comb,AREA_center==0))
+
+#summary(mod_air_2.4)
+
+
+n.mod_air_relevance=mod_air_relevance$fitted.values %>% length()
+
+#intercept
+b0.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="(Intercept)") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of real symbols 
+b1.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="SYMBOL_t1") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of fake symbols 
+b2.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="SYMBOL_t2") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of weak information
+b3.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="INFORMATION_weak") %>% 
+  select("estimate") %>% 
+  max()
+
+#effect of RELEVANCE_exp
+b4.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="RELEVANCE_exp") %>% 
+  select("estimate") %>% 
+  max()
+
+#real symbols x RELEVANCE_exp
+b5.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="RELEVANCE_exp:SYMBOL_t1") %>% 
+  select("estimate") %>% 
+  max()
+
+#fake symbols x RELEVANCE_exp
+b6.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="RELEVANCE_exp:SYMBOL_t2") %>% 
+  select("estimate") %>% 
+  max()
+
+b7.mod_air_relevance = mod_air_relevance %>% broom::tidy() %>% 
+  filter(term=="RELEVANCE_exp:INFORMATION_weak") %>% 
+  select("estimate") %>% 
+  max()
+
+
+# p = character, which variable do you want to test for? for interactions, specify x1:x2. See below.
+
+# err_mean = mean of residuals. Worth checking in your data. Using 0 for now.
+err_mean.mod_air_relevance = mean(mod_air_relevance$residuals)
+
+# err_sd = sd of residuals. Using 1 for now. Even more important, if you can add this based on your data, your power calculations will be most accurate
+err_sd.mod_air_relevance = sd(mod_air_relevance$residuals)
+
+```
+
+
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT2, 
+              n = n.mod_air_relevance, 
+              b0 = b0.mod_air_relevance,
+              b1 = b1.mod_air_relevance,
+              b2 = b2.mod_air_relevance, 
+              b3 = b3.mod_air_relevance, 
+              b4 = b4.mod_air_relevance, 
+              b5 = b5.mod_air_relevance, 
+              b6 = b6.mod_air_relevance, 
+              b7 = b7.mod_air_relevance, 
+              p = "relevance:symbols1", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .1) / nrow(sims))
+
+```
+
+Coefficient of interaction between relevance manipulation and symbols is -0.127. Power is 0.15.   
+
+
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT2, 
+              n = n.mod_air_relevance, 
+              b0 = b0.mod_air_relevance,
+              b1 = b1.mod_air_relevance,
+              b2 = b2.mod_air_relevance, 
+              b3 = b3.mod_air_relevance, 
+              b4 = b4.mod_air_relevance, 
+              b5 = b5.mod_air_relevance, 
+              b6 = b6.mod_air_relevance, 
+              b7 = b7.mod_air_relevance, 
+              p = "relevance:info", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .1) / nrow(sims))
+
+```
+
+In Haifa-bay area, coefficient of interaction between relevance manipulation and weak information is 0.24. Power is 0.421.
+
+
+Other simulations: 
+
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT2, 
+              n = n.mod_air_relevance, 
+              b0 = b0.mod_air_relevance,
+              b1 = sd.trust.air*0.5,
+              b2 = 0, 
+              b3 = 0, 
+              b4 = b4.mod_air_relevance, 
+              b5 = -sd.trust.air*0.36, 
+              b6 = 0, 
+              b7 = 0, 
+              p = "relevance:symbols1", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .1) / nrow(sims))
+
+```
+
+Simulations show that an interaction (real symbols*relavance) coefficient (in haifa area) of more than 0.36 SDs is detectible (sig. = 0.05, one-tailed test, minimum power = 0.8).
+
+```{r}
+num_sims <- 1000
+
+# Air Pollution, power for area * symbols1:
+# ldply comes from plyr, allows for repeating and storing results
+sims <- ldply(1:num_sims,regression_simT2, 
+              n = n.mod_air_relevance, 
+              b0 = b0.mod_air_relevance,
+              b1 = 0,
+              b2 = 0, 
+              b3 = 0, 
+              b4 = b4.mod_air_relevance, 
+              b5 = 0, 
+              b6 = 0, 
+              b7 = sd.trust.air*0.29, 
+              p = "relevance:info", # must specify this exactly as it would appear in the table of coefficients
+              err_mean=0, 
+              err_sd=1)
+(power_air <- sum(sims$p < .1) / nrow(sims))
+
+```
+
+Simulations show that an interaction (real symbols*relavance) coefficient (in haifa area) of more than 0.29 SDs is detectible (sig. = 0.05, one-tailed test, minimum power = 0.8).
+
+
+
+
+
+```{r}
+effect_sizes <- sd.trust.air*seq(0.2,0.5,0.1)
+results <- NULL
+for (val in effect_sizes) {
+    sims <- ldply(1:1000, regression_simT2, 
+                  n=n.mod_air_relevance, 
+                  b0=b0.mod_air_relevance, 
+                  b1=sd.trust.air*0.5, 
+                  b2=0, 
+                  b3=0,
+                  b4 = b4.mod_air_relevance, 
+                  b5 = 0, 
+                  b6 = 0, 
+                  b7 = val,
+                  err_mean=0, 
+              err_sd=1,
+              p = "relevance:info")
+    
+    sims$effect_sizes <- val  # add the sample size in as a separate column to our results
+    results <- rbind(results, sims)
+}
+
+
+
+library('dplyr')
+library('ggplot2')
+ 
+power_ests <- results %>%
+    group_by(effect_sizes) %>%
+    summarize(power=sum(p < .1) / n())
+ 
+ggplot(power_ests, aes(x=effect_sizes, y=power)) +
+    geom_point() +
+    geom_line() +
+    ylim(c(0, 1)) +
+    theme_minimal()
+```
+
