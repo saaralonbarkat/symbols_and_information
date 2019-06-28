@@ -27,6 +27,8 @@ Last edited at `r Sys.Date()`.
 
 
 ```{r , include=FALSE, echo=FALSE}
+#load("C:/SAAR/UNIVERSITY/R/SVIVA/.RData")
+
 source("C:/SAAR/UNIVERSITY/R/SVIVA/code/experiment 2/SVIVA_exp2_dm_03.R")
 
 SVIVA1_01 = read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/SVIVA1_01.csv")
@@ -414,7 +416,106 @@ stargazer(mod_relevance_air_1.1_apx,mod_relevance_air_1.2_apx,
 
 <br>
 
-# 3. Summary statistics
+# 3. Power estimations
+
+In this section, I report the results of power estimations, which I conducted after collecting and analyzing the data. I have conducted seperate analyses for: (1) Main effects of the symbols and weak information manipulations; (2) Conditional effects of manipulations within each of the two areas (Haifa-Bay and Center); (3) Two-way interactions bewteen areas and the manipulations; and (4) Two-way interactions bewteen the relevance manipulation and the manipulations (in the Haifa-Bay area). 
+
+These power estimations were conducted in R software, through regression models simulations with 1,000 interations for each effect size [code adopted from @hughes_website_2017]. All these tests refer to a *p-value* of .05 (one-tailed), with `set.seed(2018)`. These analyses refer to a the analytical sample size (*N* = `r nrow(SVIVA2_01)`, *N*<sub>*Haifa-Bay*</sub>=`r nrow(SVIVA2_01_haifa)`, *N*<sub>*Center*</sub>=`r nrow(SVIVA2_01_center)`). Finally, I assumed that the error term is normally distributed (Mean = 0, SD = 1).     
+
+
+<br>
+
+**Figure XX: Power of conditional effects**
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+
+results.main %>%
+    group_by(main.effect,
+             effect_sizes) %>%
+    summarize(power=sum(p < .1) / n()) %>% 
+ 
+ggplot(aes(x=effect_sizes, y=power,color = main.effect)) +
+    geom_point() +
+    geom_line() +
+    geom_hline(yintercept = 0.80, colour = "grey60", linetype = 2) +
+    scale_y_continuous(name = "Power",limits = c(0,1),breaks = seq(0,1,0.1))+
+  scale_x_continuous(name = "Main effect (SDs)",limits = c(0.05,0.3),breaks = seq(0,0.3,0.05))+
+  scale_colour_manual(name = "Manipulation",
+                      values = c("dodgerblue3","orange2"),
+                      labels = c("Information", "Symbols"))+
+  theme_bw()
+```
+
+
+<br>
+
+**Figure XX: Power of conditional effects**
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+results.conditional %>%
+    group_by(cond.effect,
+             area,
+             effect_sizes) %>%
+    summarize(power=sum(p < .1) / n()) %>% 
+ 
+ggplot(aes(x=effect_sizes, y=power,color = cond.effect)) +
+    geom_point() +
+    geom_line() +
+  facet_grid(cols = vars(area)) +
+    geom_hline(yintercept = 0.80, colour = "grey60", linetype = 2) +
+    scale_y_continuous(name = "Power",limits = c(0,1),breaks = seq(0,1,0.1))+
+  scale_x_continuous(name = "Conditional effect (SDs)",limits = c(0.05,0.3),breaks = seq(0,0.3,0.05))+
+  scale_colour_manual(name = "Manipulation",
+                      values = c("dodgerblue3","orange2"),
+                      labels = c("Information", "Symbols"))+
+theme_bw()
+```
+
+<br>
+
+
+**Figure XX: Power of Interactions with area**
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+results.area %>%
+    group_by(Interaction,
+             effect_sizes) %>%
+    summarize(power=sum(p < .1) / n()) %>% 
+ 
+ggplot(aes(x=effect_sizes, y=power,color = Interaction)) +
+    geom_point() +
+    geom_line() +
+    geom_hline(yintercept = 0.80, colour = "grey60", linetype = 2) +
+    scale_y_continuous(name = "Power",limits = c(0,1),breaks = seq(0,1,0.1))+
+  scale_x_continuous(name = "Interaction coefficient (SDs)",limits = c(0.1,0.5),breaks = seq(0,0.5,0.1))+
+    scale_colour_manual(name = "Interaction",
+                      values = c("dodgerblue3","orange2"),
+                      labels = c("Information", "Symbols"))+
+  theme_bw()
+```
+
+<br>
+
+**Figure XX: Power of Interactions with relevance manipulation**
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+results.relevance %>%
+    group_by(Interaction,
+             effect_sizes) %>%
+    summarize(power=sum(p < .1) / n()) %>% 
+ ggplot(aes(x=effect_sizes, y=power,color = Interaction)) +
+    geom_point() +
+    geom_line() +
+    geom_hline(yintercept = 0.80, colour = "grey60", linetype = 2) +
+    scale_y_continuous(name = "Power",limits = c(0,1),breaks = seq(0,1,0.1))+
+    scale_x_continuous(name = "Interaction coefficient (SDs)",limits = c(0.1,0.5),breaks = seq(0,0.5,0.1))+
+    scale_colour_manual(name = "Interaction",
+                      values = c("dodgerblue3","orange2"),
+                      labels = c("Information", "Symbols"))+
+  theme_bw()
+```
+
+
+<br>
+
+# 4. Summary statistics
 
 
 **Table A2: summary statistics of research variables**
@@ -505,7 +606,194 @@ SVIVA2_01 %>%
 
 </font>
 
-# 4. Supplementary analyses
+<br>
+
+# X raw experimental results
+
+```{r}
+t3.comb <- rbind(t3.haifa,
+                 t3.center) %>%
+  filter(str_detect(variable,"policy")==T) %>%
+  select(-starts_with("statistic")) %>% 
+
+  mutate(AREA_Center = rep(c("Haifa-Bay","Center"),each=2)) %>% 
+  arrange(desc(AREA_Center)) %>% 
+  select(AREA_Center,1:11) 
+  
+```
+
+```{r, echo=FALSE, warning=FALSE, message=F}
+
+#labels of vars
+vars.lab = c(
+         "Gender (Woman=1)",
+         "Age",
+         "Trust in government ministries",
+         "Political Ideology (10 = extreme left)",
+         "Education",
+         "Income (5=high)",
+         "Parents",
+         "Parents of young children (under 12)",
+         "Interest in environmental issues",
+         "Air-pollution policy",
+         "Recycling policy"
+)
+
+vars <- c(var1 = "GENDER", 
+          var2 ="AGE",
+          var3 ="GOV_TRUST",
+          var4 = "IDEOLOGY", 
+          var5 ="EDUCATION",
+          var6 ="INCOME",
+          var7 = "CHILDREN", 
+          var8 ="CHILDREN_young",
+          var9 ="ENVIRONMENT_INTEREST",
+          var91 ="TRUST_air_INDEX",
+          var92 ="TRUST_waste_INDEX")
+
+t11.all <- SVIVA2_01 %>% 
+  select(TRUST_air_INDEX,
+         TRUST_waste_INDEX) %>% 
+  gather(key = variable, value = value) %>% 
+  group_by(variable) %>% 
+  summarise(mean.var = mean(value,na.rm = T) %>% round(3),
+            sd.var = sd(value,na.rm = T) %>% round(3)) %>% 
+  mutate(all = str_c(mean.var, " (",sd.var,")")) %>% 
+  as.data.frame() %>% 
+  select(-mean.var,-sd.var)
+
+
+t11.symbol <- SVIVA2_01 %>%
+  mutate(symbols.t = Recode(SYMBOL,"0='no';1='fake';2='real'")) %>% 
+  select(symbols.t,
+         TRUST_air_INDEX,
+         TRUST_waste_INDEX) %>%
+  gather(key = variable, value = value, -symbols.t) %>% 
+  group_by(symbols.t, variable) %>% 
+  summarise(value = list(value)) %>% 
+  spread(symbols.t, value) %>% 
+  group_by(variable) %>% 
+  
+  mutate(mean_no = round(mean(unlist(no),na.rm = T),3),
+         mean_fake = round(mean(unlist(fake),na.rm = T),3),
+         mean_real = round(mean(unlist(real),na.rm = T),3),
+         sd_no = round(sd(unlist(no),na.rm = T),3),
+         sd_fake = round(sd(unlist(fake),na.rm = T),3),
+         sd_real = round(sd(unlist(real),na.rm = T),3)) %>%
+  mutate(no = str_c(mean_no, " (",sd_no,")"),
+         fake = str_c(mean_fake, " (",sd_fake,")"),
+         real = str_c(mean_real, " (",sd_real,")")) %>% 
+  select(variable,
+         no,
+         fake,
+         real) %>% 
+  as.data.frame()
+
+t11.info <- SVIVA2_01 %>% 
+  mutate(info.t = ifelse(INFORMATION_air==1,"air_strong","air_weak")) %>% 
+  select(info.t,
+         TRUST_air_INDEX,
+         TRUST_waste_INDEX) %>%
+  gather(key = variable, value = value, -info.t) %>% 
+  group_by(info.t, variable) %>% 
+  summarise(value = list(value)) %>% 
+  spread(info.t, value) %>% 
+  group_by(variable) %>% 
+  
+  mutate(mean_strong = round(mean(unlist(air_strong),na.rm = T),3),
+         mean_weak = round(mean(unlist(air_weak),na.rm = T),3),
+         sd_strong = round(sd(unlist(air_strong),na.rm = T),3),
+         sd_weak = round(sd(unlist(air_weak),na.rm = T),3),
+         t_value.info = round(t.test(unlist(air_strong), unlist(air_weak))$statistic,3)) %>% 
+  mutate(air_strong = str_c(mean_strong, " (",sd_strong,")"),
+         air_weak = str_c(mean_weak, " (",sd_weak,")")) %>% 
+  select(variable,
+         air_strong,
+         air_weak) %>% 
+  as.data.frame() %>% 
+  arrange(variable)
+
+t11.relevance <- SVIVA2_01 %>%
+  mutate(relevance.t = ifelse(RELEVANCE_exp==1,"treatment","control")) %>% 
+  select(relevance.t,
+         TRUST_air_INDEX,
+         TRUST_waste_INDEX) %>%
+  gather(key = variable, value = value, -relevance.t) %>% 
+  group_by(relevance.t, variable) %>% 
+  summarise(value = list(value)) %>% 
+  spread(relevance.t, value) %>% 
+  group_by(variable) %>% 
+  
+  mutate(mean_treatment = round(mean(unlist(treatment),na.rm = T),3),
+         mean_control = round(mean(unlist(control),na.rm = T),3),
+         sd_treatment = round(sd(unlist(treatment),na.rm = T),3),
+         sd_control = round(sd(unlist(control),na.rm = T),3),
+         t_value.relevance = round(t.test(unlist(treatment), unlist(control))$statistic,3)) %>% 
+  mutate(treatment = str_c(mean_treatment, " (",sd_treatment,")"),
+         control = str_c(mean_control, " (",sd_control,")")) %>% 
+  select(variable,
+         treatment,
+         control) %>% 
+  as.data.frame() %>% 
+  arrange(variable)
+
+t11.comb <- t11.all %>% 
+  cbind(t11.symbol  %>% 
+          select(-variable)) %>% 
+  cbind(t11.info %>% 
+          select(-variable)) %>%
+  cbind(t1.relevance %>% 
+          select(-variable)) %>% 
+  mutate(variable = c("Air-pollution policy","Recycling policy"))
+
+t13.haifa <- t3.haifa %>% 
+  filter(str_detect(variable,"policy")==T) %>%
+  select(-starts_with("statistic"),
+         -starts_with("t_"))
+
+t13.center <- t3.center %>% 
+  filter(str_detect(variable,"policy")==T) %>%
+  select(-starts_with("statistic"),
+         -starts_with("t_"))
+
+t11.all <- rbind(
+  t11.comb,
+  t13.haifa,
+  t13.center
+) %>% 
+  mutate(area = rep(c("All","Haifa-Bay","Center"),each=2)) %>% 
+  select(area,1:9)
+
+
+```
+
+```{r}
+t11.all %>% 
+  kable(col.names = c("Area",
+                      "Policy",
+                    "All sample",
+                    "No symbols",
+                    "Fake symbols",
+                    "Real symbols",
+                    "Strong Air-pollution (Weak recycling)",
+                    "Weak air-pollution (Strong recycling)",
+                    "Treatment",
+                    "Control"))%>%
+  kable_styling(bootstrap_options = c("condensed"),
+                full_width = F,
+                position = "left",
+                font_size = 9) %>%
+  add_header_above(c(" " = 3, 
+                     "Symbols groups" = 3,  
+                     "Information groups" = 2, 
+                     "Relevance groups" = 2))  %>%
+  collapse_rows(columns = 1, valign = "top")
+```
+
+
+<br>
+
+# 5. Supplementary analyses
 
 ```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
 library(car)
@@ -790,7 +1078,7 @@ stargazer(mod_air_1.2_apx,mod_air_1.3_apx,
 
 <br>
 
-# 5. English translation of the survey experiment
+# 6. English translation of the survey experiment
 
 Below is the full text of the survey. Additional comments are presented in square brackets. The different experimental conditions of the two policy plans are included in the appendix of the main paper, and therefore were not included here. The original Qualtrics file is available upon request. 
 
