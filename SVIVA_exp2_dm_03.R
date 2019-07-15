@@ -12,12 +12,14 @@ library(lubridate)
 
 
 #loading raw data CSV file
-SVIVA2_raw_00 <- read.csv("SVIVA_exp2.csv")
-CITY_00 <- read.csv("CITY.csv")
+SVIVA2_raw_00 <- read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/SVIVA_exp2.csv",encoding = "UTF-8")
+CITY_00 <- read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/CITY.csv",encoding = "UTF-8")
+relevance.coding_00 <- read.csv("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/relevance.manual.coding.csv",encoding = "UTF-8") %>% 
+  rename(IP=X.U.FEFF.IP)
 
 SVIVA2_raw <- SVIVA2_raw_00 %>% filter(V10==1)
 CITY <- CITY_00 %>% filter(V10==1)
-
+relevance.coding <- relevance.coding_00 %>%  filter(V10==1)
 
 SVIVA2_raw[is.na(SVIVA2_raw)] <- 0
 
@@ -495,7 +497,14 @@ mutate(RECOGNIZE_waste_real = SVIVA2_raw$Q25.6+
   
   mutate(WITHIN_DELTA = if_else(INFORMATION_air==1,
                          TRUST_air_INDEX-TRUST_waste_INDEX,
-                         TRUST_waste_INDEX-TRUST_air_INDEX))
+                         TRUST_waste_INDEX-TRUST_air_INDEX)) %>% 
+  mutate(air.content = relevance.coding$air.content,
+         recycling.content = relevance.coding$recycling.content) %>% 
+ 
+  mutate(close.industrial.area = ifelse(CITY_reside_en %in% c("NESHER","QIRYAT HAIM","QIRYAT BIALIK"),1,0)) %>%  
+  mutate(AREA_center = Recode(AREA,"0=1;1=0"),
+         SYMBOL_t = Recode(SYMBOL,"1=2;2=1"))
+
 
 ####Datasets#####
 
@@ -510,9 +519,12 @@ SVIVA2_01 = SVIVA2_00 %>%
        
 
 SVIVA2_01_comb = SVIVA2_01 %>% 
-  dplyr::select(IP,USER_ID,AREA,AREA_names,
+  dplyr::select(IP,USER_ID,
+                AREA,
+                AREA_names,
+                AREA_center,
       RELEVANCE_exp,RELEVANCE_exp_n,
-      SYMBOL,SYMBOL_n,
+      SYMBOL,SYMBOL_n,SYMBOL_t,
       INFORMATION_air,INFORMATION_air_n,
       INFORMATION_waste,INFORMATION_waste_n,
       TRUST_air_INDEX,
@@ -525,6 +537,7 @@ SVIVA2_01_comb = SVIVA2_01 %>%
       MEMORY_waste_score,
       GOV_TRUST,
       GENDER,
+      AGE,
       AIR_order,
       WASTE_order,
       IDEOLOGY,
@@ -538,7 +551,8 @@ SVIVA2_01_comb = SVIVA2_01 %>%
       ENVIRONMENT_INTEREST,
       ENVIRONMENT_FOLLOW,
       CHILDREN,
-      CHILDREN_young) %>% 
+      CHILDREN_young,
+      close.industrial.area) %>% 
   gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
   mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
                               INFORMATION_waste),
@@ -555,15 +569,29 @@ SVIVA2_01_comb = SVIVA2_01 %>%
   mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
          TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
          INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"),
-         AREA_center = Recode(AREA,"0=1;1=0"),
-         SYMBOL_t = factor(Recode(SYMBOL,"1=2;2=1")),
          SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
          SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
          ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order),
          RECOGNIZE_campaign = ifelse(policy=="TRUST_air_INDEX",RECOGNIZE_air_real,RECOGNIZE_waste_real))
 
 
-save.image("SVIVA_R_ENV.RData")
+SVIVA2_01_haifa <- filter(SVIVA2_01,AREA_center==0)
+
+SVIVA2_01_center <- filter(SVIVA2_01,AREA_center==1)
+
+SVIVA2_01_comb.haifa = SVIVA2_01_comb %>% filter(AREA_center==0)
+
+SVIVA2_01_comb.center = SVIVA2_01_comb %>% filter(AREA_center==1)
+
+SVIVA2_01_comb_air_first <- SVIVA2_01_comb %>% filter(AIR_order==1)
+
+SVIVA2_01_comb.haifa_air_first <- SVIVA2_01_comb %>%
+  filter(AREA_center==0, AIR_order==1)
+
+SVIVA2_01_comb.center_air_first <- SVIVA2_01_comb %>%
+  filter(AREA_center==1, AIR_order==1)
+
+save.image("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/SVIVA_R_ENV.RData")
 
        
        
