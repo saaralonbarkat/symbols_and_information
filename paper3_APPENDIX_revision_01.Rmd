@@ -23,6 +23,15 @@ urlcolor: blue
 
 Last edited at `r Sys.Date()`.
 
+```{r set-global-options, echo = FALSE}
+knitr::opts_chunk$set(eval = TRUE, 
+                      echo = FALSE, 
+                      message=FALSE,
+                      warning = FALSE,
+                      cache = FALSE)
+
+```
+
 
 <br>
 
@@ -49,6 +58,9 @@ library(kableExtra)
 library(sjPlot)
 library(ggthemes)
 library(ggpubr)
+library(lmtest)
+library(sandwich)
+
 ```
 
 ---
@@ -836,45 +848,206 @@ t11.all %>%
 
 # Supplementary analyses
 
+```{r}
+SVIVA2_00_comb = SVIVA2_00 %>% 
+  filter(!(AGE %in% 1:17)) %>% 
+  dplyr::select(IP,USER_ID,
+                AREA,
+                AREA_names,
+                AREA_center,
+      RELEVANCE_exp,RELEVANCE_exp_n,
+      SYMBOL,SYMBOL_n,SYMBOL_t,
+      INFORMATION_air,INFORMATION_air_n,
+      INFORMATION_waste,INFORMATION_waste_n,
+      TRUST_air_INDEX,
+      TRUST_waste_INDEX,
+      ELABORATION_air_time_log,
+      ELABORATION_waste_time_log,
+      ELABORATION_air_time,
+      ELABORATION_waste_time,
+      MEMORY_air_score,
+      MEMORY_waste_score,
+      GOV_TRUST,
+      GENDER,
+      AGE,
+      AIR_order,
+      WASTE_order,
+      IDEOLOGY,
+      INCOME,
+      EDUCATION,
+      RECOGNIZE_SVIVA_logo,
+      RECOGNIZE_air_real,
+      RECOGNIZE_waste_real,
+      RELEVANCE_air_obs,
+      RELEVANCE_waste_obs,
+      ENVIRONMENT_INTEREST,
+      ENVIRONMENT_FOLLOW,
+      CHILDREN,
+      CHILDREN_young,
+      close.industrial.area) %>% 
+  gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
+  mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
+                              INFORMATION_waste),
+         INFORMATION_n = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air_n,
+                                INFORMATION_waste_n),
+         ELABORATION_time_log = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time_log,
+                                       ELABORATION_waste_time_log),
+         MEMORY_score = ifelse(policy=="TRUST_air_INDEX",MEMORY_air_score,
+                               MEMORY_waste_score),
+         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",RELEVANCE_air_obs,
+                                   RELEVANCE_waste_obs),
+         RELEVANCE_obs = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
+                                ELABORATION_waste_time)) %>% 
+  mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
+         TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
+         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order),
+         RECOGNIZE_campaign = ifelse(policy=="TRUST_air_INDEX",RECOGNIZE_air_real,RECOGNIZE_waste_real),
+         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"))
 
-- models for relevance for center (air-pollution).
 
-```{r, echo=FALSE, warning=FALSE, message=F}
-
-mod_relevance_null.a = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb %>% filter(AREA_center==1))
-mod_relevance_1.1.a = update(mod_relevance_null.a,. ~ .+
-                             SYMBOL_t+
-                   INFORMATION_weak+
-                   RELEVANCE_exp)
-mod_relevance_1.2.a = update(mod_relevance_1.1.a,. ~ .+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
-mod_relevance_1.3.a = update(mod_relevance_1.2.a,. ~ .+
-                   GENDER+
-                   AGE+
-                   GOV_TRUST+
-                   IDEOLOGY+
-                   EDUCATION+
-                   INCOME+
-                   CHILDREN_young)
-
-mod_relevance_1.4.a = update(mod_relevance_1.2.a,. ~ .,data=SVIVA2_01_comb.center_air_first)
-
-
-## Adjust standard errors & F statistic
-mod_relevance_1.1.a.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.1.a, type = "HC1")))
-mod_relevance_1.1.a.wald_results <- waldtest(mod_relevance_1.1.a, vcov = vcovHC(mod_relevance_1.1.a, type = "HC1"))
-
-mod_relevance_1.2.a.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.2.a, type = "HC1")))
-mod_relevance_1.2.a.wald_results <- waldtest(mod_relevance_1.2.a, vcov = vcovHC(mod_relevance_1.2, type = "HC1"))
-
-mod_relevance_1.3.a.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.3.a, type = "HC1")))
-mod_relevance_1.3.a.wald_results <- waldtest(mod_relevance_1.3.a, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
-
-mod_relevance_1.4.a.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.4.a, type = "HC1")))
-mod_relevance_1.4.a.wald_results <- waldtest(mod_relevance_1.4.a, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+SVIVA2_00_comb_air_first <- SVIVA2_00_comb %>% filter(AIR_order==1)
 
 ```
 
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+
+
+```{r}
+mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_00_comb)
+
+
+mod_air_1.1 = update(mod_air_null,. ~ .+
+                       SYMBOL_t+
+                       INFORMATION_weak,
+                     data=SVIVA2_00_comb)
+mod_air_1.2 = update(mod_air_1.1,. ~ .+AREA_center)
+mod_air_1.3 = update(mod_air_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+
+mod_air_1.4 = update(mod_air_1.3,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
+
+mod_air_1.5 = update(mod_air_1.3,. ~ .,data=SVIVA2_00_comb_air_first)
+
+
+## Adjust standard errors & F statistic
+mod_air_1.1.robust_se    <- sqrt(diag(vcovHC(mod_air_1.1, type = "HC1")))
+mod_air_1.1.wald_results <- waldtest(mod_air_1.1, vcov = vcovHC(mod_air_1.1, type = "HC1"))
+
+mod_air_1.2.robust_se    <- sqrt(diag(vcovHC(mod_air_1.2, type = "HC1")))
+mod_air_1.2.wald_results <- waldtest(mod_air_1.2, vcov = vcovHC(mod_air_1.2, type = "HC1"))
+
+mod_air_1.3.robust_se    <- sqrt(diag(vcovHC(mod_air_1.3, type = "HC1")))
+mod_air_1.3.wald_results <- waldtest(mod_air_1.3, vcov = vcovHC(mod_air_1.3, type = "HC1"))
+
+mod_air_1.4.robust_se    <- sqrt(diag(vcovHC(mod_air_1.4, type = "HC1")))
+mod_air_1.4.wald_results <- waldtest(mod_air_1.4, vcov = vcovHC(mod_air_1.4, type = "HC1"))
+
+mod_air_1.5.robust_se    <- sqrt(diag(vcovHC(mod_air_1.5, type = "HC1")))
+mod_air_1.5.wald_results <- waldtest(mod_air_1.5, vcov = vcovHC(mod_air_1.5, type = "HC1"))
+
+```
+
+```{r,results="asis"}
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME",
+                   "CHILDREN",
+                   "CHILDREN_young")
+
+stargazer(mod_air_1.1,mod_air_null,
+          mod_air_1.2,mod_air_null,
+          mod_air_1.3, mod_air_null,
+          mod_air_1.4, mod_air_null,
+          mod_air_1.5, mod_air_null,
+          type = "html",
+          se  = list(mod_air_1.1.robust_se,NULL,
+                     mod_air_1.2.robust_se,NULL,
+                     mod_air_1.3.robust_se,NULL,
+                     mod_air_1.4.robust_se,NULL,
+                     mod_air_1.5.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("(1.",1:5,")"),
+          column.separate = c(2,2,2,2,2),
+          dep.var.labels="Trust in air-pollution policy",
+          omit = control.vars,
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Area (0=Haifa Bay; 1=center)",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information"),
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","No","","No","","No","","Yes","","No",""),
+                           c("F Statistic", 
+                             mod_air_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.3.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.4.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.5.wald_results[2,3] %>% round(2),NA)),
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+
+
+```
+
+
+
+```{r}
+
+mod_waste_null = lm(TRUST_waste_INDEX~1,data=SVIVA2_00_comb)
+mod_waste_1.1 = update(mod_waste_null,. ~ .+
+                       SYMBOL_t+
+                       INFORMATION_weak,
+                     data=SVIVA2_00_comb)
+mod_waste_1.2 = update(mod_waste_1.1,. ~ .+AREA_center)
+mod_waste_1.3 = update(mod_waste_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+mod_waste_1.4 = update(mod_waste_1.3,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
+SVIVA2_00_comb_recycling_first <- SVIVA2_00_comb %>% filter(AIR_order==2)
+mod_waste_1.5 = update(mod_waste_1.3,. ~ .,data=SVIVA2_00_comb_recycling_first)
+
+## Adjust standard errors & F statistic
+mod_waste_1.1.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.1, type = "HC1")))
+mod_waste_1.1.wald_results <- waldtest(mod_waste_1.1, vcov = vcovHC(mod_waste_1.1, type = "HC1"))
+
+mod_waste_1.2.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.2, type = "HC1")))
+mod_waste_1.2.wald_results <- waldtest(mod_waste_1.2, vcov = vcovHC(mod_waste_1.2, type = "HC1"))
+
+mod_waste_1.3.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.3, type = "HC1")))
+mod_waste_1.3.wald_results <- waldtest(mod_waste_1.3, vcov = vcovHC(mod_waste_1.3, type = "HC1"))
+
+mod_waste_1.4.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.4, type = "HC1")))
+mod_waste_1.4.wald_results <- waldtest(mod_waste_1.4, vcov = vcovHC(mod_waste_1.4, type = "HC1"))
+
+mod_waste_1.5.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.5, type = "HC1")))
+mod_waste_1.5.wald_results <- waldtest(mod_waste_1.5, vcov = vcovHC(mod_waste_1.4, type = "HC1"))
+
+```
+
+
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – trust in recycling policy.**
+
+```{r,results="asis"}
 control.vars <- c("GENDER",
                   "AGE",
                   "GOV_TRUST",
@@ -884,15 +1057,112 @@ control.vars <- c("GENDER",
                    "CHILDREN_young")
 
 
-stargazer(mod_relevance_1.1.a,mod_relevance_null.a,
-          mod_relevance_1.2.a,mod_relevance_null.a,
-          mod_relevance_1.3.a, mod_relevance_null.a,
-          mod_relevance_1.4.a, mod_relevance_null.a,
+
+stargazer(mod_waste_1.1,mod_waste_null,
+          mod_waste_1.2,mod_waste_null,
+          mod_waste_1.3, mod_waste_null,
+          mod_waste_1.4, mod_waste_null,
+          mod_waste_1.5, mod_waste_null,
           type = "html",
-          se  = list(mod_relevance_1.1.a.robust_se,NULL,
-                     mod_relevance_1.2.a.robust_se,NULL,
-                     mod_relevance_1.3.a.robust_se,NULL,
-                     mod_relevance_1.4.a.robust_se,NULL),
+          se  = list(mod_waste_1.1.robust_se,NULL,
+                     mod_waste_1.2.robust_se,NULL,
+                     mod_waste_1.3.robust_se,NULL,
+                     mod_waste_1.4.robust_se,NULL,
+                     mod_waste_1.5.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("(2.",1:5,")"),
+          column.separate = c(2,2,2,2,2),
+          dep.var.labels="Trust in recycling policy",
+          omit = control.vars,
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Area (0=Haifa Bay; 1=center)",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information"),
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","No","","No","","No","","Yes","","No",""),
+                           c("F Statistic", 
+                             mod_waste_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.3.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.4.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.5.wald_results[2,3] %>% round(2),NA)),
+          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+```
+
+<br>
+
+```{r}
+
+SVIVA2_00_comb.haifa = SVIVA2_00_comb %>% filter(AREA_center==0)
+
+
+mod_relevance_null = lm(TRUST_air_INDEX~1,data=SVIVA2_00_comb.haifa)
+mod_relevance_1.1 = update(mod_relevance_null,. ~ .+
+                             SYMBOL_t+
+                   INFORMATION_weak+
+                   RELEVANCE_exp)
+mod_relevance_1.2 = update(mod_relevance_1.1,. ~ .+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+mod_relevance_1.3 = update(mod_relevance_1.2,. ~ .+
+                   GENDER+
+                   AGE+
+                   GOV_TRUST+
+                   IDEOLOGY+
+                   EDUCATION+
+                   INCOME+
+                   CHILDREN_young)
+
+SVIVA2_00_comb.haifa_air_first <- SVIVA2_00_comb %>%
+  filter(AREA_center==0, AIR_order==1)
+
+mod_relevance_1.4 = update(mod_relevance_1.2,. ~ .,data=SVIVA2_00_comb.haifa_air_first)
+
+## Adjust standard errors & F statistic
+mod_relevance_1.1.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.1, type = "HC1")))
+mod_relevance_1.1.wald_results <- waldtest(mod_relevance_1.1, vcov = vcovHC(mod_relevance_1.1, type = "HC1"))
+
+mod_relevance_1.2.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.2, type = "HC1")))
+mod_relevance_1.2.wald_results <- waldtest(mod_relevance_1.2, vcov = vcovHC(mod_relevance_1.2, type = "HC1"))
+
+mod_relevance_1.3.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.3, type = "HC1")))
+mod_relevance_1.3.wald_results <- waldtest(mod_relevance_1.3, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+
+mod_relevance_1.4.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.4, type = "HC1")))
+mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+
+
+```
+
+
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – experimental manipulation of perceived personal relevance.**
+
+```{r,results="asis"}
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME",
+                   "CHILDREN_young")
+
+
+stargazer(mod_relevance_1.1,mod_relevance_null,
+          mod_relevance_1.2,mod_relevance_null,
+          mod_relevance_1.3, mod_relevance_null,
+          mod_relevance_1.4, mod_relevance_null,
+          type = "html",
+          se  = list(mod_relevance_1.1.robust_se,NULL,
+                     mod_relevance_1.2.robust_se,NULL,
+                     mod_relevance_1.3.robust_se,NULL,
+                     mod_relevance_1.4.robust_se,NULL),
           style = "apsr",
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
@@ -912,301 +1182,15 @@ stargazer(mod_relevance_1.1.a,mod_relevance_null.a,
           add.lines = list(
                            c("Controls","No","","No","","Yes","","No",""),
                            c("F Statistic", 
-                             mod_relevance_1.1.a.wald_results[2,3] %>% round(2),NA,
-                             mod_relevance_1.2.a.wald_results[2,3] %>% round(2),NA,
-                             mod_relevance_1.3.a.wald_results[2,3] %>% round(2),NA,
-                             mod_relevance_1.4.a.wald_results[2,3] %>% round(2),NA)),
+                             mod_relevance_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.3.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.4.wald_results[2,3] %>% round(2),NA)),
           notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
           notes.append = FALSE)
 ```
 
 
-- Models for relevance for both groups for recycling. 
-- replicating all regression tables for upfilterred sample. 
-
-
-
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-library(car)
-
-SVIVA2_comb_robust_1 = SVIVA2_00 %>%
-  filter(!(AGE %in% 1:17)) %>% 
-  dplyr::select(IP,USER_ID,AREA,AREA_names,
-      RELEVANCE_exp,RELEVANCE_exp_n,
-      SYMBOL,SYMBOL_n,
-      INFORMATION_air,INFORMATION_air_n,
-      INFORMATION_waste,INFORMATION_waste_n,
-      TRUST_air_INDEX,
-      TRUST_waste_INDEX,
-      ELABORATION_air_time_log,
-      ELABORATION_waste_time_log,
-      ELABORATION_air_time,
-      ELABORATION_waste_time,
-      MEMORY_air_score,
-      MEMORY_waste_score,
-      GOV_TRUST,
-      GENDER,
-      AIR_order,
-      WASTE_order) %>% 
-  gather(key=policy,value=trust,TRUST_air_INDEX,TRUST_waste_INDEX) %>% 
-  mutate(INFORMATION = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air,
-                              INFORMATION_waste),
-         INFORMATION_n = ifelse(policy=="TRUST_air_INDEX",INFORMATION_air_n,
-                                INFORMATION_waste_n),
-         ELABORATION_time_log = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time_log,
-                                       ELABORATION_waste_time_log),
-         MEMORY_score = ifelse(policy=="TRUST_air_INDEX",MEMORY_air_score,
-                               MEMORY_waste_score),
-         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
-                                       ELABORATION_waste_time)) %>% 
-  mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
-         TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
-         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"),
-         AREA_center = Recode(AREA,"0=1;1=0"),
-         SYMBOL_t = factor(Recode(SYMBOL,"1=2;2=1")),
-         SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
-         SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
-         ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order))
-
-```
-
-
-
-In the tables below, I report the results of additional robust analyses testing the moderating role of the perceived personal relevance of the communications. 
-
-In **Tables A4 - A6**, I examine the effects of relevance treatment and the differences between the areas on subjects elaboration of the two policy plans, using three additional measures. The first measure is the number of seconds participants spent on scanning the policy plans, log transformed (hereafter: reaction time). The second measure is participants' score in a memory test, which was conducted during the survey. Participants were asked to indicate whether a list of four items were included in the second policy plan which was presented to them, of which two were/were not included (participants could also select “I don’t know”). The memory score is calculated as the number of correct items selected by the participant minus the number of incorrect items, with a minimum score of zero. Accordingly, participants could receive the scores of 0, 1 or 2. The third measure is the delta between trust in the strong and weak policy plans presented to each subject. This within-subject analysis utilizes the research design in which every participant was presented with one weak and one strong policies. Neither residing in the Haifa-bay nor the relevance treatment increase the elaboration of policy plans, based on these three measures.  
-
-In **Tables A7 and A8**, I replicate the main analyses while adding additional control variables. In Tables A7, I control for demographics and additional individual-level covariates, including ideology and trust in government ministries in general. In Table A8 I further control for factors that can be related to participants' motivation to elaborate, including having young children, general interest in environmental issues and following environmental issues in the media. The two final variables are based on survey items which were presented only to those subjects assigned to the relevance treatment condition, and therefore, their analysis is based only on that sample (*n* = `r SVIVA2_01 %>% filter(RELEVANCE_exp==1) %>% nrow()`). Finally, in **Table A9**, I add those subjects who were filtered, except for those who are under the age of 18 (*n* = `r SVIVA2_comb_robust_1 %>%distinct(IP) %>% nrow()`). In all these analyses, the effects of the symbols and information manipulations and their interaction with the areas and the relevance manipulation are consistent with the main models.       
-
-In **Table A10** I analyze subjects' subjective reporting on the personal relevance of each of the two policy plans, and its interaction with the symbols and information manipulations, controlling for the areas. These analyses show that higher scores of perceived personal relevance did not attenuate the positive effect of the real symbols. However, it did slightly increase the effect of the weak information with regard to the air-pollution policy, consistent with Hypothesis 2.
-
-<br>
-
-
-
-<br>
-
-**Table A4: Regression table - effect of personal relevance on reaction time**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_RT_air_1.1_apx = lm(ELABORATION_air_time_log~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
-mod_RT_air_1.2_apx = update(mod_RT_air_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
-
-mod_RT_waste_1.1_apx = lm(ELABORATION_waste_time_log~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
-mod_RT_waste_1.2_apx = update(mod_RT_waste_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
-
-
-stargazer(mod_RT_air_1.1_apx,mod_RT_air_1.2_apx,
-          mod_RT_waste_1.1_apx,mod_RT_waste_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Air-pollution","Recycling"),
-          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
-                             "Relevance treatment",
-                             "Area x Relevance treatment"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
-
-<br>
-
-**Table A5: Regression table - effect of personal relevance on memory score**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_memory_air_1.1_apx = lm(MEMORY_air_score~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
-mod_memory_air_1.2_apx = update(mod_memory_air_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
-
-mod_memory_waste_1.1_apx = lm(MEMORY_waste_score~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
-mod_memory_waste_1.2_apx = update(mod_memory_waste_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
-
-
-stargazer(mod_memory_air_1.1_apx,mod_memory_air_1.2_apx,
-          mod_memory_waste_1.1_apx,mod_memory_waste_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Air-pollution","Recycling"),
-          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
-                             "Relevance treatment",
-                             "Area x Relevance treatment"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
-
-<br>
-
-**Table A6: Regression table - effect of personal relevance on within-subject delta between strong and weak policies**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_delta_1.1_apx = lm(WITHIN_DELTA~AREA_center+RELEVANCE_exp,data=SVIVA2_01)
-mod_delta_1.2_apx = update(mod_delta_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
-
-
-stargazer(mod_delta_1.1_apx,mod_delta_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Within-subject delta"),
-          covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
-                             "Relevance treatment",
-                             "Area x Relevance treatment"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
-
-<br>
-
-
-**Table A7: Regression table - adding control variables**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION,data=SVIVA2_01_comb)
-mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
-
-mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp+GENDER+IDEOLOGY+GOV_TRUST+INCOME+EDUCATION,data=SVIVA2_01_comb)
-mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
-
-
-
-stargazer(mod_air_1.1_apx,mod_air_1.2_apx,
-          mod_waste_1.1_apx,mod_waste_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Air-pollution","Recycling"),
-          covariate.labels=c("Real symbols",
-                             "Fake-symbols",
-                             "Weak policy (0=strong policy)",
-                             "Area (0=Haifa-Bay; 1=center)",
-                             "Relevance treatment",
-                             "Gender (1=Woman)",
-                             "Ideology",
-                             "Trust in government ministries",
-                             "Income",
-                             "Education",
-                             "Area x Real symbols",
-                             "Area x Fake symbols",
-                             "Area x Weak Information",
-                             "Relevance treatment x Real symbols",
-                             "Relevance treatment x Fake symbols",
-                             "Relevance treatment x Weak Information"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
-
-<br>
-
-
-**Table A8: Regression table - adding personal relevance and motivational control variables**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp+CHILDREN_young,data=SVIVA2_01_comb)
-mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
-mod_air_1.3_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+ENVIRONMENT_INTEREST+ENVIRONMENT_FOLLOW+CHILDREN_young,data=SVIVA2_01_comb)
-mod_air_1.4_apx = update(mod_air_1.3_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak))
-
-mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+ENVIRONMENT_INTEREST+ENVIRONMENT_FOLLOW+CHILDREN_young,data=SVIVA2_01_comb)
-mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak))
-
-
-stargazer(mod_air_1.1_apx,mod_air_1.2_apx,mod_air_1.3_apx,mod_air_1.4_apx,
-          mod_waste_1.1_apx,mod_waste_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Air-pollution","Recycling"),
-          covariate.labels=c("Real symbols",
-                             "Fake-symbols",
-                             "Weak policy (0=strong policy)",
-                             "Area (0=Haifa-Bay; 1=center)",
-                             "Relevance treatment",
-                             "Interest in environmental issues",
-                             "Follows environmental issues in media",
-                             "Having young children (under 12)",
-                              "Area x Real symbols",
-                             "Area x Fake symbols",
-                             "Area x Weak Information",
-                             "Relevance treatment x Real symbols",
-                             "Relevance treatment x Fake symbols",
-                             "Relevance treatment x Weak Information"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
-
-<br>
-
-**Table A9: Regression table - unfiltered sample**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp,data=SVIVA2_comb_robust_1)
-mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
-
-mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak+AREA_center+RELEVANCE_exp,data=SVIVA2_comb_robust_1)
-mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ . +AREA_center*(SYMBOL_t+INFORMATION_weak)+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
-
-
-
-stargazer(mod_air_1.1_apx,mod_air_1.2_apx,
-          mod_waste_1.1_apx,mod_waste_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Air-pollution","Recycling"),
-          covariate.labels=c("Real symbols",
-                             "Fake-symbols",
-                             "Weak policy (0=strong policy)",
-                             "Area (0=Haifa-Bay; 1=center)",
-                             "Relevance treatment",
-                             "Area x Real symbols",
-                             "Area x Fake symbols",
-                             "Area x Weak Information",
-                             "Relevance treatment x Real symbols",
-                             "Relevance treatment x Fake symbols",
-                             "Relevance treatment x Weak Information"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
-
-<br>
-
-**Table A10: Regression table - subjective reporting of perceived personal relevance**
-
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_air_1.1_apx = lm(TRUST_air_INDEX~SYMBOL_t+INFORMATION_weak,data=SVIVA2_01_comb)
-mod_air_1.2_apx = update(mod_air_1.1_apx,. ~ .+RELEVANCE_obs+AREA_center)
-mod_air_1.3_apx = update(mod_air_1.1_apx,. ~ .+RELEVANCE_obs*(SYMBOL_t+INFORMATION_weak)+AREA_center)
-
-mod_waste_1.1_apx = lm(TRUST_waste_INDEX~SYMBOL_t+INFORMATION_weak,data=SVIVA2_01_comb)
-mod_waste_1.2_apx = update(mod_waste_1.1_apx,. ~ .+RELEVANCE_obs+AREA_center)
-mod_waste_1.3_apx = update(mod_waste_1.1_apx,. ~ .+RELEVANCE_obs*(SYMBOL_t+INFORMATION_weak)+AREA_center)
-
-
-stargazer(mod_air_1.2_apx,mod_air_1.3_apx,
-          mod_waste_1.2_apx,mod_waste_1.3_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Trust in air-pollution policy","Trust in recycling policy"),
-          covariate.labels=c("Real symbols",
-                             "Fake-symbols",
-                             "Weak Information",
-                             "Reported relevance",
-                             "Area (0=Haifa-Bay; 1=center)",
-                             "Reported relevance x Real symbols",
-                             "Reported relevance x Fake symbols",
-                             "Reported relevance x Weak Information"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
-          notes.append = FALSE)
-
-```
 
 <br>
 
