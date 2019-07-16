@@ -43,7 +43,7 @@ source("C:/SAAR/UNIVERSITY/R/SVIVA/code/experiment 2/SVIVA_exp2_dm_03.R")
 
 
 
-```{r silent-packages, echo = FALSE, eval = TRUE, message=FALSE, include = FALSE}
+```{r silent-packages}
 library(knitr)
 library(tidyverse)
 library(stargazer)
@@ -59,7 +59,7 @@ library(emmeans)
 ```
 
 
-```{r,echo=FALSE,warning=FALSE,message=FALSE}
+```{r}
 N_raw = nrow(SVIVA2_raw_00)
 N_0=SVIVA2_00%>%nrow()
 N_1=SVIVA2_01%>%nrow()
@@ -81,7 +81,7 @@ N_1_center = filter(SVIVA2_01,AREA==0)%>%nrow()
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 #Figures and tables
 table.x=0
 figure.x=0
@@ -146,7 +146,7 @@ The above-mentioned theoretical expectations are tested via a randomized survey 
 
 It should be noted that the experiment was additionally designed to test a set of hypotheses regarding the interaction between symbols and information in communications. The methodological aspects which are relevant for examining the additional hypotheses are described in a separate publication. In the following sections, I focus on those methodological and empirical parts of the study that are consequential for the examination of the moderating role or perceived personal relevance. An English translation of the full survey is available in section ## of the supplementary Appendix.  
 
-EPM is a national-level bureau responsible for the formulation, coordination, and execution of environmental policy in Israel. Among others, EPM is responsible for monitoring and regulating the air quality across the country. The Haifa-Bay area, located in the north of Israel, has been characterized by relatively high levels of air pollution, mainly due to the Haifa-Bay industrial zone, which is located in proximity of a number of urban residential areas. It is considered the largest industrial zone in the country, with concentration of multiple oil refineries, power plants, and chemical factories. Beginning in Mid 2000s, EPM has been developing and implementing a series of policy programs to monitor and reduce the high levels of pollution specifically in that area [@theministryofenvironmentprotection_2015; @theministryofenvironmentprotection_2015a; @theministryofenvironmentprotection_2019]. While EPM has claimed that its programs have been effective and led to a significant reduction in air-pollution levels, local residents, professionals and other public agencies have remained highly concerned about the issue, and  accordingly it remained high on the public agenda [@statecomptrollerofisrael_2019]. Specifically, the issue received much media and public attention in 2015-2016, following a series of reportings an media publications about the health consequences of the air-pollution in Haifa-Bay. In 2015, the Ministry of Health published statistical data indicating that Haifa-Bay residents experience significantly higher rates of cancer and asthma, compared to other areas of the country. The subsequent media reports specifically highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [@elroi_website_2015; @raavad_website_2015]. Thereafter, in 2016, media reporters revealed the interim results of a large epidemiological study, establishing a link between air-pollution in the Haifa-Bay and certain types of cancer, as well as abnormal measurements of newborn babies and growth curves of infants.[^footnote_epidemiological_study] The media reports of that study repeatedly focused on the finding that babies in the Haifa-Bay are born with "smaller heads" [@koriel_website_2016; @rinat_website_2016; @rivlin_website_2016]. Some reports also highlighted that the areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016]. These publications, and others, caused much panic among the local population, and especially among young parents. 
+EPM is a national-level bureau responsible for the formulation, coordination, and execution of environmental policy in Israel. Among others, EPM is responsible for monitoring and regulating the air quality across the country. The Haifa-Bay area, located in the north of Israel, has been characterized by relatively high levels of air pollution, mainly due to the Haifa-Bay industrial zone, which is located in proximity of a number of urban residential areas. It is considered the largest industrial zone in the country, with concentration of petrochemical industries, including oil refineries, power plants, and chemical factories. Beginning in Mid 2000s, EPM has been developing and implementing a series of policy programs to monitor and reduce the high levels of pollution specifically in that area [@theministryofenvironmentprotection_2015; @theministryofenvironmentprotection_2015a; @theministryofenvironmentprotection_2019]. While EPM has claimed that its programs have been effective and led to a significant reduction in air-pollution levels, local residents, professionals and other public agencies have remained highly concerned about the issue, and  accordingly it remained high on the public agenda [@statecomptrollerofisrael_2019]. Specifically, the issue received much media and public attention in 2015-2016, following a series of reportings an media publications about the health consequences of the air-pollution in Haifa-Bay. In 2015, the Ministry of Health published statistical data indicating that Haifa-Bay residents experience significantly higher rates of cancer and asthma, compared to other areas of the country. The subsequent media reports specifically highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [@elroi_website_2015; @raavad_website_2015]. Thereafter, in 2016, media reporters revealed the interim results of a large epidemiological study, establishing a link between air-pollution in the Haifa-Bay and certain types of cancer, as well as abnormal measurements of newborn babies and growth curves of infants.[^footnote_epidemiological_study] The media reports of that study repeatedly focused on the finding that babies in the Haifa-Bay are born with "smaller heads" [@koriel_website_2016; @rinat_website_2016; @rivlin_website_2016]. Some reports also highlighted that the areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016]. These publications, and others, caused much panic among the local population, and especially among young parents. 
 
 [^footnote_epidemiological_study]: The epidemiological study was originally sponsored by Ministry of Health. The study, which was  conducted by researchers from Haifa University, was planned to be conducted over five years, between 2015-2020. The findings, which leaked to the media, regarded the interim results of the first year of the study. Following that publication, the study has been significantly criticized by the local research community as well as the professional steering committee of the research. As a result, in 2017, the Ministry decided to cancel its involvement in that research.    
 
@@ -183,7 +183,7 @@ In line with the abovementioned hypotheses, my main focus in this paper is on pa
 ## *Variables*
 
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 alpha_air_trust = psych::alpha(select(SVIVA2_01, TRUST_air_q1,
                                TRUST_air_q2,
                                TRUST_air_q3,
@@ -218,9 +218,22 @@ The key independent variables are the manipulations of symbols[^footnote_symbols
 
 [^footnote_symbols_manipulation_check]: Manipulation checks for the symbols confirm that the subjects in both areas are fairly familiar with the EPM symbols, and these symbols evoke positive feelings. ##add check reliability of information. ## 
 
-Living in Haifa-bay area was coded according to respondents’ reporting of residence, work or studying in one of the Haifa-Bay cities. To confirm the empirical assumption that the air-pollution policy (but not the recycling policy) is perceived as more personally relevant by Haifa Bay residents compared with center residents, respondents were asked, after the outcome variable items: "To what extent did you feel that the policy on ["Reducing the air-pollution in the Haifa-Bay" / “reducing waste and increasing recycling”] is personally relevant to you?" (1="very little"; 7="very much"). `r figure.x=figure.x+1`**Figure `r figure.x`** shows the distributions of the latter items across the two areas. As expected, the air-pollution policy is perceived as more personally relevant by Haifa Bay residents compared with center residents  (Cohen's D = `r relevance.areas.d[["estimate"]] %>% round(2)` [`r relevance.areas.d[["conf.int"]][["lower"]] %>% round(2)`,`r relevance.areas.d[["conf.int"]][["upper"]] %>% round(2)`]). By comparison, the recycling policy is perceived by both groups as relatively personally relevant by both groups, with no statistically significant differences between them. Additional support for these differences are provided by respondents' answers to the open question about the most salient environmental issue in their area of residence, which was presented to the relevance treatment group (i.e. before presenting the policy plans). Indeed, `r t1<-SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1,air.content==1) %>% nrow()``r t1` of the `r t2<-SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1) %>% nrow()``r t2` Haifa-Bay subjects who were asked this question regarded in their responses to the air-pollution generated from the industrial area (`r (t1/t2*100) %>% round(0)`%).[^footnote_air_relevance_coding] Moreover, many Haifa-Bay respondents explicitly linked the air-pollution to higher morbidity rates in their area. Subjects from center cities regarded to a variety of issues, including recycling, traffic jams and cleanliness, and only `r ((SVIVA2_01_center %>% filter(RELEVANCE_exp==1,air.content==1) %>% nrow())/nrow(SVIVA2_01_center)*100) %>% round(0)`% of them mentioned air-pollution as a prominent environmental concern in their area.  
+Living in Haifa-bay area was coded according to respondents’ reporting of residence, work or studying in one of the Haifa-Bay cities. To confirm the empirical assumption that the air-pollution policy (but not the recycling policy) is perceived as more personally relevant by Haifa Bay residents compared with center residents, respondents were asked, after the outcome variable items: "To what extent did you feel that the policy on ["Reducing the air-pollution in the Haifa-Bay" / “reducing waste and increasing recycling”] is personally relevant to you?" (1="very little"; 7="very much"). `r figure.x=figure.x+1`**Figure `r figure.x`** shows the distributions of the latter items across the two areas. As expected, the air-pollution policy is perceived as more personally relevant by Haifa Bay residents compared with center residents  (Cohen's D = `r relevance.areas.d[["estimate"]] %>% round(2)` [`r relevance.areas.d[["conf.int"]][["lower"]] %>% round(2)`,`r relevance.areas.d[["conf.int"]][["upper"]] %>% round(2)`]). By comparison, the recycling policy is perceived by both groups as relatively personally relevant by both groups, with no statistically significant differences between them. Additional support for these differences are provided by respondents' answers to the open question about the most salient environmental issue in their area of residence, which was presented to the relevance treatment group (i.e. before presenting the policy plans). Indeed, `r t1<-SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1,air.content==1) %>% nrow()``r t1` of the `r t2<-SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1) %>% nrow()``r t2` Haifa-Bay subjects who were asked this question regarded in their responses to the air-pollution generated from the industrial area (`r air.content.percent.haifa <- t1/t2*100``r air.content.percent.haifa %>% round(0)`%).[^footnote_air_relevance_coding] Moreover, many Haifa-Bay respondents explicitly linked the air-pollution to higher morbidity rates in their area. Subjects from center cities regarded to a variety of issues, including recycling, traffic jams and cleanliness, and only `r ((SVIVA2_01_center %>% filter(RELEVANCE_exp==1,air.content==1) %>% nrow())/nrow(SVIVA2_01_center)*100) %>% round(0)`% of them mentioned air-pollution as a prominent environmental concern in their area.  
 
-[^footnote_air_relevance_coding]: I coded any reference to either air-pollution or the chemical factories in the Haifa-Bay area, as related to air-pollution.  
+```{r}
+library(irr)
+
+df.air.content.reliability <- relevance.coding[1:231,] %>% 
+  select(air.content,
+         air.content.coder2) %>% 
+  drop_na(air.content.coder2) %>% 
+  as.matrix() %>% 
+  t()
+
+```
+
+
+[^footnote_air_relevance_coding]: I coded any reference to either air-pollution or the chemical factories in the Haifa-Bay area, as related to air-pollution. To confirm inter-coder reliability, a second coder independently coded 70 observations (Krippendorff’s alpha = `r kripp.alpha(df.air.content.reliability)[["value"]] %>% round(2)`).  
 
 <br>
 
@@ -246,7 +259,7 @@ As for the relevance manipulation, data suggests that assignment to relevance pr
 <br>
 
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb)
 
 mod_air_1.1.symbol = update(mod_air_null,. ~ .+
@@ -321,7 +334,7 @@ Next, I examine the interactions between the symbols and information manipulatio
 
 These results are at odds with the two theoretical hypotheses. They suggest that that those residing in the polluted area were equally, and perhaps even more, likely to be influenced by symbolic elements in the communication, and also to a lesser extent, by the unfamiliar graphical elements included in the fake symbols condition. Additionally, these analyses do not provide evidence that the more engaged Haifa-Bay were more likely than others to scrutinize the content of the communication, and differentiate between strong and weak arguments.
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 mod_air_1.1 = update(mod_air_null,. ~ .+
                        SYMBOL_t+
@@ -373,7 +386,7 @@ I further examined the interactions between the manipulations and the two areas 
 <br>
 
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 mod_waste_null = lm(TRUST_waste_INDEX~1,data=SVIVA2_01_comb)
 mod_waste_1.1 = update(mod_waste_null,. ~ .+
@@ -428,7 +441,7 @@ Overall, the findings with regard to the air-pollution policy indicate, tentativ
 
 `r table.x=table.x+1`**Table `r table.x`** replicates the models in **Table `r table.x-1`** for the recycling policy. Overall, these models reveal relatively similar patterns to those found in the air-pollution policy. Notice that Haifa-Bay subjects reported lower trust on that policy as well, which may indicate that they their negative perceptions about the Ministry's actions regarding the air-pollution in their area shapes their general perceptions of the Ministry. The directions of the simple effects and interaction terms remain, while the main effects and conditional effects are smaller and less significant.[^footnote_recycling_model] Consistently with the air-pollution policy, Haifa-Bay subjects were more affected by the symbolic elements, and the respondents from the two areas responded similarly to the differences in the information. The fact that similar patterns are observed across the these policies further weakens the initial assumption regarding the moderating role of personal relevance. It also rules out a possible argument that greater relevance enhances (rather then reduces) the effect of symbols. If this was the case, then there should have been no interaction between symbols and the areas for the recycling policy.    
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 symbols.waste <- emmeans::emmeans(mod_waste_1.1, specs = pairwise ~ SYMBOL_t)
 
@@ -454,7 +467,7 @@ se4 <- (mod_waste_1.3.r.robust_se %>% tidy() %>% filter(names=="SYMBOL_t.r1") %>
 
 <br>
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 mod_relevance_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb.haifa)
 mod_relevance_1.1 = update(mod_relevance_null,. ~ .+
@@ -489,7 +502,8 @@ mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_
 
 
 SVIVA2_01_comb.haifa <- SVIVA2_01_comb.haifa %>% 
-  mutate(RELEVANCE_exp.r = Recode(RELEVANCE_exp,"0=1;1=0"))
+  mutate(RELEVANCE_exp.r = Recode(RELEVANCE_exp,"0=1;1=0"),
+         SYMBOL_t.r = Recode(SYMBOL_t,"0=2;2=0"))
 
 mod_relevance_1.2.r = update(mod_relevance_null,. ~ .+RELEVANCE_exp.r*(SYMBOL_t+INFORMATION_weak))
 
@@ -498,6 +512,8 @@ mod_relevance_1.2.r.robust_se <- sqrt(diag(vcovHC(mod_relevance_1.2.r, type = "H
 diff5 <- (mod_relevance_1.2.r %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.)) %>% abs() %>% round(3)
 se5 <- (mod_relevance_1.2.r.robust_se %>% tidy() %>% filter(names=="SYMBOL_t1") %>% select(x)) %>% max()
 
+
+mod_relevance_1.2.r.r = update(mod_relevance_null,. ~ .+RELEVANCE_exp.r*(SYMBOL_t.r+INFORMATION_weak))
 
 tab.t1 <- SVIVA2_01_comb.haifa %>% 
   group_by(RELEVANCE_exp,
@@ -512,15 +528,26 @@ tab.t1 <- SVIVA2_01_comb.haifa %>%
   mutate(ci.low = mean - 1.96*se,
          ci.high = mean + 1.96*se)
 
+mod_symbols_relevance_aircontent = lm(TRUST_air_INDEX ~ SYMBOL_t,SVIVA2_01_haifa.relevance.aircontent)
+
+mod_symbols_relevance_aircontent.r = lm(TRUST_air_INDEX ~ SYMBOL_t.r,SVIVA2_01_haifa.relevance.aircontent)
+
+main.symbols.relevance.aircontent <- emmeans::emmeans(mod_symbols_relevance_aircontent, specs = pairwise ~ SYMBOL_t)
+
+t.symbols.relevance.aircontent.no <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_haifa.relevance.aircontent %>% filter(SYMBOL_t!=2))
+t.symbols.relevance.aircontent.fake <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_haifa.relevance.aircontent %>% filter(SYMBOL_t!=0))
+
 ```
 
 Next, `r table.x=table.x+1`**Table `r table.x`** presents the interaction between the relevance manipulation and the symbols and information manipulations. In Model `r table.x`.1, I regress trust in air-pollution policy on the three manipulations, then in Model `r table.x`.2 I add the interaction between the relevance manipulation and the symbols and information manipulations. Similarly to the regression tables presented above, the final two models are robust analyses where I add controls (Model `r table.x`.3) and restrict the sample to the policy presented first in order (Model `r table.x`.4). In all these models, the coefficient of the relevance treatment is negative but far from significance. The interactions between the real symbols and the relevance manipulation are negative, which indicates that among those who were primed to think about the personal relevance of the air-pollution problem, the averaged differences between those who saw the symbols and those who did not were slightly smaller. However, these interaction coefficients are relatively weak (ranging between `r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)`--`r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)` SDs, and attenuating approximately `r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.2 %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`--`r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.4 %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`% of the effect in the control group) and far from significance. The interactions between the relevance treatment and weak information manipulations are positive but again insignificant (ranging between `r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)`--`r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)` SDs, and attenuating approximately `r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.4 %>% tidy() %>% filter(term=="INFORMATION_weak") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`--`r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.2 %>% tidy() %>% filter(term=="INFORMATION_weak") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`% of the effect in the control group).[^footnote_relevance_manipulation_1]
 
 [^footnote_relevance_manipulation_1]: In additional analyses, I also examine the moderating effect of the relevance treatment for center subjects' responses to air-pollution policy, as well as for the recycling policy (for the entire sample). In all these analyses, the interactions with the relevance treatment are insignificant.     
 
-Two limitations about these analyses should be acknowledged. First, since the treatment manipulation did not affect participants' self-reporting of the personal relevance, there is no certainty that the manipulation actually succeeded in priming those subjects. Second, these analyses have more limited statistical power, compared to the observational comparisons, since they are restricted only to the sample of Haifa-Bay subjects. Still, even if the relevance manipulation does attenuate the effect of the real symbols, their effect on that group compared with the no symbols is estimated based on Model `r table.x`.2 as `r (diff5/sd.air.haifa) %>% round(3)` SDs (lower 95% CI = `r ((diff5 - 1.96*se5)/sd.air.haifa) %>% round(3)`--`r ((diff5 + 1.96*se5)/sd.air.haifa) %>% round(3)`). This indicates that even Haifa-Bay residents that were reminded in a subtle way about the relevance of the air-pollution to their lives area are affected, at least to some degree, by familiar symbols. As for the information manipulation, descriptively, only `r ((filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==1,INFORMATION_weak==1,TRUST_air_INDEX<=2) %>% nrow())/(nrow(filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==0,INFORMATION_weak==1)))*100)%>% round(0)`% of the participants assigned to relevance treatment reported a low score of 2 or less for the weak policy plan, while `r ((filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==1,INFORMATION_weak==1,TRUST_air_INDEX>=4) %>% nrow())/(nrow(filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==1,INFORMATION_weak==1)))*100)%>% round(0)`% of them reported a trust score of 4 or more (percentages for the control group are `r ((filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==0,INFORMATION_weak==1,TRUST_air_INDEX<=2) %>% nrow())/(nrow(filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==0,INFORMATION_weak==1)))*100)%>% round(0)`% and `r ((filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==0,INFORMATION_weak==1,TRUST_air_INDEX>=4) %>% nrow())/(nrow(filter(SVIVA2_01_comb.haifa,RELEVANCE_exp==0,INFORMATION_weak==1)))*100)%>% round(0)`%, respectively). This entials that a vast majority of subjects within the polluted area tended to trust, to some degree, a policy plan whose chances of reducing the air-pollution are extremely low, even after reminding them about the relevance of the issue.  
+Two limitations about these analyses should be acknowledged. First, since the treatment manipulation did not affect participants' self-reporting of the personal relevance, there is no certainty that the manipulation actually succeeded in priming those subjects. Second, these analyses have more limited statistical power, compared to the observational comparisons, since they are restricted only to the sample of Haifa-Bay subjects. Still, even if the relevance manipulation does attenuate the effect of the real symbols, their effect on that group compared with the no symbols is estimated based on Model `r table.x`.2 as `r (diff5/sd.air.haifa) %>% round(3)` SDs [`r ((diff5 - 1.96*se5)/sd.air.haifa) %>% round(3)`,`r ((diff5 + 1.96*se5)/sd.air.haifa) %>% round(3)`]. Remarkably, even when restricting the relevance treatment group to those who mentioned the air-pollution as an acute environmental issue in their area of residence (`r air.content.percent.haifa %>% round(0)`% of that group, *n* = `r SVIVA2_01_haifa.relevance.aircontent %>% nrow()`), the real symbols still had a roughly similar positive effect on trust in the policy plan, compared with the no symbols (*diff* = `r (main.symbols.relevance.aircontent$contrasts %>% tidy() %>% .[1,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.symbols.relevance.aircontent.no[["conf.int"]][2]*-1) %>% round(.,2)`-`r (t.symbols.relevance.aircontent.no[["conf.int"]][1]*-1) %>% round(.,2)`], *t* = `r t.symbols.relevance.aircontent.no[["statistic"]][["t"]] %>% abs() %>% round(.,3)`).[^footnote_relevance_significance_fakesymbols] This indicates that even Haifa-Bay residents that were reminded about the relevance of the air-pollution to their lives area are positively affected, at least to some degree, by familiar symbols.   
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+[^footnote_relevance_significance_fakesymbols]: Consistently with the previous models, subjects in the real symbols group also reported higher trust compared with the fake symbols, but these differences are not sufficiently significant. The differences between the two control groups are insignificant. 
+
+```{r}
 mod_closedness_null = lm(TRUST_air_INDEX~+
                    GOV_TRUST+
                    IDEOLOGY+
@@ -551,9 +578,6 @@ mod_closedness_1.2.wald_results <- waldtest(mod_closedness_1.2, vcov = vcovHC(mo
 
 mod_closedness_1.3.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.3, type = "HC1")))
 mod_closedness_1.3.wald_results <- waldtest(mod_closedness_1.3, vcov = vcovHC(mod_closedness_1.3, type = "HC1"))
-
-
-library(effsize)
 
 relevance.areas.close.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area) 
 relevance.areas.close.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area)
@@ -659,7 +683,7 @@ In recent years, the Ministry has taken steps to encourage the reduction of wast
 
 # Figures and tables
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 #Figures and tables
 table.x=0
 figure.x=0
@@ -676,7 +700,7 @@ figure.x=0
 
 <br>
 
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 #labels of vars
 vars.lab = c(
@@ -854,7 +878,7 @@ t3.center <- t1.all %>%
 
 
 **Haifa-Bay**
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 t3.haifa %>%
   filter(str_detect(variable,"policy")==F) %>%
@@ -888,7 +912,7 @@ Table entries are means with SDs in parentheses.
 
 <br>
 **Center**
-```{r, echo=FALSE, warning=FALSE, message=F}
+```{r}
 
 t3.center %>%
     filter(str_detect(variable,"policy")==F) %>%
@@ -923,7 +947,7 @@ Table entries are means with SDs in parentheses.
 <br>
 `r figure.x=figure.x+1`**Figure `r figure.x`: Perceived personal relevance of policy issues across areas**
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE, fig.width=8,fig.height=4}
+```{r, fig.width=8,fig.height=4}
 SVIVA2_01 %>%
   select(AREA_names,
          RELEVANCE_air_obs,
@@ -951,7 +975,7 @@ ggplot(aes(AREA_names,relevance))+
 
 `r figure.x=figure.x+1`**Figure `r figure.x`: The distribution of Trust in air-pollution across the different conditions of symbols and information**
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE, fig.width=8,fig.height=4}
+```{r, fig.width=8, fig.height=4}
 p1 <- SVIVA2_01_comb %>%
 ggplot(aes(SYMBOL_n,TRUST_air_INDEX))+ 
   theme_tufte()+
@@ -1005,7 +1029,7 @@ ggarrange(p1,p2,p3,
 
 `r figure.x=figure.x+1`**Figure `r figure.x`: The effect of symbolic elements on trust across areas**
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.width=8}
+```{r, fig.width=8}
 p1 <- SVIVA2_01_comb %>%
   filter(policy=="TRUST_air_INDEX") %>% 
 ggplot(aes(factor(SYMBOL_n),trust,shape=factor(AREA_names)))+ 
@@ -1054,7 +1078,7 @@ ggarrange(p1,p2,
 
 `r table.x=table.x+1`**Table `r table.x`: Regression analyses – Trust in Air-pollution policy.**
 
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+```{r,results="asis"}
 control.vars <- c("GENDER",
                   "AGE",
                   "GOV_TRUST",
@@ -1112,7 +1136,7 @@ stargazer(mod_air_1.1,mod_air_null,
 
 `r table.x=table.x+1`**Table `r table.x`: Regression analyses – trust in recycling policy.**
 
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+```{r,results="asis"}
 control.vars <- c("GENDER",
                   "AGE",
                   "GOV_TRUST",
@@ -1167,7 +1191,7 @@ stargazer(mod_waste_1.1,mod_waste_null,
 
 `r table.x=table.x+1`**Table `r table.x`: Regression analyses – experimental manipulation of perceived personal relevance.**
 
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+```{r,results="asis"}
 control.vars <- c("GENDER",
                   "AGE",
                   "GOV_TRUST",
@@ -1217,7 +1241,7 @@ stargazer(mod_relevance_1.1,mod_relevance_null,
 
 `r table.x=table.x+1`**Table `r table.x`: Regression analyses – moderation of proximity to industrial area and young children.**
 
-```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
+```{r,results="asis"}
 control.vars <- c("GENDER",
                   "AGE",
                   "GOV_TRUST",
