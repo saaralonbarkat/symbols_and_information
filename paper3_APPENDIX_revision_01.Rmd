@@ -848,6 +848,7 @@ t11.all %>%
 
 # Supplementary analyses
 
+ 
 ```{r}
 SVIVA2_00_comb = SVIVA2_00 %>% 
   filter(!(AGE %in% 1:17)) %>% 
@@ -909,7 +910,11 @@ SVIVA2_00_comb_air_first <- SVIVA2_00_comb %>% filter(AIR_order==1)
 
 ```
 
+The following regression tables replicate Tables 2-4 in the main paper, while adding observations who were filtered, except for those who reported an age under 18 (*n* = `r SVIVA2_00_comb %>% drop_na(TRUST_air_INDEX) %>%  nrow()`).  
 
+<br>
+
+`r table.x=table.x+1`**Table a`r table.x`: Regression analyses – trust in air-pollution policy (unfilterred sample).**
 
 ```{r}
 mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_00_comb)
@@ -952,6 +957,7 @@ mod_air_1.5.wald_results <- waldtest(mod_air_1.5, vcov = vcovHC(mod_air_1.5, typ
 
 ```
 
+
 ```{r,results="asis"}
 control.vars <- c("GENDER",
                   "AGE",
@@ -977,7 +983,7 @@ stargazer(mod_air_1.1,mod_air_null,
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("(1.",1:5,")"),
+          column.labels   = str_c("(a1.",1:5,")"),
           column.separate = c(2,2,2,2,2),
           dep.var.labels="Trust in air-pollution policy",
           omit = control.vars,
@@ -1044,8 +1050,9 @@ mod_waste_1.5.wald_results <- waldtest(mod_waste_1.5, vcov = vcovHC(mod_waste_1.
 
 ```
 
+<br>
 
-`r table.x=table.x+1`**Table `r table.x`: Regression analyses – trust in recycling policy.**
+`r table.x=table.x+1`**Table a`r table.x`: Regression analyses – trust in recycling policy (unfilterred sample).**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -1073,7 +1080,7 @@ stargazer(mod_waste_1.1,mod_waste_null,
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("(2.",1:5,")"),
+          column.labels   = str_c("a(2.",1:5,")"),
           column.separate = c(2,2,2,2,2),
           dep.var.labels="Trust in recycling policy",
           omit = control.vars,
@@ -1142,7 +1149,7 @@ mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_
 ```
 
 
-`r table.x=table.x+1`**Table `r table.x`: Regression analyses – experimental manipulation of perceived personal relevance.**
+`r table.x=table.x+1`**Table a`r table.x`: Regression analyses – experimental manipulation of perceived personal relevance (unfilterred sample).**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -1167,7 +1174,7 @@ stargazer(mod_relevance_1.1,mod_relevance_null,
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("(3.",1:4,")"),
+          column.labels   = str_c("a(3.",1:4,")"),
           column.separate = c(2,2,2),
           dep.var.labels="Trust in air-pollution policy",
           omit = control.vars,
