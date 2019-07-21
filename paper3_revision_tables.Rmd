@@ -1,0 +1,903 @@
+---
+title: "Does personal relevance attenuate citizens' persuasion by government branding? Evidence from a survey experiment on air-pollution policy"
+author: '**Saar Alon-Barkat**'
+date: " "
+always_allow_html: yes
+output:
+  html_document:
+    theme: flatly
+  pdf_document:
+    toc: yes
+  word_document: default
+link-citations: yes
+bibliography: phd_paper_2.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+urlcolor: blue
+---
+
+<br>
+
+Draft, last edited at `r Sys.Date()`.
+
+```{r set-global-options, echo = FALSE}
+knitr::opts_chunk$set(eval = TRUE, 
+                      echo = FALSE, 
+                      message=FALSE,
+                      warning = FALSE,
+                      cache = FALSE)
+
+```
+
+
+
+```{r , include=FALSE, echo=FALSE}
+#load("SVIVA_R_ENV.RData")
+source("C:/SAAR/UNIVERSITY/R/SVIVA/code/experiment 2/SVIVA_exp2_dm_03.R")
+
+
+```
+
+
+
+```{r silent-packages}
+library(knitr)
+library(tidyverse)
+library(stargazer)
+library(car)
+library(broom)
+library(kableExtra)
+library(ggthemes)
+library(lmtest)
+library(sandwich)
+library(ggpubr)
+library(effsize)
+library(emmeans)
+```
+
+
+```{r}
+N_raw = nrow(SVIVA2_raw_00)
+N_0=SVIVA2_00%>%nrow()
+N_1=SVIVA2_01%>%nrow()
+
+filter_IP = N_0-(SVIVA2_00 %>%
+  distinct(IP,.keep_all=TRUE)%>%nrow())
+filter_age = N_0-(SVIVA2_00 %>%
+  filter(!(AGE%in% 1:17))%>% nrow())
+filter_IMC = N_0-(SVIVA2_00 %>%
+  filter(IMC==1)%>% nrow())
+filter_time = N_0-(SVIVA2_00 %>%
+  filter(TIMER_total>=3,TIMER_total<=30)%>%nrow())
+
+N_1_haifa = filter(SVIVA2_01,AREA==1)%>%nrow()
+N_1_center = filter(SVIVA2_01,AREA==0)%>%nrow()
+
+
+
+```
+
+
+```{r}
+#Figures and tables
+table.x=0
+figure.x=0
+```
+
+<br>
+
+```{r}
+
+sd.air <- SVIVA2_01_comb%>%summarise(sd(TRUST_air_INDEX,na.rm=T))%>%max()
+sd.air.haifa <- SVIVA2_01_comb %>% filter(AREA_center==0)%>%summarise(sd(TRUST_air_INDEX,na.rm=T))%>%max()
+
+sd.waste <- SVIVA2_01_comb%>%summarise(sd(TRUST_waste_INDEX,na.rm=T))%>%max()
+
+```
+
+
+
+```{r}
+mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb)
+
+mod_air_1.1 = update(mod_air_null,. ~ .+
+                       SYMBOL_t+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb)
+mod_air_1.2 = update(mod_air_1.1,. ~ .+AREA_center)
+mod_air_1.3 = update(mod_air_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+
+mod_air_1.4 = update(mod_air_1.3,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
+
+mod_air_1.5 = update(mod_air_1.3,. ~ .,data=SVIVA2_01_comb_air_first)
+
+
+## Adjust standard errors & F statistic
+mod_air_1.1.robust_se    <- sqrt(diag(vcovHC(mod_air_1.1, type = "HC1")))
+mod_air_1.1.wald_results <- waldtest(mod_air_1.1, vcov = vcovHC(mod_air_1.1, type = "HC1"))
+
+mod_air_1.2.robust_se    <- sqrt(diag(vcovHC(mod_air_1.2, type = "HC1")))
+mod_air_1.2.wald_results <- waldtest(mod_air_1.2, vcov = vcovHC(mod_air_1.2, type = "HC1"))
+
+mod_air_1.3.robust_se    <- sqrt(diag(vcovHC(mod_air_1.3, type = "HC1")))
+mod_air_1.3.wald_results <- waldtest(mod_air_1.3, vcov = vcovHC(mod_air_1.3, type = "HC1"))
+
+mod_air_1.4.robust_se    <- sqrt(diag(vcovHC(mod_air_1.4, type = "HC1")))
+mod_air_1.4.wald_results <- waldtest(mod_air_1.4, vcov = vcovHC(mod_air_1.4, type = "HC1"))
+
+mod_air_1.5.robust_se    <- sqrt(diag(vcovHC(mod_air_1.5, type = "HC1")))
+mod_air_1.5.wald_results <- waldtest(mod_air_1.5, vcov = vcovHC(mod_air_1.5, type = "HC1"))
+
+```
+
+
+
+```{r}
+
+mod_waste_null = lm(TRUST_waste_INDEX~1,data=SVIVA2_01_comb)
+mod_waste_1.1 = update(mod_waste_null,. ~ .+
+                       SYMBOL_t+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb)
+mod_waste_1.2 = update(mod_waste_1.1,. ~ .+AREA_center)
+mod_waste_1.3 = update(mod_waste_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+mod_waste_1.4 = update(mod_waste_1.3,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
+SVIVA2_01_comb_recycling_first <- SVIVA2_01_comb %>% filter(AIR_order==2)
+mod_waste_1.5 = update(mod_waste_1.3,. ~ .,data=SVIVA2_01_comb_recycling_first)
+
+## Adjust standard errors & F statistic
+mod_waste_1.1.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.1, type = "HC1")))
+mod_waste_1.1.wald_results <- waldtest(mod_waste_1.1, vcov = vcovHC(mod_waste_1.1, type = "HC1"))
+
+mod_waste_1.2.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.2, type = "HC1")))
+mod_waste_1.2.wald_results <- waldtest(mod_waste_1.2, vcov = vcovHC(mod_waste_1.2, type = "HC1"))
+
+mod_waste_1.3.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.3, type = "HC1")))
+mod_waste_1.3.wald_results <- waldtest(mod_waste_1.3, vcov = vcovHC(mod_waste_1.3, type = "HC1"))
+
+mod_waste_1.4.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.4, type = "HC1")))
+mod_waste_1.4.wald_results <- waldtest(mod_waste_1.4, vcov = vcovHC(mod_waste_1.4, type = "HC1"))
+
+mod_waste_1.5.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.5, type = "HC1")))
+mod_waste_1.5.wald_results <- waldtest(mod_waste_1.5, vcov = vcovHC(mod_waste_1.4, type = "HC1"))
+
+```
+
+
+```{r}
+
+mod_relevance_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb.haifa)
+mod_relevance_1.1 = update(mod_relevance_null,. ~ .+
+                             SYMBOL_t+
+                   INFORMATION_weak+
+                   RELEVANCE_exp)
+mod_relevance_1.2 = update(mod_relevance_1.1,. ~ .+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+mod_relevance_1.3 = update(mod_relevance_1.2,. ~ .+
+                   GENDER+
+                   AGE+
+                   GOV_TRUST+
+                   IDEOLOGY+
+                   EDUCATION+
+                   INCOME+
+                   CHILDREN_young)
+
+
+mod_relevance_1.4 = update(mod_relevance_1.2,. ~ .,data=SVIVA2_01_comb.haifa_air_first)
+
+## Adjust standard errors & F statistic
+mod_relevance_1.1.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.1, type = "HC1")))
+mod_relevance_1.1.wald_results <- waldtest(mod_relevance_1.1, vcov = vcovHC(mod_relevance_1.1, type = "HC1"))
+
+mod_relevance_1.2.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.2, type = "HC1")))
+mod_relevance_1.2.wald_results <- waldtest(mod_relevance_1.2, vcov = vcovHC(mod_relevance_1.2, type = "HC1"))
+
+mod_relevance_1.3.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.3, type = "HC1")))
+mod_relevance_1.3.wald_results <- waldtest(mod_relevance_1.3, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+
+mod_relevance_1.4.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.4, type = "HC1")))
+mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+
+
+SVIVA2_01_comb.haifa <- SVIVA2_01_comb.haifa %>% 
+  mutate(RELEVANCE_exp.r = Recode(RELEVANCE_exp,"0=1;1=0"),
+         SYMBOL_t.r = Recode(SYMBOL_t,"0=2;2=0"))
+
+mod_relevance_1.2.r = update(mod_relevance_null,. ~ .+RELEVANCE_exp.r*(SYMBOL_t+INFORMATION_weak))
+
+mod_relevance_1.2.r.robust_se <- sqrt(diag(vcovHC(mod_relevance_1.2.r, type = "HC1")))
+
+diff5 <- (mod_relevance_1.2.r %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.)) %>% abs() %>% round(3)
+se5 <- (mod_relevance_1.2.r.robust_se %>% tidy() %>% filter(names=="SYMBOL_t1") %>% select(x)) %>% max()
+
+
+mod_relevance_1.2.r.r = update(mod_relevance_null,. ~ .+RELEVANCE_exp.r*(SYMBOL_t.r+INFORMATION_weak))
+
+tab.t1 <- SVIVA2_01_comb.haifa %>% 
+  group_by(RELEVANCE_exp,
+           INFORMATION_weak) %>% 
+  summarise(n = n(),
+            mean = mean(TRUST_air_INDEX,na.rm = T),
+            sd = sd(TRUST_air_INDEX,na.rm = T),
+            q1 = quantile(TRUST_air_INDEX,0.25,na.rm=T),
+            median = quantile(TRUST_air_INDEX,0.5,na.rm=T),
+            q3 = quantile(TRUST_air_INDEX,0.75,na.rm=T)) %>% 
+  mutate(se = sd/sqrt(n)) %>% 
+  mutate(ci.low = mean - 1.96*se,
+         ci.high = mean + 1.96*se)
+
+mod_symbols_relevance_aircontent = lm(TRUST_air_INDEX ~ SYMBOL_t,SVIVA2_01_haifa.relevance.aircontent)
+
+mod_symbols_relevance_aircontent.r = lm(TRUST_air_INDEX ~ SYMBOL_t.r,SVIVA2_01_haifa.relevance.aircontent)
+
+main.symbols.relevance.aircontent <- emmeans::emmeans(mod_symbols_relevance_aircontent, specs = pairwise ~ SYMBOL_t)
+
+t.symbols.relevance.aircontent.no <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_haifa.relevance.aircontent %>% filter(SYMBOL_t!=2))
+t.symbols.relevance.aircontent.fake <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_haifa.relevance.aircontent %>% filter(SYMBOL_t!=0))
+
+```
+
+ 
+
+```{r}
+mod_closedness_null = lm(TRUST_air_INDEX~+
+                   GOV_TRUST+
+                   IDEOLOGY+
+                   EDUCATION+
+                   INCOME+
+                     AGE,data=SVIVA2_01_comb.haifa)
+
+mod_closedness_1.1 = update(mod_closedness_null,. ~ .+
+                             SYMBOL_t+
+                   INFORMATION_weak+
+                   close.industrial.area+
+                     CHILDREN_young)
+
+mod_closedness_1.2 = update(mod_closedness_1.1,. ~ .
+                            +close.industrial.area*(SYMBOL_t+INFORMATION_weak)+
+                              CHILDREN_young*(SYMBOL_t+INFORMATION_weak)+
+                              GENDER*(SYMBOL_t+INFORMATION_weak))
+
+mod_closedness_1.3 = update(mod_closedness_1.2,. ~ .,data=SVIVA2_01_comb.haifa_air_first)
+
+
+## Adjust standard errors & F statistic
+mod_closedness_1.1.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.1, type = "HC1")))
+mod_closedness_1.1.wald_results <- waldtest(mod_closedness_1.1, vcov = vcovHC(mod_closedness_1.1, type = "HC1"))
+
+mod_closedness_1.2.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.2, type = "HC1")))
+mod_closedness_1.2.wald_results <- waldtest(mod_closedness_1.2, vcov = vcovHC(mod_closedness_1.2, type = "HC1"))
+
+mod_closedness_1.3.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.3, type = "HC1")))
+mod_closedness_1.3.wald_results <- waldtest(mod_closedness_1.3, vcov = vcovHC(mod_closedness_1.3, type = "HC1"))
+
+```
+
+
+# Figures and tables
+
+```{r}
+#Figures and tables
+table.x=0
+figure.x=0
+```
+
+<br><br>
+
+`r table.x=table.x+1`**Table `r table.x`: Balancing of experimental groups across areas**
+
+<br>
+
+```{r}
+
+#labels of vars
+vars.lab = c(
+         "Gender (Woman=1)",
+         "Age",
+         "Trust in government ministries",
+         "Political Ideology (10 = extreme left)",
+         "Education",
+         "Income (5=high)",
+         "Parents",
+         "Parents of young children (under 12)",
+         "Interest in environmental issues",
+         "Air-pollution policy",
+         "Recycling policy"
+)
+
+vars <- c(var1 = "GENDER", 
+          var2 ="AGE",
+          var3 ="GOV_TRUST",
+          var4 = "IDEOLOGY", 
+          var5 ="EDUCATION",
+          var6 ="INCOME",
+          var7 = "CHILDREN", 
+          var8 ="CHILDREN_young",
+          var9 ="ENVIRONMENT_INTEREST",
+          var91 ="TRUST_air_INDEX",
+          var92 ="TRUST_waste_INDEX")
+
+t1.all <- SVIVA2_01 %>% 
+  select(AREA_center,
+         !!vars) %>% 
+  gather(key = variable, value = value,-AREA_center) %>% 
+  group_by(AREA_center,variable) %>% 
+  summarise(mean.var = mean(value,na.rm = T) %>% round(3),
+            sd.var = sd(value,na.rm = T) %>% round(3)) %>% 
+  mutate(all = str_c(mean.var, " (",sd.var,")")) %>% 
+  as.data.frame() %>% 
+  mutate(variable = rep(vars,2)) %>% 
+  select(-mean.var,-sd.var)
+  
+t1.symbol <- SVIVA2_01 %>%
+  mutate(symbols.t = Recode(SYMBOL,"0='no';1='fake';2='real'")) %>% 
+  select(AREA_center,
+         symbols.t,
+         !!vars) %>%
+  gather(key = variable, value = value, -symbols.t,-AREA_center) %>% 
+  group_by(symbols.t, variable,AREA_center) %>% 
+  summarise(value = list(value)) %>% 
+  spread(symbols.t, value) %>% 
+  group_by(AREA_center,variable) %>% 
+  
+  mutate(mean_no = round(mean(unlist(no),na.rm = T),3),
+         mean_fake = round(mean(unlist(fake),na.rm = T),3),
+         mean_real = round(mean(unlist(real),na.rm = T),3),
+         sd_no = round(sd(unlist(no),na.rm = T),3),
+         sd_fake = round(sd(unlist(fake),na.rm = T),3),
+         sd_real = round(sd(unlist(real),na.rm = T),3)) %>%
+  mutate(no = str_c(mean_no, " (",sd_no,")"),
+         fake = str_c(mean_fake, " (",sd_fake,")"),
+         real = str_c(mean_real, " (",sd_real,")")) %>% 
+  select(AREA_center,
+         variable,
+         no,
+         fake,
+         real) %>% 
+  as.data.frame() %>% 
+  arrange(AREA_center,variable)
+  
+t2.symbol <- SVIVA2_01 %>% 
+  select(AREA_center,
+         SYMBOL,
+         !!vars) %>% 
+  gather(key = variable, value = value, -SYMBOL,-AREA_center) %>% 
+  group_by(variable,AREA_center) %>% 
+  do(tidy(aov(value~SYMBOL, data=.))) %>% 
+  as.data.frame() %>% 
+  filter(term=="SYMBOL") %>% 
+  select(AREA_center,
+         variable,
+         statistic) %>% 
+  mutate_at(c("statistic"), funs(round(.,3)))%>% 
+  arrange(AREA_center,variable)
+
+t3.symbol <- cbind(t1.symbol,
+                   t2.symbol %>% select(statistic)) 
+
+t1.info <- SVIVA2_01 %>% 
+  mutate(info.t = ifelse(INFORMATION_air==1,"air_strong","air_weak")) %>% 
+  select(AREA_center,
+         info.t,
+         !!vars) %>%
+  gather(key = variable, value = value, -info.t, -AREA_center) %>% 
+  group_by(info.t, variable,AREA_center) %>% 
+  summarise(value = list(value)) %>% 
+  spread(info.t, value) %>% 
+  group_by(AREA_center,variable) %>% 
+  
+  mutate(mean_strong = round(mean(unlist(air_strong),na.rm = T),3),
+         mean_weak = round(mean(unlist(air_weak),na.rm = T),3),
+         sd_strong = round(sd(unlist(air_strong),na.rm = T),3),
+         sd_weak = round(sd(unlist(air_weak),na.rm = T),3),
+         t_value.info = round(t.test(unlist(air_strong), unlist(air_weak))$statistic,3)) %>% 
+  mutate(air_strong = str_c(mean_strong, " (",sd_strong,")"),
+         air_weak = str_c(mean_weak, " (",sd_weak,")")) %>% 
+  select(AREA_center,
+         variable,
+         air_strong,
+         air_weak,
+         t_value.info) %>% 
+  as.data.frame() %>% 
+  arrange(AREA_center,variable)  
+
+t1.relevance <- SVIVA2_01 %>%
+  mutate(relevance.t = ifelse(RELEVANCE_exp==1,"treatment","control")) %>% 
+  select(AREA_center,
+         relevance.t,
+         !!vars) %>%
+  select(-var9) %>%
+  mutate(var9 = SVIVA2_01$SYMBOL_bi) %>% 
+  gather(key = variable, value = value, -relevance.t, -AREA_center) %>% 
+  group_by(relevance.t, variable,AREA_center) %>% 
+  summarise(value = list(value)) %>% 
+  spread(relevance.t, value) %>% 
+  group_by(AREA_center,variable) %>% 
+  
+  mutate(mean_treatment = round(mean(unlist(treatment),na.rm = T),3),
+         mean_control = round(mean(unlist(control),na.rm = T),3),
+         sd_treatment = round(sd(unlist(treatment),na.rm = T),3),
+         sd_control = round(sd(unlist(control),na.rm = T),3),
+         t_value.relevance = round(t.test(unlist(treatment), unlist(control))$statistic,3)) %>% 
+  mutate(treatment = str_c(mean_treatment, " (",sd_treatment,")"),
+         control = str_c(mean_control, " (",sd_control,")")) %>% 
+  select(AREA_center,
+         variable,
+         treatment,
+         control,
+         t_value.relevance) %>% 
+  as.data.frame() %>% 
+  arrange(AREA_center,variable) 
+
+t1.relevance[t1.relevance$variable=="var9",-c(1,2)]="-"
+
+
+
+t3.haifa <- t1.all %>% 
+  filter(AREA_center==0) %>% 
+  select(-AREA_center) %>% 
+  cbind(t3.symbol  %>% 
+          filter(AREA_center==0) %>% 
+          select(-AREA_center,-variable)) %>% 
+  cbind(t1.info %>% 
+          filter(AREA_center==0) %>% 
+          select(-AREA_center,-variable)) %>%
+  cbind(t1.relevance %>% 
+          filter(AREA_center==0) %>% 
+          select(-AREA_center,-variable)) %>% 
+  mutate(variable = vars.lab)
+
+
+t3.center <- t1.all %>% 
+  filter(AREA_center==1) %>% 
+  select(-AREA_center) %>% 
+  cbind(t3.symbol  %>% 
+          filter(AREA_center==1) %>% 
+          select(-AREA_center,-variable)) %>% 
+  cbind(t1.info %>% 
+          filter(AREA_center==1) %>% 
+          select(-AREA_center,-variable)) %>%
+  cbind(t1.relevance %>% 
+          filter(AREA_center==1) %>% 
+          select(-AREA_center,-variable)) %>%  
+  mutate(variable = vars.lab)
+
+```
+
+
+**Haifa Bay**
+```{r}
+
+t3.haifa %>%
+  filter(str_detect(variable,"policy")==F) %>%
+  kable(col.names = c("",
+                    str_c("All sample (n=",SVIVA2_01_haifa %>% nrow(),")"),
+                    str_c("No symbols (n=",SVIVA2_01_haifa %>% filter(SYMBOL==0) %>%  nrow(),")"),
+                    str_c("Fake symbols (n=",SVIVA2_01_haifa %>% filter(SYMBOL==1) %>%  nrow(),")"),
+                    str_c("Real symbols (n=",SVIVA2_01_haifa %>% filter(SYMBOL==2) %>%  nrow(),")"),
+                    "f-test",
+                    str_c("Strong Air-pollution (Weak recycling) (n=",SVIVA2_01_haifa %>% filter(INFORMATION_air==1) %>% nrow(),")"),
+                    str_c("Weak air-pollution (Strong recycling) (n=",SVIVA2_01_haifa %>% filter(INFORMATION_air==0) %>% nrow(),")"),
+                     "t-test",
+                    str_c("Treatment (n=",SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1) %>% nrow(),")"),
+                    str_c("Control (n=",SVIVA2_01_haifa %>% filter(RELEVANCE_exp==0) %>% nrow(),")"),
+                    "t-test"))%>%
+  kable_styling(bootstrap_options = c("condensed"),
+                full_width = F,
+                position = "left",
+                font_size = 9) %>%
+  add_header_above(c(" " = 2, 
+                     "Symbols groups" = 4,  
+                     "Information groups" = 3, 
+                     "Relevance groups" = 3))
+```
+<font size="0.5">
+
+*Notes*: 
+Table entries are means with SDs in parentheses. 
+
+</font>
+
+<br>
+**Center**
+```{r}
+
+t3.center %>%
+    filter(str_detect(variable,"policy")==F) %>%
+    kable(col.names = c("",
+                    str_c("All sample (n=",SVIVA2_01_center %>% nrow(),")"),
+                    str_c("No symbols (n=",SVIVA2_01_center %>% filter(SYMBOL==0) %>%  nrow(),")"),
+                    str_c("Fake symbols (n=",SVIVA2_01_center %>% filter(SYMBOL==1) %>%  nrow(),")"),
+                    str_c("Real symbols (n=",SVIVA2_01_center %>% filter(SYMBOL==2) %>%  nrow(),")"),
+                    "f-test",
+                    str_c("Strong Air-pollution (Weak recycling) (n=",SVIVA2_01_center %>% filter(INFORMATION_air==1) %>% nrow(),")"),
+                    str_c("Weak air-pollution (Strong recycling) (n=",SVIVA2_01_center %>% filter(INFORMATION_air==0) %>% nrow(),")"),
+                     "t-test",
+                    str_c("Treatment (n=",SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1) %>% nrow(),")"),
+                    str_c("Control (n=",SVIVA2_01_haifa %>% filter(RELEVANCE_exp==0) %>% nrow(),")"),
+                    "t-test"))%>%
+  kable_styling(bootstrap_options = c("condensed"),
+                full_width = F,
+                position = "left",
+                font_size = 9) %>%
+  add_header_above(c(" " = 2, 
+                     "Symbols groups" = 4,  
+                     "Information groups" = 3, 
+                     "Relevance groups" = 3))
+```
+<font size="0.5">
+
+*Notes*: 
+Table entries are means with SDs in parentheses. 
+
+</font>
+
+<br><br>
+
+`r figure.x=figure.x+1`**Figure `r figure.x`: Perceived personal relevance of policy issues across areas**
+
+```{r, fig.width=8,fig.height=4}
+SVIVA2_01 %>%
+  select(AREA_names,
+         RELEVANCE_air_obs,
+         RELEVANCE_waste_obs) %>% 
+  gather(key = policy, value = relevance, -AREA_names) %>%
+  mutate(policy = Recode(policy,"'RELEVANCE_air_obs'='Air-pollution policy';'RELEVANCE_waste_obs'='Recycling policy'")) %>% 
+ggplot(aes(AREA_names,relevance))+ 
+  theme_tufte()+
+  geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.05,size=0.5) + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6)+
+  facet_grid(~policy)+
+  xlab("")+
+  scale_y_continuous(name = "Perceived personal relevance",limits=c(1,7),breaks = seq(1,7,by=1))
+```
+<font size="0.5">
+
+*Note*: Error bars represent 95% confidence intervals.
+
+</font>
+
+<br><br>
+
+`r figure.x=figure.x+1`**Figure `r figure.x`: The distribution of Trust in air-pollution across the different conditions of symbols and information**
+
+```{r, fig.width=8, fig.height=4}
+p1 <- SVIVA2_01_comb %>%
+ggplot(aes(SYMBOL_n,TRUST_air_INDEX))+ 
+  theme_tufte()+
+  geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.05,size=0.5) + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6)+
+  stat_summary(fun.y = mean, geom = "line", size=0.6, aes(group = 1))+
+  scale_x_discrete(name = "",labels = c("No symbols","Fake symbols","Real symbols"))+
+  scale_y_continuous(name = "Trust in air-pollution policy",limits=c(1,7),breaks = seq(1,7,by=1))+
+  ggtitle("Symbols")
+
+p2 <- SVIVA2_01_comb %>%
+ggplot(aes(factor(INFORMATION_weak),TRUST_air_INDEX))+ 
+  theme_tufte()+
+  geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.05,size=0.5) + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6)+
+  stat_summary(fun.y = mean, geom = "line", size=0.6, aes(group = 1))+
+  scale_x_discrete(name = "",labels = c("Strong policy","Weak policy"))+
+  scale_y_continuous(name = "",limits=c(1,7),breaks = seq(1,7,by=1))+
+  ggtitle("Information")
+
+p3 <- SVIVA2_01_comb %>%
+ggplot(aes(factor(AREA_center),TRUST_air_INDEX))+ 
+  theme_tufte()+
+  geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.05,size=0.5) + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6)+
+  stat_summary(fun.y = mean, geom = "line", size=0.6, aes(group = 1))+
+  scale_x_discrete(name = "",labels = c("Haifa Bay","Center"))+
+  scale_y_continuous(name = "",limits=c(1,7),breaks = seq(1,7,by=1))+
+  ggtitle("Areas")
+
+ggarrange(p1,p2,p3,
+          ncol = 3,nrow = 1,
+          widths = c(3,2,2))
+```
+<font size="0.5">
+
+*Note*: Error bars represent 95% confidence intervals.
+
+</font>
+
+<br><br>
+
+`r figure.x=figure.x+1`**Figure `r figure.x`: The effect of symbolic elements on trust across areas**
+
+```{r, fig.width=8}
+p1 <- SVIVA2_01_comb %>%
+  filter(policy=="TRUST_air_INDEX") %>% 
+ggplot(aes(factor(SYMBOL_n),trust,shape=factor(AREA_names)))+ 
+  theme_tufte()+
+  #geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.1,size=0.5,position=position_dodge(0.1),color="gray70") + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6,position=position_dodge(0.1))+
+  stat_summary(fun.y = mean, geom = "line", size=0.6, aes(group = AREA_names,linetype=AREA_names),position=position_dodge(0.1),alpha=0.8)+
+  scale_shape_manual(guide=F, values=c(19,1))+
+  scale_linetype_manual(guide=F, values=c(1,4))+
+  scale_x_discrete(name="",labels=c("No symbols","Fake symbols","Real symbols"))+
+  scale_y_continuous(name = "Trust in air-pollution policy",breaks = seq(1,7,by=0.5))+
+  ggtitle("Symbols")
+
+
+p2 <- SVIVA2_01_comb %>%
+  filter(policy=="TRUST_air_INDEX") %>% 
+ggplot(aes(factor(INFORMATION_weak),trust,shape=factor(AREA_names)))+ 
+  theme_tufte()+
+  #geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.1,size=0.5,position=position_dodge(0.1),color="gray70") + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6,position=position_dodge(0.1))+
+  stat_summary(fun.y = mean, geom = "line", size=0.6, aes(group = AREA_names,linetype=AREA_names),position=position_dodge(0.1),alpha=0.8)+
+  scale_shape_manual(name="Area",values=c(19,1))+
+  scale_linetype_manual(name="Area",values=c(1,4))+
+  scale_x_discrete(name="",labels=c("Strong policy","Weak policy"))+
+  scale_y_continuous(name = "",breaks = seq(1,7,by=0.5))+
+  ggtitle("Information")
+
+ggarrange(p1,p2,
+          ncol = 2,nrow = 1,
+          widths = c(4,5))
+```
+
+<font size="0.5">
+
+*Note*: Error bars represent 95% confidence intervals.
+
+</font>
+
+<br><br>
+
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – Trust in Air-pollution policy.**
+
+```{r,results="asis"}
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME",
+                   "CHILDREN",
+                   "CHILDREN_young")
+
+stargazer(mod_air_1.1,mod_air_null,
+          mod_air_1.2,mod_air_null,
+          mod_air_1.3, mod_air_null,
+          mod_air_1.4, mod_air_null,
+          mod_air_1.5, mod_air_null,
+          type = "html",
+          se  = list(mod_air_1.1.robust_se,NULL,
+                     mod_air_1.2.robust_se,NULL,
+                     mod_air_1.3.robust_se,NULL,
+                     mod_air_1.4.robust_se,NULL,
+                     mod_air_1.5.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("(1.",1:5,")"),
+          column.separate = c(2,2,2,2,2),
+          dep.var.labels="Trust in air-pollution policy",
+          omit = control.vars,
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Area (0=Haifa Bay; 1=center)",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information"),
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","No","","No","","No","","Yes","","No",""),
+                           c("F Statistic", 
+                             mod_air_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.3.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.4.wald_results[2,3] %>% round(2),NA,
+                             mod_air_1.5.wald_results[2,3] %>% round(2),NA)),
+          notes = "*Notes*: In all regression tables, entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes.append = FALSE)
+
+
+
+```
+
+<br><br>
+
+
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – trust in recycling policy.**
+
+```{r,results="asis"}
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME",
+                   "CHILDREN_young")
+
+
+
+stargazer(mod_waste_1.1,mod_waste_null,
+          mod_waste_1.2,mod_waste_null,
+          mod_waste_1.3, mod_waste_null,
+          mod_waste_1.4, mod_waste_null,
+          mod_waste_1.5, mod_waste_null,
+          type = "html",
+          se  = list(mod_waste_1.1.robust_se,NULL,
+                     mod_waste_1.2.robust_se,NULL,
+                     mod_waste_1.3.robust_se,NULL,
+                     mod_waste_1.4.robust_se,NULL,
+                     mod_waste_1.5.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("(2.",1:5,")"),
+          column.separate = c(2,2,2,2,2),
+          dep.var.labels="Trust in recycling policy",
+          omit = control.vars,
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Area (0=Haifa Bay; 1=center)",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information"),
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","No","","No","","No","","Yes","","No",""),
+                           c("F Statistic", 
+                             mod_waste_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.3.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.4.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.5.wald_results[2,3] %>% round(2),NA)),
+          notes = "",
+          notes.append = FALSE)
+
+```
+
+<br><br>
+
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – experimental manipulation of perceived personal relevance.**
+
+```{r,results="asis"}
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME",
+                   "CHILDREN_young")
+
+
+stargazer(mod_relevance_1.1,mod_relevance_null,
+          mod_relevance_1.2,mod_relevance_null,
+          mod_relevance_1.3, mod_relevance_null,
+          mod_relevance_1.4, mod_relevance_null,
+          type = "html",
+          se  = list(mod_relevance_1.1.robust_se,NULL,
+                     mod_relevance_1.2.robust_se,NULL,
+                     mod_relevance_1.3.robust_se,NULL,
+                     mod_relevance_1.4.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("(3.",1:4,")"),
+          column.separate = c(2,2,2),
+          dep.var.labels="Trust in air-pollution policy",
+          omit = control.vars,
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Relevance treatment",
+                             "Relevance treatment x Real symbols",
+                             "Relevance treatment x Fake symbols",
+                             "Relevance treatment x Weak Information"),
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","No","","No","","Yes","","No",""),
+                           c("F Statistic", 
+                             mod_relevance_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.3.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.4.wald_results[2,3] %>% round(2),NA)),
+          notes = "",
+          notes.append = FALSE)
+```
+
+<br><br>
+
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – moderation of proximity to industrial area and young children.**
+
+```{r,results="asis"}
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME")
+
+
+
+
+stargazer(mod_closedness_1.1,mod_closedness_null,
+          mod_closedness_1.2,mod_closedness_null,
+          mod_closedness_1.3, mod_closedness_null,
+          type = "html",
+          se  = list(mod_closedness_1.1.robust_se,NULL,
+                     mod_closedness_1.2.robust_se,NULL,
+                     mod_closedness_1.3.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("(4.",1:4,")"),
+          column.separate = c(2,2,2),
+          dep.var.labels="Trust in air-pollution policy",
+          omit = control.vars,
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Proximity to industrial area",
+                             "Young children",
+                             "Proximity x Real symbols",
+                             "Proximity x Fake symbols",
+                             "Proximity x Weak Information",
+                             "Young children x Real symbols",
+                             "Young children x Fake symbols",
+                             "Young children x Weak Information"),          
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","Yes","","Yes","","Yes",""),
+                           c("F Statistic", 
+                             mod_closedness_1.1.wald_results[2,3] %>% round(2),NA,
+                             mod_closedness_1.2.wald_results[2,3] %>% round(2),NA,
+                             mod_closedness_1.3.wald_results[2,3] %>% round(2),NA)),
+          notes = "",
+          notes.append = FALSE)
+```
+
+<br>
+
+
+
+
+
+
+
+
+
+
+

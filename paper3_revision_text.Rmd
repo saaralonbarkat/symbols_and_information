@@ -1,0 +1,709 @@
+---
+title: "Does personal relevance attenuate citizens' persuasion by government branding? Evidence from a survey experiment on air-pollution policy"
+author: '**Saar Alon-Barkat**'
+date: " "
+always_allow_html: yes
+output:
+  html_document:
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+      toc_depth: 3
+  pdf_document:
+    toc: yes
+  word_document: default
+link-citations: yes
+bibliography: phd_paper_2.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+urlcolor: blue
+---
+
+<br>
+
+Draft, last edited at `r Sys.Date()`.
+
+```{r set-global-options, echo = FALSE}
+knitr::opts_chunk$set(eval = TRUE, 
+                      echo = FALSE, 
+                      message=FALSE,
+                      warning = FALSE,
+                      cache = FALSE)
+
+```
+
+
+
+```{r , include=FALSE, echo=FALSE}
+#load("SVIVA_R_ENV.RData")
+source("C:/SAAR/UNIVERSITY/R/SVIVA/code/experiment 2/SVIVA_exp2_dm_03.R")
+
+
+```
+
+
+
+```{r silent-packages}
+library(knitr)
+library(tidyverse)
+library(stargazer)
+library(car)
+library(broom)
+library(kableExtra)
+library(ggthemes)
+library(lmtest)
+library(sandwich)
+library(ggpubr)
+library(effsize)
+library(emmeans)
+```
+
+
+```{r}
+N_raw = nrow(SVIVA2_raw_00)
+N_0=SVIVA2_00%>%nrow()
+N_1=SVIVA2_01%>%nrow()
+
+filter_IP = N_0-(SVIVA2_00 %>%
+  distinct(IP,.keep_all=TRUE)%>%nrow())
+filter_age = N_0-(SVIVA2_00 %>%
+  filter(!(AGE%in% 1:17))%>% nrow())
+filter_IMC = N_0-(SVIVA2_00 %>%
+  filter(IMC==1)%>% nrow())
+filter_time = N_0-(SVIVA2_00 %>%
+  filter(TIMER_total>=3,TIMER_total<=30)%>%nrow())
+
+N_1_haifa = filter(SVIVA2_01,AREA==1)%>%nrow()
+N_1_center = filter(SVIVA2_01,AREA==0)%>%nrow()
+
+
+
+```
+
+
+```{r}
+#Figures and tables
+table.x=0
+figure.x=0
+```
+
+<br>
+
+---
+
+# Abstract
+
+*Recent studies demonstrated that symbolic elements in government communications can enhance citizens' trust in government organizations and policies. The emotive effect of symbols can further compensate for organizations' poor functioning, thereby eliciting undue trust. This study explores the boundaries of governments' persuasion of citizens through symbolic communication. Building on social psychology, I hypothesize that citizens are less susceptible to symbols, the more they perceive the policy issue in the communication as personally relevant. I test this expectation through a survey experiment, where I examine Israeli citizens' trust in the Environment Protection Ministry's policy plans for reducing air pollution in a highly polluted area. The policy's perceived personal relevance is operationalized both experimentally, and by comparing between citizens residing in the polluted area and elsewhere. The results indicate that even high levels of perceived personal relevance do not attenuate the symbols' effect, which entails that the boundaries of persuasion through symbols are wider than expected.*
+
+<br>
+
+*Keywords: Government communications; Government branding; Trust; Experiment*
+
+---
+
+
+<br>
+
+# Introduction
+
+Public Administration scholarship has recently shown a growing interest in public sector branding, and its potency to influence citizens' perceptions and direct their behaviour [@eshuis_2012; @marland_2016; @marland_2017; @zavattaro_website_2018; @sataen_2015]. Recent behavioural studies established that symbolic, brand elements entangled in government communications (e.g. brand names, logos, colors and figures) can have a positive emotional effect on citizens, which leads them to view public organizations and their policies and services more favourably [@marvel_2015a; @karens_2016; @alonbarkat_2017; @teodoro_2018]. This growing scholarly interest corresponds with the overall increase in the use of branding practices by public-sector organizations over the past decade, in part due to the expension of ditigal communication platforms and the use of social media [@eshuis_2012; @marland_2017; @mickoleit_2014; @mergel_2013]. 
+
+The ability of government organizations to modify citizens' attitudes via such symbolic communications can be perceived favorably, insofar as it mitigates citizens' distrust in organizations and underevaluation of their performance. Accordingly, Symbolic communications, as opposed to mere factual information and substantive arguments, may enable organizations to overcome citizens' negative prior beliefs and biases against the public sector [@marvel_2015a; @marvel_2015; @hvidman_2016; @hvidman_2019]. Nonetheless, this form of persuasion is also highly problematic. Normatively, we expect citizens in a democratic society to form their opinions about their government based on their critical thinking, rather then on uncontious emotive responses. A yet more serious concern regards the potency of symbolic communication to compensate for organizations' poor performance, poorly planned policy plans and logically unpersuasive explanations, as indicated by previous studies [@alonbarkat_2017; @alonbarkat_2018]. Congruently, government branding can yield a misalignment between citizens' positive view and the "real world", which would undermine the democratic accountability and responsiveness of public organizations. Moreover, government agencies and/or politicians controlling them could use branding symbolic communication strategically as an instrument of propaganda, seeking to manipulate public opinion and mitigate justified public criticism of agencies' failures.  
+
+The abovementioned concerns of the negative implications of branding for democracy are the main motivation of this study. These concerns necessitate a better theoretical understanding of the boundaries of governments' persuasion (and possibly manipulation) of citizens through symbolic communication, which would enable to asses more effectively the scope of the risk that these practices pose for democracy. In line with this motivation, this study focuses of an importnant potential limitation that regards the perceived personal relevance of the policy issue. I explore whether the effect of symbolic elements in communications is restricted to policy issues that are not perceived by citizens as having a significant consequence for their personal lives, or rather that citizens are similarly susceptible to persuasion via branding even with regard to such personally relevant issues. This factor is particularly important, since we tend to expect these affected groups to pay more attention to government actions that concern their interests, and to hold them to account for their consequences to a greater extent. That expectation can be supported, theoretically, by the social psychology theory Elaboration Likelihood Model (ELM) [@petty_1986; @petty_2011]. The model postulates that the more people perceive the communication as personally relevant, the more inclined they are to scrutinize its message, and accordingly the less likely they are to rely on peripheral, symbolic elements. 
+
+Employing a survey experiment, I test this latter theoretical expectation in the context of the Israeli Environment Protection Ministry, and its policy plan for reducing the air pollution in a specific geographical area -- the Haifa Bay. The research sample (*n* = `r SVIVA2_01 %>% nrow()`) consists of citizens residing in the polluted area, matched with residents of other cities in the center of the country that are not exposed to air-pollution. I present all participants a policy plan regarding the air-pollution in the Haifa Bay area, while experimentally varying both its appearance (familiar symbolic elements from the Ministry's communications versus two control groups) and content (logically persuasive versus unpersuasive policy plans). I examine the effects of these manipulations on participants' trust in the policy plan accross the two areas, and test whether residents of the polluted area are less affected by familiar symbolic elements (and more affected by the substantive differences). I further supplement this observational comparison between the areas with an experimental treatment for the perceived personal relevance of the policy, and with additional robustness tests. 
+
+Contrary to my initial expectations, the results indicate that even high levels of perceived personal relevance do not significantly attenuate the effect of symbols on citizens' trust. These findings tend to suggest that the boundaries of the effect of symbolic communication are wider than expected. I discuss the theoretical and normative implications of these findings. 
+
+<br>
+
+# Persuasion by symbols and its moderation by perceived personal relevance
+
+A brand can be defined as *"a symbolic construct that consists of a name, term, sign, symbol, or design, or combination of these, created deliberately to identify and phenomenon and differentiate it from similar phenomena by adding particular meaning to it"* [@eshuis_2012, p. 19]. Branding, therefore, can be considerred a form of symbolic communication. In practice, symbolic elements that are strategically selected and designed to evoke positive emotions and associations, can be found in almost every government communication with citizens. 
+
+Symbolic elements entangled in communications can affect citizens' attitudes through a psychological mechanism of evaluative conditioning, whereby the positive associations triggerred by the symbols are unconsciously transferred to the public organization [@alonbarkat_2017; @dehouwer_2012]. So for instance, when a public organization uses a celebrity endorser in a public campaign, the positive connotations for the celebrity (e.g. physically attractive, funny, talented) can be extended to the organization, which would lead citizens to also view the organization and its actions more favorably. This mechanism is considerred a primitive form of persuasion which requires very little cognitive effort, as opposed to persuasion resulted by thoughtful consideration of substantive arguments. Thus, the question of under which circumbstances are citizens' more/less susceptible to persuasion via branding, is linked to a more general discussion in social psychology regarding the relations between different psychological processes of persuasion through communication, and the determinants and moderators of these different processes. 
+
+According to the Elaboration Likelihood Model (ELM) [@petty_1986; @petty_2011], persuasion can occur via different process that can be placed along an "elaboration continuum". At the high end of that continuum, also called "central route", persuasion occurs through processes that require high degrees of thought and cognitive effort. This type of processing involves thoughtful scrutiny of arguments in the communication that are central to the merits of the issue. People located at the high end tend are more likely to form their judgements on the matter based on the quality of the arguments. They are more likely to differentiate between strong and weak arguments, and would be persuaded mainly by strong, logically persuasive arguments. As for those who are located at the low end of that continuum, also called "peripheral route", persuasion may occur mainly through processes that require little ammount of thinking, such as evaluative conditioning. Another example for peripheral route processing is people's reliance on the message source as a heuristic cue [@james_2017a]. When people are located between the two ends of the continuum, a mixture of these persuasion processes will operate.
+
+In any given situation, the position of people along that continuum (and accordingly the dominant type of processing) would be determined by their motivation and ability to scrutinize the message. The more motivated people are to elaborate on the message and the more capable they are of doing so, the more likely they are to focus on the substative arguments, and likewise the less susceptible they are to persuasion via peripheral route processes. ELM literature has pointed to a variety of factors that may shape people's motivation and ability to think about a message, and accordingly affect their inclination to be persuaded either by the arguments or by peripheral cues. Perhaps the most studied factor in this regard is the perceived personal relevance of the communication (or "issue involvement"), namely the extent to which they perceive the issue at hand as having significant consequences for their own lives. That variable has been considered the most important determinant of motivation to scrutinize the message [@petty_2002; @petty_2011].[^footnote_elm_factors] It has been theorized that the more people perceive an issue as personally relevant, the more motivated they are to invest in thinking about it, since the consequences of being incorrect are greater [@petty_1979; @petty_1981; @petty_1983; @johnson_1989; @petty_1990; @burnkrant_1989]. Accordingly, experimental studies have showed that individuals are more affected by peripheral cues and less affected by argument quality, the less they perceive the issue as personally relevant. 
+
+For instance, in a study by @petty_1983, participants were asked to express their attitudes about a new product (disposable razor), after being exposed to a magazine ad. The ad involved either a celebrity endorser or a non-famous endorser (a symbolic peripheral cue) and contained substantive information about the product that represent either strong or weak arguments about its quality. In addition, scholars manipulated the perceived personal relevance of the product by telling subjects either that the product would soon be available in their local area (high relevance), or that it would be available in other areas (low relevance). The results of the study indicated that the celebrity endorser had a positive effect on participants' attitudes about the product under the low personal relevance condition (estimated as roughly 0.7 SDs), but had no effect under the high personal relevance condition. Likewise, the effect of argument quality was greater for the high personal relevance group (1.95 SDs versus 0.54 SDs in the low personal relevance group).  
+
+[^footnote_elm_factors]: For a thorough review of motivational and ability factors affecting likelihood to elaborate see @petty_1998.
+
+Viewed against the above theoretical framework, symbolic elements in government communications can be regarded as peripheral cues, which can affect citizens' attitudes though a peripheral route process of evaluative conditioning.[^footnote_symbols_arguments] Hence, based on ELM, citizens judgements about public organizations are less likely to be affected by symbols (and more likely to be shaped by substantive arguments) the more motivated they are to critically think about the message. Their level of motivation is likely to be determined, to a great extent, by their perceived personal relevnace of the particular policy issue.
+
+[^footnote_symbols_arguments]: It should be noted that in certain cases, symbolic elements can be also regarded as arguments. For instance, slogans normally convey symbolic meaning, but also contain a substantive message.  
+
+In sum, I derive from social psychology literature of persuasion through communication the following moderation hypotheses: 
+
+*H<sub>1</sub> - Symbolic elements in communications are likely to have a greater positive effect on citizens' attitudes about government organizations and policies, the less citizens perceive the policy issue in the communication as having personal relevance for themselves.*
+
+*H<sub>2</sub> - The argument quality of the information in communications is likely to have a lesser effect on citizens' attitudes about government organizations and policies, the less citizens perceive the policy issue in the communication as having personal relevance for themselves.*
+
+<br>
+
+# Methodology
+
+The above-mentioned theoretical expectations are tested via a randomized survey experiment, building on the methodology of @petty_1983. The experiment focuses, empirically, on the case of the Israeli Environmental Protection Ministry (hereafter: EPM), and its policy for reducing the air pollution in the highly polluted Haifa Bay area. In the following section, I describe the empirical case, data collection, experimental design and operationalization of research variables.[^footnote_other_paper]
+
+[^footnote_other_paper]: The experiment was additionally designed to test a set of hypotheses regarding the interaction between symbols and information in communications. The methodological aspects which are relevant for examining the additional hypotheses are described in a separate publication. In this paper, I focus on those methodological and empirical parts of the study that are consequential for the examination of the moderating role or perceived personal relevance. A summary statistics and correlation of all variables, as well as the full survey are available in the supplementary Appendix, and replication materials are available in a github repository [url to be added upon publication].
+
+EPM is a national-level bureau responsible for the formulation, coordination, and execution of environmental policy in Israel. Among others, EPM is responsible for monitoring and regulating the air quality across the country. The Haifa Bay area, located in the north of Israel, has been characterized by relatively high levels of air pollution, mainly due to the Haifa Bay industrial zone, which is located in proximity of a number of urban residential areas. It is considered the largest industrial zone in the country, with concentration of petrochemical industries, including oil refineries, power plants, and chemical factories. Beginning in Mid 2000s, EPM has been developing and implementing a series of policy programs to monitor and reduce the high levels of pollution specifically in that area [@theministryofenvironmentprotection_2015; @theministryofenvironmentprotection_2015a; @theministryofenvironmentprotection_2019]. While EPM has claimed that its programs have been effective and led to a significant reduction in air-pollution levels, local residents, professionals and other public agencies have remained highly concerned about the issue, and  accordingly it remained high on the public agenda [@statecomptrollerofisrael_2019]. Specifically, the issue received much media and public attention in 2015-2016, following a series of reportings and media publications about the health consequences of the air-pollution to Haifa Bay residents. In 2015, the Ministry of Health published statistical data indicating that Haifa Bay residents experience significantly higher rates of cancer and asthma, compared to other areas of the country. The subsequent media reports specifically highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [@elroi_website_2015; @raavad_website_2015]. Thereafter, in 2016, media reporters revealed the interim results of a large epidemiological study, establishing a link between air-pollution in the Haifa Bay and certain types of cancer, as well as abnormal measurements of newborn babies and growth curves of infants.[^footnote_epidemiological_study] The media reports of that study repeatedly focused on the finding that babies in the Haifa Bay are born with "smaller heads" [@koriel_website_2016; @rinat_website_2016; @rivlin_website_2016]. Some reports also highlighted that the areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016]. These publications, and others, caused much panic among the local population, and especially among young parents. 
+
+[^footnote_epidemiological_study]: The epidemiological study was originally sponsored by Ministry of Health. The study, which was  conducted by researchers from Haifa University, was planned to be conducted over five years, between 2015-2020. The findings, which leaked to the media, regarded the interim results of the first year of the study. Following that publication, the study has been significantly criticized by the local research community as well as the professional steering committee of the research. As a result, in 2017, the Ministry decided to cancel its involvement in that research.    
+
+The air-pollution in the Haifa Bay offers a fortunate case for examining the moderating role of perceived personal relevance. The distinction between those who reside in the polluted area and those who do not entails a natural variation in that moderating variable. Importantly, because this policy issue is intangible and scientifically complicated, the variation in personal relevance is not strongly confounded with personal knowledge about the issue, as is normally the case [@petty_1983]. Accordingly, those residing in the polluted Haifa Bay area are likely to be more motivated to scrutinize a government communication about the air-pollution in their area, yet they are not necessarily more capable of critically evaluating its content. That latter assumption was the main reason for selecting that case.  
+
+While comparing those residing in the Haifa Bay to others enables me to examine the moderating effect of perceived personal relevance, it still has an important limitation - it represents an observational comparison. The differences in personal relevance can be theoretically confounded by unobserved covariates, that cannot be effectively controlled in the analyses. I address this limitation in the research design in three main ways. *First*, in the selection of the research population, I sought to reduce differences in socioeconomic and demographic variables between residents of Haifa Bay, and their comparison group. Accordingly, I selected the major cities in the Haifa Bay area (*Haifa*, *Nesher*, *Qiryat-Hayiim*,[^footnote_qiryat-Hayiim] *Qiryat-Bialik*, *Qiryat-Mozkin*, *Qiryat-Ata* and *Qiryat-Yam*), and matched them with citizens from cities with a similar profile and population size at the center of the country (*Natania*, *Petach-Tikva* and *Rishon-Lezion*). The socioeconomic characteristics of these selected cities are summarized in the supplementary appendix (section ##). To ensure that the two groups would differ in relation to the their perceptions about the relevance air-pollution policies, I searched relevant EPM documents and news websites and confirmed that there no particular reporting about high air-pollution levels in the three center cities. 
+
+*Second*, in addition to the policy regarding the air-pollution in Haifa Bay, I also included in the experiment a second policy plan that is expected to be perceived by the two groups as equally relevant. For this purpose, I selected a policy plan of EPM that regards *reducing domestic waste and increasing recycling*. The comparison between the two EPM policies is intended to confirm that respondents’ divergent responses to symbolic elements in the communication of the first policy, if found, are attributed to differences in perceived personal relevance, and not to other covariates. I henceforth refer to these two policy plans as "air-pollution" and "recycling". *Third*, in addition to the observational comparison between the two areas, I also included an experimental manipulation aimed at enhancing the perceived personal relevance of the air-pollution policy among the Haifa Bay residents.  
+
+[^footnote_qiryat-Hayiim]: Qiryat-Hayiim is considered a neighborhood within the jurisdiction of Haifa, although it is geographically separated from the rest of the city, and people tend to distinguish it, informally. 
+
+<br>
+
+## *Data collection and Procedure*
+
+I was assisted by an Israeli internet research panel company *iPanel* for the selection and recruitment of residents of these selected cities. The survey experiment was conducted online through Qualtrics Survey Software. The online survey link was sent by iPanel between 28.1-1.2.2018. A total of `r N_0` respondents completed the survey (a response rate of `r round((N_0/5077)*100,1)`%). Thereafter, I filtered out `r N_0-N_1` observations (`r round(((N_0-N_1)/N_0)*100,1)`%) due to following criteria: multiple entries from the same IP address (n=`r filter_IP`), failure at the instructional manipulation test (n=`r filter_IMC`), submitting the survey in less than 3 or more than 30 minutes (n=`r filter_time`), and reported age under 18 (n=`r filter_age`). These filters are neither associated with the areas nor with the experimental conditions. Following this screening, I ended up with a sizable analytical sample of `r N_1` subjects, of whom `r SVIVA2_01_haifa%>%nrow()` live in the Haifa Bay cities, and `r SVIVA2_01_center%>%nrow()` live in the center cities.[^footnote_unfiltered_sample]
+
+[^footnote_unfiltered_sample]: In the supplementary appendix, I replicate the main models on the unfiltered sample, with no significant change to the results. 
+
+The survey was presented to the participants as an academic study about citizens' attitudes regarding environmental policies in general. After a set of pre-manipulation questions, all subjects, regardless of their area of residence, were randomly assigned to treatment and control conditions of perceived personal relevance (hereafter: relevance manipulation). Subjects in the relevance treatment group were asked three questions about their interest in environmental policy issues, the extent to which they follow these issues in the media, and their preference for more/less government investment in this field. Then, they were asked to describe the most acute environmental issue in their area of residence. These treatment questions were designed to prime those residing in the Haifa Bay area to think about the personal relevance of air-pollution in their area.[^footnote_relevance_manipulation] Subjects in the relevance control group were asked equivalent questions about their field of occupation.
+
+[^footnote_relevance_manipulation]: The first three treatment questions were also initially designed to prime subjects, more generally, to think about the impact of environmental issues to their own lives. In this paper, I focus on the the moderating effect of the relevance manipulation on Haifa Bay citizens' responses to the air-pollution policy. 
+
+Participants were then presented with the air-pollution and recycling policy plans (displayed in a random order). They were informed that these plans were obtained from EPM's annual work plan. The participants were randomly assigned to one of three conditions of symbolic elements in the communication (hereafter: symbols manipulation): treatment ("real symbols"), control-"no symbols" and control-"fake symbols". In the real symbols condition, the two policies are displayed with three symbolic elements, which have been used in EPM's public communications, and became widely recognized by the public. The first symbolic element is the unique brand logo of the EPM, which consists a pair of green and orange leaves that resemble two hands, designed to symbolize peace and harmony with the environment. The second element is the green color, which is strongly associated with taking care of the environment. The third element is an image of a celebrity comedian from an advertising campaign of the EPM. The air-pollution policy (in the real symbols condition) was presented with an image from EPM campaign from 2010 under the slogan "starting to think green", starring the Israeli celebrity comedian Tal Friedman. The recycling policy (in the real symbols condition) was presented with an image from a campaign from 2017 for reducing the use of disposable bags ("taking every bag seriously"), starring the comedian Ido Rosenblum. In the control no-symbols condition, the two policies are displayed in a minimal black and white design, and without the logo and the celebrities’ images. Finally, in the control fake-symbols condition, the EPM logo is replaced by a fake logo, the green color is replaced with blue, and the images of celebrities from the campaigns are replaced with edited images of unfamiliar people. The purpose of the fake-logo condition was to distinguish the effect of the symbolic meaning of the EPM's graphic brand elements (i.e. the symbolic effect) from a possible effect of their aesthetic design. Accordingly, I specifically designed the "fake" symbols so that they would resemble the real symbols and have equivalent aesthetic qualities, without activating particular emotions and associations related to EPM, or environmental policy. The symbols conditions are displayed in **Appendix B**. Further details about the real and fake symbols are found in section ## of the supplementary appendix. 
+ 
+In addition, I also included a manipulation of the argument quality of the information in the communication about the policy plan (hereafter: information manipulation). Per each policy, subjects were randomly allocated to one of two conditions of information: strong policy (i.e. logically persuasive policy plan) or weak policy (i.e. logically unpersuasive). Each subject was exposed to two policy plans, one strong and one weak, displayed in a random order. For instance, a subject who first received a strong air-pollution policy plan, later received the weak recycling policy plan, and vice versa. The information in the strong policy plan condition was taken from the EPM’s real work plan and from other official sources, whereas the information in the weak policy plan was fictional, and deliberately designed to create a poor policy plan, which is incompatible with achieving the policy goals.[^footnote_reliability_information_manipulation] The full texts of the weak and strong conditions for the two policy plans is displayed in **Appendix A**.
+
+[^footnote_reliability_information_manipulation]: A possible concern about that design is that participants would question the reliability of the weak policy. I assess that concern in the supplementary appendix (section ##).
+
+Each policy plan was followed by six questions about respondents' trust in the policy. After the trust questions of the second policy, the subjects were asked additional questions about the two policies, including the degree to which they perceive each of them as personally relevant. These questions were followed by an Instructional Manipulation Check (IMC) item, intended to assess participants’ diligence. The last sections included a set of demographic questions including questions about their place of residence and work, and manipulation checks for participants' familiarity with the real symbols. At the end of the survey, the participants were debriefed about the manipulations, and the possible deception. 
+
+In line with the abovementioned hypotheses, my main focus in this paper is on participants' trust in the air-pollution policy, and the two-way interactions between residence in Haifa Bay and the symbols and information manipulations of that policy. I also explore these interactions with regard to the recycling policy, and compare them to the air-pollution interactions. Additionally, within the Haifa Bay sample, I examine the two-way interactions between the relevance manipulation and the symbols and information manipulations. I conducted power estimations for the main effects of the symbols and information manipulations, their conditional effects within each area and the relevant two-way interactions. I conducted these estimations after the data collection and analyses, based on the analytical sample size. The estimated detectable interaction coefficient between areas and the real symbols treatment is 0.27 SDs, and between areas and weak information manipulation is 0.23 SDs. As for the interactions with the relevance manipulation (among Haifa Bay respondents), I estimate that the detectable coefficients of their interactions with the symbols and information conditions are 0.36 and 0.29 SDs, respectively. The power estimations are reported in details in Section ## of the supplementary appendix. 
+
+<br>
+
+## *Variables*
+
+
+```{r}
+alpha_air_trust = psych::alpha(select(SVIVA2_01, TRUST_air_q1,
+                               TRUST_air_q2,
+                               TRUST_air_q3,
+                               TRUST_air_q4,
+                               TRUST_air_q5,
+                               TRUST_air_q6))[["total"]][["raw_alpha"]]%>%round(2)
+
+
+alpha_waste_trust = psych::alpha(select(SVIVA2_01, TRUST_waste_q1,
+                               TRUST_waste_q2,
+                               TRUST_waste_q3,
+                               TRUST_waste_q4,
+                               TRUST_waste_q5,
+                               TRUST_waste_q6))[["total"]][["raw_alpha"]]%>%round(2)
+
+alpha_trust_comb = ((alpha_air_trust+alpha_waste_trust)/2)%>%round(2)
+
+
+
+relevance.areas.d <- cohen.d(SVIVA2_01$RELEVANCE_air_obs~SVIVA2_01$AREA_center)
+relevance.exp.d <- cohen.d(RELEVANCE_air_obs~RELEVANCE_exp, SVIVA2_01_haifa)
+
+relevance.exp.t <- t.test(RELEVANCE_air_obs~RELEVANCE_exp, SVIVA2_01_haifa)
+
+sd.air <- SVIVA2_01_comb%>%summarise(sd(TRUST_air_INDEX,na.rm=T))%>%max()
+sd.air.haifa <- SVIVA2_01_comb %>% filter(AREA_center==0)%>%summarise(sd(TRUST_air_INDEX,na.rm=T))%>%max()
+
+sd.waste <- SVIVA2_01_comb%>%summarise(sd(TRUST_waste_INDEX,na.rm=T))%>%max()
+
+```
+
+The outcome variable, citizens' trust in policy, is measured in the survey using a composite index of six items (Cronbach’s alpha = `r alpha_air_trust` for air-pollution policy, and `r alpha_waste_trust` for the recycling policy). This scale was adopted with modifications from validated trust scales used by previous public-administration studies [@karens_2016; @grimmelikhuijsen_2017; @grimmelikhuijsen_2018]. Participants were asked to indicate their agreement with the following statements, between 1 (weakly agree) and 7 (strongly agree): (1) I believe that the actions mentioned in the policy plan will assist in fulfilling the policy goal; (2) I believe that the actions mentioned in the policy plan were designed in a professional manner; (3) I believe that the policy plan is in the interest of citizens; (4) I believe that the policy plan reflects a genuine attempt to improve the well-being of citizens; (5) I believe that EPM made an honest attempt to design a good policy plan; (6) I believe that the Ministry of Environmental Protection aims to keep its commitments in that policy plan. 
+
+The key independent variables are the manipulations of symbols[^footnote_symbols_manipulation_check] and information in the communication, as described above, and their interactions with the perceived personal relevance of the communication. The latter is operationalized observationally (through the distinction between the two areas: Haifa Bay and center) as well as experimentally (through the abovementioned relevance manipulation). 
+
+[^footnote_symbols_manipulation_check]: Manipulation checks for the symbols confirm that the subjects in both areas are fairly familiar with the EPM symbols, and these symbols evoke positive feelings. ##add check reliability of information. ## 
+
+Living in Haifa Bay area was coded according to respondents’ reporting of residence, work or studying in one of the Haifa Bay cities. To confirm the empirical assumption that the air-pollution policy (but not the recycling policy) is perceived as more personally relevant by Haifa Bay residents compared with center residents, respondents were asked, after the outcome variable items: "To what extent did you feel that the policy on ["Reducing the air-pollution in the Haifa Bay" / “reducing waste and increasing recycling”] is personally relevant to you?" (1="very little"; 7="very much"). `r figure.x=figure.x+1`**Figure `r figure.x`** shows the distributions of the latter items across the two areas. As expected, the air-pollution policy is perceived as more personally relevant by Haifa Bay residents compared with center residents  (Cohen's D = `r relevance.areas.d[["estimate"]] %>% round(2)` [`r relevance.areas.d[["conf.int"]][["lower"]] %>% round(2)`,`r relevance.areas.d[["conf.int"]][["upper"]] %>% round(2)`]). By comparison, the recycling policy is perceived by both groups as relatively personally relevant by both groups, with no statistically significant differences between them. Additional support for these differences are provided by respondents' answers to the open question about the most salient environmental issue in their area of residence, which was presented to the relevance treatment group (i.e. before presenting the policy plans). Indeed, `r t1<-SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1,air.content==1) %>% nrow()``r t1` of the `r t2<-SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1) %>% nrow()``r t2` Haifa Bay subjects who were asked this question regarded in their responses to the air-pollution generated from the industrial area (`r air.content.percent.haifa <- t1/t2*100``r air.content.percent.haifa %>% round(0)`%).[^footnote_air_relevance_coding] Moreover, many Haifa Bay respondents explicitly linked the air-pollution to higher morbidity rates in their area. Subjects from center cities regarded to a variety of issues, including recycling, traffic jams and cleanliness, and only `r ((SVIVA2_01_center %>% filter(RELEVANCE_exp==1,air.content==1) %>% nrow())/nrow(SVIVA2_01_center)*100) %>% round(0)`% of them mentioned air-pollution as a prominent environmental concern in their area.  
+
+```{r}
+library(irr)
+
+df.air.content.reliability <- relevance.coding[1:231,] %>% 
+  select(air.content,
+         air.content.coder2) %>% 
+  drop_na(air.content.coder2) %>% 
+  as.matrix() %>% 
+  t()
+
+```
+
+
+[^footnote_air_relevance_coding]: I coded any reference to either air-pollution or the chemical factories in the Haifa Bay area, as related to air-pollution. To confirm inter-coder reliability, a second coder independently coded 70 observations (Krippendorff’s alpha = `r kripp.alpha(df.air.content.reliability)[["value"]] %>% round(2)`).  
+
+<br>
+
+[**Figure `r figure.x`** about here]
+
+<br>
+
+As for the relevance manipulation, data suggests that assignment to relevance priming questions did not increase Haifa Bay respondents' perceptions of personal relevance of the air-pollution policy. In fact, those assigned to the treatment group reported sightly lower level of personal relevance on average, yet these differences are not statistically significant (*t* = `r relevance.exp.t[["statistic"]] %>% round(3)`, *p*=`r round(relevance.exp.t[["p.value"]],3)`). This limitation should be kept in mind when interpreting the results regarding this manipulation. The results of all manipulation and validation checks are available from the supplementary appendix, along with summary statistics and correlation matrix for all variables.
+
+<br>
+
+
+# Results
+
+`r table.x=table.x+1`**Tables `r table.x`** compares between the different experimental conditions, within each of the two areas, on demographic variables and pre-manipulation covariates. These comparisons confirm that these random assignments yielded fairly balanced groups.[^footnote_balancing_groups_exceptions] The samples of the two areas are fairly balanced with regard to gender, overall trust in national level government ministries and reported interest in environmental policy issues. Yet, Haifa Bay respondents are somewhat older, more educated, and reported having more left-wing ideology.
+
+[^footnote_balancing_groups_exceptions]: Within the center respondents, there were statistically significant differences between the symbols groups -- regarding education levels and the percentage of parents; and between the information groups -- regarding the percentage of parents for young children. To adjust for small finite-sample imbalances, as well as for differences between the areas, I control for covariates. 
+
+<br>
+
+[**Table `r table.x`** about here]
+
+<br>
+
+
+```{r}
+mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb)
+
+mod_air_1.1.symbol = update(mod_air_null,. ~ .+
+                       SYMBOL_t,
+                     data=SVIVA2_01_comb)
+
+mod_air_1.1.info = update(mod_air_null,. ~ .+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb)
+
+mod_air_1.1.symbol.haifa = update(mod_air_null,. ~ .+
+                       SYMBOL_t,
+                     data=SVIVA2_01_comb %>% filter(AREA_center==0))
+
+mod_air_1.1.symbol.center = update(mod_air_null,. ~ .+
+                       SYMBOL_t,
+                     data=SVIVA2_01_comb %>% filter(AREA_center==1))
+
+
+mod_air_1.1.info = update(mod_air_null,. ~ .+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb)
+mod_air_1.1.info.haifa = update(mod_air_null,. ~ .+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb%>% filter(AREA_center==0))
+mod_air_1.1.info.center = update(mod_air_null,. ~ .+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb%>% filter(AREA_center==1))
+
+main.symbols <- emmeans::emmeans(mod_air_1.1.symbol, specs = pairwise ~ SYMBOL_t)
+t.symbols.no <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_comb %>% filter(SYMBOL_t!=2))
+t.symbols.fake <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_comb %>% filter(SYMBOL_t!=0))
+t.symbols.nofake <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_comb %>% filter(SYMBOL_t!=1))
+
+cond.symbols.haifa <- emmeans::emmeans(mod_air_1.1.symbol.haifa, specs = pairwise ~ SYMBOL_t)
+t.symbols.no.haifa <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_comb %>% filter(SYMBOL_t!=2,AREA_center==0))
+t.symbols.fake.haifa <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_comb %>% filter(SYMBOL_t!=0,AREA_center==0))
+t.symbols.nofake.haifa <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_comb %>% filter(SYMBOL_t!=1,AREA_center==0))
+
+
+
+
+mod_air_1.1.areas = update(mod_air_null,. ~ .+
+                       AREA_center,
+                     data=SVIVA2_01_comb)
+
+main.info <- mod_air_1.1.info %>% tidy()
+t.info <- t.test(TRUST_air_INDEX~INFORMATION_weak,data=SVIVA2_01_comb)
+
+main.areas <- mod_air_1.1.areas %>% tidy()
+t.areas <- t.test(TRUST_air_INDEX~AREA_center,data=SVIVA2_01_comb)
+
+```
+
+I now turn to exploring respondents trust in the *air-pollution policy*. This outcome variable has a right-skewed distribution (*Mean* = `r SVIVA2_01_comb%>%summarise(mean(TRUST_air_INDEX,na.rm=T))%>%max() %>% round(2)`, *SD* = `r sd.air %>% round(2)`, *Median* = `r SVIVA2_01_comb%>%summarise(median(TRUST_air_INDEX,na.rm=T))%>%max() %>% round(2)`), whereby more subjects reported very low levels of trust, than very high levels of trust in than policy. `r figure.x=figure.x+1`**Figure `r figure.x`** shows the means and distributions of the outcome variable across the different experimental conditions of symbolic elements and information, and across the two areas. The real symbols condition (in the left panel) has a positive and significant main effect on trust in that policy plan compared with the no symbols condition (*diff* = `r (main.symbols$contrasts %>% tidy() %>% .[1,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.symbols.no[["conf.int"]][2]*-1) %>% round(.,2)`-`r (t.symbols.no[["conf.int"]][1]*-1) %>% round(.,2)`], *t* = `r t.symbols.no[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). That effect amounts to `r (main.symbols$contrasts %>% tidy() %>% .[1,"estimate"] %>% max(.)/sd.air) %>% abs() %>% round(2)` SDs [`r (t.symbols.no[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`-`r (t.symbols.no[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`]. Subjects who saw the real symbols also reported, on average, greater trust in the policy, compared with those who received fake symbols, yet these differences are not significant at the 95% level (*diff* = `r (main.symbols$contrasts %>% tidy() %>% .[3,"estimate"]) %>% max(.) %>% round(.,2)` [`r (t.symbols.fake[["conf.int"]][1]) %>% round(.,2)`-`r (t.symbols.fake[["conf.int"]][2]) %>% round(.,2)`], *t* = `r t.symbols.fake[["statistic"]][["t"]] %>% abs() %>% round(.,3)`, *p* = `r (t.symbols.fake[["p.value"]]/2) %>% abs() %>% round(.,3)`, one-tailed test). The increase in the lower bound of the box in the real symbols shows that real symbols greatly reduced the number of participants who reported very low trust score. Descriptively, `r ((filter(SVIVA2_01,SYMBOL==0,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==0) %>% nrow()) *100) %>% round(1)`% of the participants in the no symbols group reported a very low score of 2 or less, compares with `r ((filter(SVIVA2_01,SYMBOL==1,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==1) %>% nrow()) *100) %>% round(1)`% and only `r ((filter(SVIVA2_01,SYMBOL==2,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==2) %>% nrow()) *100) %>% round(1)`% in the real symbols group. As shown in the middle panel, the main effect of the weak information condition is negative and significant (*diff* = `r (main.info %>% .[2,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.info[["conf.int"]][2]) %>% round(.,2)`-`r (t.info[["conf.int"]][1]) %>% round(.,2)`], *t* = `r t.info[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). That effect amounts to `r ((main.info %>% .[2,"estimate"]*-1)/sd.air) %>% max(.) %>% round(.,2)` SDs [`r (t.info[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`-`r (t.info[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`]. Finally, as presented in the right panel, participants from Haifa Bay reported significantly lower levels of trust in the air-pollution policy, compared to center participants (*diff* = `r (main.areas %>% .[2,"estimate"]*-1) %>% max(.) %>% abs() %>% round(.,2)` [`r (t.areas[["conf.int"]][2]) %>% round(.,2) %>% abs()`-`r (t.areas[["conf.int"]][1]) %>% round(.,2) %>% abs()`], *t* = `r t.areas[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). `r ((filter(SVIVA2_01_haifa,TRUST_air_INDEX<4) %>% nrow())/(nrow(SVIVA2_01_haifa))*100)%>%round(1)`% of Haifa Bay subjects have a trust-index score lower than the middle point 4 (compared with `r ((filter(SVIVA2_01_center,TRUST_air_INDEX<4) %>% nrow())/(nrow(SVIVA2_01_center))*100)%>% round(1)`% of the center subjects). This indicates that the majority of the sampled Haifa Bay residents tend to have prior negative attitudes towards EPM's actions regarding the air-pollution in their area.    
+
+<br>
+
+[**Figure `r figure.x`** about here]
+
+<br>
+
+Next, I examine the interactions between the symbols and information manipulation, and the two areas. To reiterate, based on my theoretical hypotheses, I expect that subjects living in the Haifa Bay, who perceive this issue as personally relevant, would be less affected by the symbolic elements, compared with those living in the Center (H<sub>1</sub>). Likewise, I expect Haifa Bay respondents to be more affected by the differences in the content (strong versus weak information), compared with center respondents (H<sub>2</sub>). `r figure.x=figure.x+1`**Figure `r figure.x`** graphically illustrates the conditional effects of the manipulations, within each of the two areas.[^footnote_raw_means] As for the effect of the symbols manipulation (presented in the left panel), the results show that the symbols had a greater effect on those living in the polluted Haifa Bay area. Their exposure to the real symbols increased their trust in the policy by `r (cond.symbols.haifa$contrasts %>% tidy() %>% .[1,"estimate"] %>% max(.)/sd.air) %>% abs() %>% round(2)` SDs [`r (t.symbols.no.haifa[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`-`r (t.symbols.no.haifa[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`] compared with the no symbols group, and `r (cond.symbols.haifa$contrasts %>% tidy() %>% .[3,"estimate"] %>% max(.)/sd.air) %>% abs() %>% round(2)` SDs [`r (t.symbols.fake.haifa[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`-`r (t.symbols.fake.haifa[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`] compared to the fake symbols group. The center participants who saw the real symbols also reported, on average, higher levels of trust in the policy, compared with the two control groups. However, these differences were smaller compared with the effect among the Haifa Bay subjects, and not sufficiently significant. The effects of the information manipulation on the two groups are presented in the right panel. This comparison shows that the differences between participants' trust in the weak and strong policies were roughly similar in both groups.  
+
+[^footnote_raw_means]: In addition, raw means and SDs of outcome variables across the two areas are reported in section XX of the supplementary appendix.  
+
+<br>
+
+[**Figure `r figure.x`** about here]
+
+<br>
+
+These results are at odds with the two theoretical hypotheses. They suggest that that those residing in the polluted area were equally, and perhaps even more, likely to be influenced by symbolic elements in the communication, and also to a lesser extent, by the unfamiliar graphical elements included in the fake symbols condition. Additionally, these analyses do not provide evidence that the more engaged Haifa Bay were more likely than others to scrutinize the content of the communication, and differentiate between strong and weak arguments.
+
+```{r}
+
+mod_air_1.1 = update(mod_air_null,. ~ .+
+                       SYMBOL_t+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb)
+mod_air_1.2 = update(mod_air_1.1,. ~ .+AREA_center)
+mod_air_1.3 = update(mod_air_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+
+mod_air_1.4 = update(mod_air_1.3,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
+
+mod_air_1.5 = update(mod_air_1.3,. ~ .,data=SVIVA2_01_comb_air_first)
+
+
+## Adjust standard errors & F statistic
+mod_air_1.1.robust_se    <- sqrt(diag(vcovHC(mod_air_1.1, type = "HC1")))
+mod_air_1.1.wald_results <- waldtest(mod_air_1.1, vcov = vcovHC(mod_air_1.1, type = "HC1"))
+
+mod_air_1.2.robust_se    <- sqrt(diag(vcovHC(mod_air_1.2, type = "HC1")))
+mod_air_1.2.wald_results <- waldtest(mod_air_1.2, vcov = vcovHC(mod_air_1.2, type = "HC1"))
+
+mod_air_1.3.robust_se    <- sqrt(diag(vcovHC(mod_air_1.3, type = "HC1")))
+mod_air_1.3.wald_results <- waldtest(mod_air_1.3, vcov = vcovHC(mod_air_1.3, type = "HC1"))
+
+mod_air_1.4.robust_se    <- sqrt(diag(vcovHC(mod_air_1.4, type = "HC1")))
+mod_air_1.4.wald_results <- waldtest(mod_air_1.4, vcov = vcovHC(mod_air_1.4, type = "HC1"))
+
+mod_air_1.5.robust_se    <- sqrt(diag(vcovHC(mod_air_1.5, type = "HC1")))
+mod_air_1.5.wald_results <- waldtest(mod_air_1.5, vcov = vcovHC(mod_air_1.5, type = "HC1"))
+
+```
+
+I further examined the interactions between the manipulations and the two areas via a series of multiple linear regression models, presented in `r table.x=table.x+1`**Table `r table.x`**. I regress trust in air-pollution policy on the manipulations (Model `r table.x`.1), then I add the areas (Model `r table.x`.2) and the interaction between them (Model `r table.x`.3). The final two models are designed to test the robustness of the interaction model by controlling for individual-level covariates (Model `r table.x`.4),[^footnote_control_variables] and restricting the sample to those who saw that policy first before the recycling policy (Model `r table.x`.5). The latter analysis rules out the possibility that subjects' responses are affected by the manipulations in the first policy presented to them (a carryover effect), or by their evaluation of the it (assimilation or contrast effects). In all regression models, I use robust standard errors to adjust for heteroskedacity.[^footnote_heteroskedacity] The results of these models are largely consistent with the raw findings presented above. In Models `r table.x`.3, `r table.x`.4, `r table.x`.5 the interactions between living in the center and the real symbols are negative but not sufficiently significant, and the interactions with the weak information are insignificant. A comparison between models `r table.x`.2 and `r table.x`.3 via anova reveals that adding these interactions do not significantly improve the model fit (*F(`r anova(mod_air_1.2,mod_air_1.3) %>% tidy() %>% select(df) %>% .[2,] %>% max()`*) = `r anova(mod_air_1.2,mod_air_1.3) %>% tidy() %>% select(statistic) %>% .[2,] %>% max() %>% round(2)`, *p*= `r anova(mod_air_1.2,mod_air_1.3) %>% tidy() %>% select(p.value) %>% .[2,] %>% max() %>% round(2)`). Notice that in `r table.x`.5, the effect of the real symbols is greater, which may indicate that the impact of symbols diminishes between the first and the second time participants see them.   
+
+[^footnote_heteroskedacity]: Breusch-Pagan test confirms that the null hypotheses that the variance of the residuals is constant. For Model 1.3, Breusch-Pagan test =  `r bptest(mod_air_1.3)[["statistic"]][["BP"]] %>% round(3)`, *p*=`r bptest(mod_air_1.3)[["p.value"]][["BP"]] %>% round(3)`. Robust standard errors are estimated using R sandwich package with estimation type "HC1".    
+
+[^footnote_control_variables]: I control for all the variables that are included in the balancing tables, except for interest in environmental issues, which was reported by only half of the sample. In other analyses, I also included that variable, with no significant change to the main results. 
+
+<br>
+
+[**Table `r table.x`** about here]
+
+<br>
+
+
+```{r}
+
+mod_waste_null = lm(TRUST_waste_INDEX~1,data=SVIVA2_01_comb)
+mod_waste_1.1 = update(mod_waste_null,. ~ .+
+                       SYMBOL_t+
+                       INFORMATION_weak,
+                     data=SVIVA2_01_comb)
+mod_waste_1.2 = update(mod_waste_1.1,. ~ .+AREA_center)
+mod_waste_1.3 = update(mod_waste_1.1,. ~ .+AREA_center*(SYMBOL_t+INFORMATION_weak))
+mod_waste_1.4 = update(mod_waste_1.3,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
+SVIVA2_01_comb_recycling_first <- SVIVA2_01_comb %>% filter(AIR_order==2)
+mod_waste_1.5 = update(mod_waste_1.3,. ~ .,data=SVIVA2_01_comb_recycling_first)
+
+## Adjust standard errors & F statistic
+mod_waste_1.1.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.1, type = "HC1")))
+mod_waste_1.1.wald_results <- waldtest(mod_waste_1.1, vcov = vcovHC(mod_waste_1.1, type = "HC1"))
+
+mod_waste_1.2.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.2, type = "HC1")))
+mod_waste_1.2.wald_results <- waldtest(mod_waste_1.2, vcov = vcovHC(mod_waste_1.2, type = "HC1"))
+
+mod_waste_1.3.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.3, type = "HC1")))
+mod_waste_1.3.wald_results <- waldtest(mod_waste_1.3, vcov = vcovHC(mod_waste_1.3, type = "HC1"))
+
+mod_waste_1.4.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.4, type = "HC1")))
+mod_waste_1.4.wald_results <- waldtest(mod_waste_1.4, vcov = vcovHC(mod_waste_1.4, type = "HC1"))
+
+mod_waste_1.5.robust_se    <- sqrt(diag(vcovHC(mod_waste_1.5, type = "HC1")))
+mod_waste_1.5.wald_results <- waldtest(mod_waste_1.5, vcov = vcovHC(mod_waste_1.4, type = "HC1"))
+
+
+SVIVA2_01_comb <- SVIVA2_01_comb %>% 
+  mutate(SYMBOL_t.r = Recode(SYMBOL_t,"0=2;2=0"))
+  
+mod_waste_1.1.r = update(mod_waste_null,. ~ .+
+                       SYMBOL_t.r+
+                       INFORMATION_weak)
+mod_waste_1.1.r.robust_se <- sqrt(diag(vcovHC(mod_waste_1.1.r, type = "HC1")))
+
+mod_waste_1.3.r = update(mod_waste_null,. ~ .+
+                       AREA_center*(SYMBOL_t.r+INFORMATION_weak))
+mod_waste_1.3.r.robust_se <- sqrt(diag(vcovHC(mod_waste_1.3.r, type = "HC1")))
+```
+
+
+Overall, the findings with regard to the air-pollution policy indicate, tentatively, that higher levels of perceived personal relevance of the communication neither attenuate the positive effect of brand elements entangled in communications, nor enhances citizens' attention to their substantive content. Accordingly, they do not support the research hypotheses. Still, as discussed in the previous section, this analysis is based on the observational comparison between the areas and not by a random assignment, and hence I cannot rule out a concern of endogeneity. Accordingly, the null findings regarding the interactions between the areas and the manipulations can be a result by other, unobserved differences between the two populations. As explained, the experimental design provides two additional tests which enable to address this concern: the comparison to the recycling policy, for which there are no relevance differences between the two groups, and the relevance manipulation. I now discuss the results of these two tests.
+
+`r table.x=table.x+1`**Table `r table.x`** replicates the models in **Table `r table.x-1`** for the recycling policy (*Mean* = `r SVIVA2_01_comb%>%summarise(mean(TRUST_waste_INDEX,na.rm=T))%>%max() %>% round(2)`, *SD* = `r SVIVA2_01_comb%>%summarise(sd(TRUST_waste_INDEX,na.rm=T))%>%max() %>% round(2)`, *Median* = `r SVIVA2_01_comb%>%summarise(median(TRUST_waste_INDEX,na.rm=T))%>%max() %>% round(2)`). Overall, these models reveal relatively similar patterns to those found in the air-pollution policy. Notice that Haifa Bay subjects reported lower trust on that policy as well, which may indicate that they their negative perceptions about the Ministry's actions regarding the air-pollution in their area shapes their general perceptions of the Ministry. The directions of the simple effects and interaction terms remain, while the main effects and conditional effects are smaller and less significant.[^footnote_recycling_model] Consistently with the air-pollution policy, Haifa Bay subjects were more affected by the symbolic elements, and the respondents from the two areas responded similarly to the differences in the information. The fact that similar patterns are observed across the these policies further weakens the initial assumption regarding the moderating role of personal relevance. It also rules out a possible argument that greater relevance enhances (rather then reduces) the effect of symbols. If this was the case, then there should have been no interaction between symbols and the areas for the recycling policy.    
+
+```{r}
+
+symbols.waste <- emmeans::emmeans(mod_waste_1.1, specs = pairwise ~ SYMBOL_t)
+
+diff1 <- (symbols.waste$contrasts %>% tidy() %>% .[1,"estimate"] %>% max(.)) %>% abs() %>% round(3)
+se1 <- (mod_waste_1.1.robust_se %>% tidy() %>% filter(names=="SYMBOL_t1") %>% select(x)) %>% max()
+
+diff2 <- (symbols.waste$contrasts %>% tidy() %>% .[3,"estimate"] %>% max(.)) %>% abs() %>% round(3)
+se2 <- (mod_waste_1.1.r.robust_se %>% tidy() %>% filter(names=="SYMBOL_t.r1") %>% select(x)) %>% max()
+
+diff3 <- (mod_waste_1.3 %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.)) %>% abs() %>% round(3)
+se3 <- (mod_waste_1.3.robust_se %>% tidy() %>% filter(names=="SYMBOL_t1") %>% select(x)) %>% max()
+
+diff4 <- (mod_waste_1.3.r %>% tidy() %>% filter(term=="SYMBOL_t.r1") %>% select(estimate) %>% max(.)) %>% abs() %>% round(3)
+se4 <- (mod_waste_1.3.r.robust_se %>% tidy() %>% filter(names=="SYMBOL_t.r1") %>% select(x)) %>% max()
+
+diff5 <- (mod_waste_1.1 %>% tidy() %>% filter(term=="INFORMATION_weak") %>% select(estimate) %>% max(.)) %>% abs() %>% round(3)
+se5 <- (mod_waste_1.1.robust_se %>% tidy() %>% filter(names=="INFORMATION_weak") %>% select(x)) %>% max()
+```
+
+[^footnote_recycling_model]: The main effect of the real symbols (as depicted from Model 2.1) is significant compared with the no symbols group (*Diff*=`r diff1` [`r (diff1-1.96*se1) %>% round(3)`-`r (diff1+1.96*se1) %>% round(3)`], *t*=`r (diff1/se1) %>% round(3)`). That effect amounts to `r (diff1/sd.waste) %>% round(3)` SDs [`r ((diff1-1.96*se1)/sd.waste) %>% round(3)`-`r ((diff1+1.96*se1)/sd.waste) %>% round(3)`]. Yet, the increase is not significant not with the fake symbols group (*Diff*=`r diff2` [`r (diff2-1.96*se2) %>% round(3)`-`r (diff2+1.96*se2) %>% round(3)`], *t*=`r (diff2/se2) %>% round(3)`). As shown in Model 2.3, the real symbols significantly increased Haifa Bay subjects' trust in that policy compared with the no symbols group (*Diff*=`r diff3` [`r (diff3-1.96*se3) %>% round(3)`-`r (diff3+1.96*se3) %>% round(3)`], *t*=`r (diff3/se3) %>% round(3)`), whereas the increase compared with the fake symbols group was not sufficiently significant (*Diff*=`r diff4` [`r (diff4-1.96*se4) %>% round(3)`-`r (diff4+1.96*se4) %>% round(3)`], *t*=`r (diff4/se4) %>% round(3)`). The differences between the symbols groups among the center subjects are small and insignificant. The smaller effect of the real symbols can be partly explained by the fact that I used a different celebrity campaign image for this policy, which was less familiar compared with the image presented for the air-pollution policy. The main effect of weak information (as depicted from Model 2.1) ammounts to `r (diff5/sd.waste) %>% round(3)` SDs [`r ((diff5-1.96*se5)/sd.waste) %>% round(3)`-`r ((diff5+1.96*se5)/sd.waste) %>% round(3)`]. In model 2.5, the interaction between weak information and the center area is positive, but far from significance.  
+
+<br>
+
+[**Table `r table.x`** about here]
+
+<br>
+
+```{r}
+
+mod_relevance_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb.haifa)
+mod_relevance_1.1 = update(mod_relevance_null,. ~ .+
+                             SYMBOL_t+
+                   INFORMATION_weak+
+                   RELEVANCE_exp)
+mod_relevance_1.2 = update(mod_relevance_1.1,. ~ .+RELEVANCE_exp*(SYMBOL_t+INFORMATION_weak))
+mod_relevance_1.3 = update(mod_relevance_1.2,. ~ .+
+                   GENDER+
+                   AGE+
+                   GOV_TRUST+
+                   IDEOLOGY+
+                   EDUCATION+
+                   INCOME+
+                   CHILDREN_young)
+
+
+mod_relevance_1.4 = update(mod_relevance_1.2,. ~ .,data=SVIVA2_01_comb.haifa_air_first)
+
+## Adjust standard errors & F statistic
+mod_relevance_1.1.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.1, type = "HC1")))
+mod_relevance_1.1.wald_results <- waldtest(mod_relevance_1.1, vcov = vcovHC(mod_relevance_1.1, type = "HC1"))
+
+mod_relevance_1.2.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.2, type = "HC1")))
+mod_relevance_1.2.wald_results <- waldtest(mod_relevance_1.2, vcov = vcovHC(mod_relevance_1.2, type = "HC1"))
+
+mod_relevance_1.3.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.3, type = "HC1")))
+mod_relevance_1.3.wald_results <- waldtest(mod_relevance_1.3, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+
+mod_relevance_1.4.robust_se    <- sqrt(diag(vcovHC(mod_relevance_1.4, type = "HC1")))
+mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_relevance_1.3, type = "HC1"))
+
+
+SVIVA2_01_comb.haifa <- SVIVA2_01_comb.haifa %>% 
+  mutate(RELEVANCE_exp.r = Recode(RELEVANCE_exp,"0=1;1=0"),
+         SYMBOL_t.r = Recode(SYMBOL_t,"0=2;2=0"))
+
+mod_relevance_1.2.r = update(mod_relevance_null,. ~ .+RELEVANCE_exp.r*(SYMBOL_t+INFORMATION_weak))
+
+mod_relevance_1.2.r.robust_se <- sqrt(diag(vcovHC(mod_relevance_1.2.r, type = "HC1")))
+
+diff5 <- (mod_relevance_1.2.r %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.)) %>% abs() %>% round(3)
+se5 <- (mod_relevance_1.2.r.robust_se %>% tidy() %>% filter(names=="SYMBOL_t1") %>% select(x)) %>% max()
+
+
+mod_relevance_1.2.r.r = update(mod_relevance_null,. ~ .+RELEVANCE_exp.r*(SYMBOL_t.r+INFORMATION_weak))
+
+tab.t1 <- SVIVA2_01_comb.haifa %>% 
+  group_by(RELEVANCE_exp,
+           INFORMATION_weak) %>% 
+  summarise(n = n(),
+            mean = mean(TRUST_air_INDEX,na.rm = T),
+            sd = sd(TRUST_air_INDEX,na.rm = T),
+            q1 = quantile(TRUST_air_INDEX,0.25,na.rm=T),
+            median = quantile(TRUST_air_INDEX,0.5,na.rm=T),
+            q3 = quantile(TRUST_air_INDEX,0.75,na.rm=T)) %>% 
+  mutate(se = sd/sqrt(n)) %>% 
+  mutate(ci.low = mean - 1.96*se,
+         ci.high = mean + 1.96*se)
+
+mod_symbols_relevance_aircontent = lm(TRUST_air_INDEX ~ SYMBOL_t,SVIVA2_01_haifa.relevance.aircontent)
+
+mod_symbols_relevance_aircontent.r = lm(TRUST_air_INDEX ~ SYMBOL_t.r,SVIVA2_01_haifa.relevance.aircontent)
+
+main.symbols.relevance.aircontent <- emmeans::emmeans(mod_symbols_relevance_aircontent, specs = pairwise ~ SYMBOL_t)
+
+t.symbols.relevance.aircontent.no <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_haifa.relevance.aircontent %>% filter(SYMBOL_t!=2))
+t.symbols.relevance.aircontent.fake <- t.test(TRUST_air_INDEX~SYMBOL_t,data=SVIVA2_01_haifa.relevance.aircontent %>% filter(SYMBOL_t!=0))
+
+```
+
+Next, `r table.x=table.x+1`**Table `r table.x`** presents the interaction between the relevance manipulation and the symbols and information manipulations. In Model `r table.x`.1, I regress trust in air-pollution policy on the three manipulations, then in Model `r table.x`.2 I add the interaction between the relevance manipulation and the symbols and information manipulations. Similarly to the regression tables presented above, the final two models are robust analyses where I add controls (Model `r table.x`.3) and restrict the sample to the policy presented first in order (Model `r table.x`.4). In all these models, the coefficient of the relevance treatment is negative but far from significance. The interactions between the real symbols and the relevance manipulation are negative, which indicates that among those who were primed to think about the personal relevance of the air-pollution problem, the averaged differences between those who saw the symbols and those who did not were slightly smaller. However, these interaction coefficients are relatively weak (ranging between `r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)`--`r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)` SDs, and attenuating approximately `r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.2 %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`--`r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="SYMBOL_t1:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.4 %>% tidy() %>% filter(term=="SYMBOL_t1") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`% of the effect in the control group) and far from significance. The interactions between the relevance treatment and weak information manipulations are positive but again insignificant (ranging between `r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)`--`r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/sd.air.haifa) %>% round(2)` SDs, and attenuating approximately `r ((mod_relevance_1.4 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.4 %>% tidy() %>% filter(term=="INFORMATION_weak") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`--`r ((mod_relevance_1.2 %>% tidy() %>% filter(term=="INFORMATION_weak:RELEVANCE_exp") %>% select(estimate) %>% max(.) %>% abs())/(mod_relevance_1.2 %>% tidy() %>% filter(term=="INFORMATION_weak") %>% select(estimate) %>% max(.) %>% abs())*100) %>% round(0)`% of the effect in the control group).[^footnote_relevance_manipulation_1]
+
+[^footnote_relevance_manipulation_1]: In additional analyses, I also examine the moderating effect of the relevance treatment for center subjects' responses to air-pollution policy, as well as for the recycling policy (for the entire sample). In all these analyses, the interactions with the relevance treatment are insignificant.     
+
+Two limitations about these analyses should be acknowledged. First, since the treatment manipulation did not affect participants' self-reporting of the personal relevance, there is no certainty that the manipulation actually succeeded in priming those subjects. Second, these analyses have more limited statistical power, compared to the observational comparisons, since they are restricted only to the sample of Haifa Bay subjects. Still, even if the relevance manipulation does attenuate the effect of the real symbols, their effect on that group compared with the no symbols is estimated based on Model `r table.x`.2 as `r (diff5/sd.air.haifa) %>% round(3)` SDs [`r ((diff5 - 1.96*se5)/sd.air.haifa) %>% round(3)`,`r ((diff5 + 1.96*se5)/sd.air.haifa) %>% round(3)`]. Remarkably, even when restricting the relevance treatment group to those who mentioned the air-pollution as an acute environmental issue in their area of residence (`r air.content.percent.haifa %>% round(0)`% of that group, *n* = `r SVIVA2_01_haifa.relevance.aircontent %>% nrow()`), the real symbols still had a roughly similar positive effect on trust in the policy plan, compared with the no symbols (*diff* = `r (main.symbols.relevance.aircontent$contrasts %>% tidy() %>% .[1,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.symbols.relevance.aircontent.no[["conf.int"]][2]*-1) %>% round(.,2)`-`r (t.symbols.relevance.aircontent.no[["conf.int"]][1]*-1) %>% round(.,2)`], *t* = `r t.symbols.relevance.aircontent.no[["statistic"]][["t"]] %>% abs() %>% round(.,3)`).[^footnote_relevance_significance_fakesymbols] This indicates that even Haifa Bay residents that were reminded about the relevance of the air-pollution to their lives area are positively affected, at least to some degree, by familiar symbols.   
+
+[^footnote_relevance_significance_fakesymbols]: Consistently with the previous models, subjects in the real symbols group also reported higher trust compared with the fake symbols, but these differences are not sufficiently significant. The differences between the two control groups are insignificant. 
+
+```{r}
+mod_closedness_null = lm(TRUST_air_INDEX~+
+                   GOV_TRUST+
+                   IDEOLOGY+
+                   EDUCATION+
+                   INCOME+
+                     AGE,data=SVIVA2_01_comb.haifa)
+
+mod_closedness_1.1 = update(mod_closedness_null,. ~ .+
+                             SYMBOL_t+
+                   INFORMATION_weak+
+                   close.industrial.area+
+                     CHILDREN_young)
+
+mod_closedness_1.2 = update(mod_closedness_1.1,. ~ .
+                            +close.industrial.area*(SYMBOL_t+INFORMATION_weak)+
+                              CHILDREN_young*(SYMBOL_t+INFORMATION_weak)+
+                              GENDER*(SYMBOL_t+INFORMATION_weak))
+
+mod_closedness_1.3 = update(mod_closedness_1.2,. ~ .,data=SVIVA2_01_comb.haifa_air_first)
+
+
+## Adjust standard errors & F statistic
+mod_closedness_1.1.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.1, type = "HC1")))
+mod_closedness_1.1.wald_results <- waldtest(mod_closedness_1.1, vcov = vcovHC(mod_closedness_1.1, type = "HC1"))
+
+mod_closedness_1.2.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.2, type = "HC1")))
+mod_closedness_1.2.wald_results <- waldtest(mod_closedness_1.2, vcov = vcovHC(mod_closedness_1.2, type = "HC1"))
+
+mod_closedness_1.3.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.3, type = "HC1")))
+mod_closedness_1.3.wald_results <- waldtest(mod_closedness_1.3, vcov = vcovHC(mod_closedness_1.3, type = "HC1"))
+
+relevance.areas.close.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area) 
+relevance.areas.close.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area)
+
+relevance.areas.children.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$CHILDREN_young) 
+relevance.areas.children.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$CHILDREN_young)
+
+```
+
+Finally, as an additional test for the robustness of my findings, I further compare between Haifa Bay subjects who are more/less likely to perceive the air-pollution as personally relevant, based on two proxies. First, I rely on subjects city of residence, and its geographical proximity to the polluting industrial area. Congruently, I selected the three cities/suburbs that are closest to the industrial area - *Nesher*, *Qiryat Haiim* and *Qiryat Bialik* (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==1) %>% nrow()`) -- and compared their residents in the sample with those residing in other cities in the Haifa Bay area (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==0) %>% nrow()`). The data confirms that residents of these closer cities tended to perceive the air-pollution policy as more personally relevant (Cohen's D = `r relevance.areas.close.d[["estimate"]] %>% round(2) %>% abs()` [`r (relevance.areas.close.d[["conf.int"]][["upper"]]*-1) %>% round(2)`,`r (relevance.areas.close.d[["conf.int"]][["lower"]]*-1) %>% round(2)`], *t* = `r relevance.areas.close.t[["statistic"]] %>% max() %>% round(2) %>% abs()`, *p* = `r relevance.areas.close.t[["p.value"]] %>% max() %>% round(3) %>% abs()`). Second, since young children are relatively vulnerable to air-pollution effects, and since the consequences of air-pollution on infants and young children has been highlighted in media, I expect parents for young children (under 12 years) to be more engaged with this issue, although that assumption is not supported by differences in self-reported perceived personal relevance.[^footnote_post_treatment_control]
+
+`r table.x=table.x+1`**Table `r table.x`** presents the interactions between these two variables and information manipulations. Model `r table.x`.1 presents the effect of these variables with the manipulations, and thereafter Model `r table.x`.2 adds their interactions, and finally Model `r table.x`.3 restricts the analysis to the first policy presented. All three models include control variables. The models tend to suggest that residing in the closer cities were not more likely to differentiate between the strong and weak plans, and were, to some extent, even more receptive to the emotional effect of the symbols (the interaction is significant in Model `r table.x`.2, but not in Model `r table.x`.3). As for parents for young children, the data does not show that they respond differently to the appearance of symbols or to variations in the content.[^footnote_proxies_models]   
+
+[^footnote_post_treatment_control]: In other models, not shown here, I also directly tested the interaction between the manipulations and the personal relevance subjective measures. In these models, the interactions with the symbols is insignificant and the interaction with weak information is negative and significant. However, these analysis can produce biased estimates since the perceived relevance measure is a post-manipulation variable [@gelman_2006, pp. 188-9].    
+
+[^footnote_proxies_models]: The interaction between proximity and the real symbols is positive and significant in Model `r table.x`.2, in Model `r table.x`.3  it is positive but insignificant; The interaction between parents for young children and the fake symbols is positive and significant in Model `r table.x`.2. 
+
+<br>
+
+# Discussion and conclusion 
+
+Public communications have been proposed as a remedy for citizens’ low trust in government, and for their underestimation of public-service performance. Congruently, governments' investments in public communications, and specifically in branding and advertising, has increased over the past generation in many economically-developed democratic countries. This study contributes to the growing Public-Administration research on citizens' responses to government public communications, and specifically to symbolic elements entangled in these communications. I explored the expectation, derived from social psychology, that citizens are less affected by symbols and more likely to scrutinize the content of the communication the more they perceive it as relevant to their own lives. I put these hypotheses to rigorous empirical testing, using a randomized survey experiment focusing on the Israeli Environmental Protection Ministry. I exploited the natural variation in citizens' perceptions of the personal relevance of the ministry’s policy plan regarding air pollution in a specific area. In addition to utilizing these natural differences, I also manipulated the personal relevance of the policy plans. To the best of my knowledge, this is the first study to assess the moderating role of perceived personal relevance on citizens' responses to government symbolic communications or branding.
+
+Contrary to my expectations, and those of extant research in social psychology and marketing, I did not find that high levels of perceived personal relevance attenuate the effect of symbols on citizens' trust. Subjects residing in the polluted Haifa Bay indeed reported that they perceive the policy plan for reducing air-pollution in that area as highly relevant for their lives, compared to those who reside in the center. However, despite these significant differences, Haifa Bay subjects did not pay more attention to the logical quality of the policy plan, and they were equally affected by the symbols in the communication. If anything, the results suggest that the symbols had a greater effect on Haifa Bay subjects. Furthermore, priming subjects to think about the personal relevance of environmental policy, and of the consequences of air-pollution in particular, also failed to moderate the effects of the symbols and information in the communications. These findings are also consistent with the findings of @alonbarkat_2017, where they found that the trust of citizens who recently personally experienced prolonged blackouts (and presumably perceived electricity services as personally relevant) was nonetheless significantly affected by a symbol of the government-owned electricity company.  
+
+How can we explain the finding that the positive effect of the real symbols was stronger among Haifa Bay residents? Given that this pattern is also evident for the recycling policy, it is unlikely that it is linked to differences in perceived personal relevance. Rather, it might be explained by the lower baseline of Haifa Bay subjects' trust in both policies, presumably due to their negative prior attitudes towards EPM. Accordingly, it could be the case that symbolic elements are more effective in shifting people from low to medium levels of trust (i.e. as in the case of Haifa Bay subjects), than shifting them from medium to high levels (i.e. as in the case of center subjects), indicating a ceiling effect. Stated otherwise, symbols may be more effective in reducing citizens' distrust, as opposed to increasing their trust.[^footnote_ceiling_effect] A related explanation is that the symbols distracted the subjects and decreased their inclination to think about the topic. As a result, they caused Haifa Bay subjects to disregard their prior beliefs about EPM and its failure regarding air-pollution.[^footnote_mediation_elaboration]      
+
+[^footnote_ceiling_effect]: This tentative explanation is supported by the fact that the interaction remains intact when controlling for demographic differences between the areas. It is also supported by the comparison of the percentages of subjects who reported very low levels of trust in the policies. This comparison shows a pattern of decreased marginal reduction. In the Haifa Bay, the percentage of those who reported a trust score of less than 2 in the air-pollution policy decreased by from `r ((filter(SVIVA2_01_haifa,SYMBOL==0,TRUST_air_INDEX<2) %>% nrow())/(filter(SVIVA2_01_haifa,SYMBOL==0)%>%nrow())*100)%>%round(1)`% in the no symbols group to `r ((filter(SVIVA2_01_haifa,SYMBOL==2,TRUST_air_INDEX<2) %>% nrow())/(filter(SVIVA2_01_haifa,SYMBOL==2)%>%nrow())*100)%>%round(1)`%. In the center, only `r ((filter(SVIVA2_01_center,SYMBOL==0,TRUST_air_INDEX<2) %>% nrow())/(filter(SVIVA2_01_center,SYMBOL==0)%>%nrow())*100)%>%round(1)`% of the no symbols group reported a trust score lower than 2 in the first place, and this percentage dropped to `r ((filter(SVIVA2_01_center,SYMBOL==2,TRUST_air_INDEX<2) %>% nrow())/(filter(SVIVA2_01_center,SYMBOL==2)%>%nrow())*100)%>%round(1)`% among the real symbols group. With regard to the recycling policy, the percentage decreased from `r ((filter(SVIVA2_01_haifa,SYMBOL==0,TRUST_waste_INDEX<2) %>% nrow())/(filter(SVIVA2_01_haifa,SYMBOL==0)%>%nrow())*100)%>%round(1)`% to `r ((filter(SVIVA2_01_haifa,SYMBOL==2,TRUST_waste_INDEX<2) %>% nrow())/(filter(SVIVA2_01_haifa,SYMBOL==2)%>%nrow())*100)%>%round(1)`% in the Haifa Bay and from `r ((filter(SVIVA2_01_center,SYMBOL==0,TRUST_waste_INDEX<2) %>% nrow())/(filter(SVIVA2_01_center,SYMBOL==0)%>%nrow())*100)%>%round(1)`% to `r ((filter(SVIVA2_01_center,SYMBOL==2,TRUST_waste_INDEX<2) %>% nrow())/(filter(SVIVA2_01_center,SYMBOL==2)%>%nrow())*100)%>%round(1)`% in the center. 
+
+[^footnote_mediation_elaboration]: This explanation is further supported by the survey data. The real symbols had a negative effect on the elaboration of these policies,  as measured by reaction time and memory test. The decrease in elaboration mediates the effect of symbols on trust.   
+
+How can we reconcile the findings of this study with the proposed theory? One plausible explanation is that despite the relatively high involvement of Haifa Bay residents, they were still not motivated enough to rely only on the central route and disregard the peripheral cues. If this explanation holds, it entails that citizens may resist the emotional effect of symbols only in rare circumstances, which are characterized by extremely high levels of personal relevance. Indeed, Petty and Cacioppo have admitted that the high and low personal relevance conditions generated in their experimental settings were deliberately created for theory testing purposes, and can be rarely found in the world outside the laboratory [@petty_1986, p. 206]. 
+
+The results of this study, if generalizable, have significant implications. They challenge the rationalistic view of government direct communications with citizens as a means to inform citizens about government organizations actions and promote transparency and accountability. Instead, they suggest that more often than not, citizens rely on brands and other symbolic elements in public communications, even with regard to policy issues that have direct implications on their own lives. Altogether, this study highlights the role played by government branding and other forms of symbolic communication in shaping citizens view of governments. It suggests that the boundaries of persuasion via symbols and branding are much wider than expected, based on previous social psychology and marketing studies. From the practical point of view of government organizations, this entails that organizations can overcome citizens distrust by investing in symbolic communications. Nonetheless, employing a broader perspective of democratic theory, these conclusions are disturbing insofar as they buttress the concern that government organizations will deliberately use symbolic communications to cause citizens to view them more favorably regardless (or even in contrast) to their actual capacities and achievements, namely as "propaganda". For good or for ill, citizens are affected by the emotional connections and associations of symbols.    
+
+Notwithstanding these conclusions, the limitations of this study should be acknowledged. The study focuses, empirically, on one specific case. Future studies may put these findings to further test by examining additional cases of public organizations and policy areas, as well as different forms of communications. Additionally, the comparison between the two areas is imperfect, insofar as the differences in personal relevance are confounded with differences in prior beliefs about the subject, which I cannot effectively control. A comparison between two groups that have similar prior beliefs would be more reliable. Finally, one can question the validity of the relevance manipulation, which has not yielded significant effect on subjects' subjective reporting on the perceived personal relevance of the communications. Still, the main results are robust to different model specifications, and operationalizations of personal relevance and message elaboration, which substantiate their validity. 
+
+
+
+
+## Appendix A: Information manipulation
+
+**Air-pollution policy** (Reducing the air-pollution in the Haifa Bay)
+
+EPM is working to reduce the air-pollution in the Haifa Bay by: 
+
+*Strong*
+
+* **Increasing the supervision of the factories in Haifa Bay**.
+In order to reduce the emissions of pollutants from the factories in the industrial area, the Ministry is working to increase the supervision of the factories in several ways. The ministry will increase the number of inspection visits, expand the use of unannounced inspections, and increase the level of fines for polluters.
+
+* **Reduction of emissions from vehicles in Haifa Bay**.
+The Ministry is taking a number of actions to reduce the amount of air-pollution from vehicles in the area. The ministry promotes the installation of particle filters in hundreds of vehicles in the area, and the designation of a "clean-air district" from which polluting vehicles are banned.
+
+*Weak*
+
+* **Decreasing the supervision of factories in Haifa Bay**.
+The Ministry is preparing for a change in the method of supervision of the factories. The ministry will reduce the number of inspection visits and unannounced inspections, rely on factories' self-reports on pollutant emissions, and reduce the level of fines. The change is coordinated with members of the industry, which are committed to reducing the pollution, and it will assist to build mutual respect between them and the ministry.
+
+* **Raising citizens' awareness of the efforts to improve air quality**.
+In recent years, the Ministry has taken steps to reduce air pollution in Haifa Bay, which have been partially successful. The Ministry is working to raise awareness of its efforts and to emphasize their success in order to improve its image among the residents. To this end, the ministry has increased its investment in public relations and publicity on this subject.
+
+<br>
+
+**Recycling policy** (Reducing waste and increasing recycling)
+
+EPM is working to reduce the amount of waste and increase recycling through:
+
+*Strong*
+
+* **Packaging recycling - Increased supervision of manufacturers**.
+In order to reduce the amount of waste generated from packaging and to encourage recycling, the Ministry implements the Packaging act, under which manufacturers and importers are responsible for recycling their packaging materials. The Ministry will work to increase enforcement by virtue of this act, and will enforce it for additional manufacturers and importers.
+
+* **Reducing the usage of disposable bags**.
+In order to reduce the use of disposable plastic bags, the Ministry has enforced the Carrier Bags act, which sets a compulsory charge on bags sold in large retail chains and imposes reporting obligations on the retail chains themselves. The Ministry is working to implement the act, and to encourage the transition to reusable grocery bags.
+
+*Weak*
+
+* **Packaging recycling - Decreased supervision of manufacturers**.
+The Ministry is preparing to a change in the way manufacturers, who are responsible for the recycling of product packaging, are supervised. The ministry will reduce the number of inspections, rely on manufacturers' own reporting regarding their compliance with the requirements of the act, and will reduce the level of fines. The change is coordinated with industry representatives, who are committed to the issue, and it will assist to strengthen mutual respect between them and the ministry.
+
+* **Reducing the usage of disposable bags**.
+In recent years, the Ministry has taken steps to encourage the reduction of waste, which have been partially successful. The Ministry works to raise awareness of the actions taken and to highlight their success in order to improve its image among the public. To this end, the ministry has increased its investment in public relations and publicity in this subject.
+
+<br>
+
+
+## Appendix B: Symbols manipulation
+![](C:/SAAR/UNIVERSITY/R/SVIVA/papers/paper3_PA/revision/myfigures/symbols_manipulation.png) 
+
+<font size="0.5">
+
+*Note: The policy plans communications presented here are the strong policies, in the version adjusted for mobile interface.*  
+
+</font>
+
+<br>
+
+
+# References
+
+<br>
+
+
+# References
+
+
+
+
+
+
+
+
+
+
+
+
