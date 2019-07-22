@@ -432,6 +432,30 @@ These results similarly show that the real campaign images are relatively recogn
 
 <br>
 
+## Information manipulation
+
+This section aims to assess the concernt that participants did not accept the authenticity of the weak, fictional policy plan, and did not find it reliable, and as a results lost trust in the rest of the survey. To assess that risk, I took advantage of the fact that the order in which the strong and weak policies were presented was randomized. Accordingly, half of the participants saw a weak plan first, and thereafter a strong plan, and for the other half it was the opposite. Hence, I examined whether the the strong policy was evaluated differently when it was presented first (which means that participants at that point did not sea weak policy yet and did not question the reliability of the survey), then when it was presented second (after they already saw a fictional policy). This comparison, accross the two policies, is graphically presented in the following plot. It shows that the differences between the means and distributions of the first and the second policy are relatively small and insignificant. The small increase between the first and second round may be explained be the fact that participants used the first (weak) policy as a benchmark, and therefore compared the second policy with the first one. Altogether, these test tend to indicate that participants' exposure to the fictional weak policy did not have a strong influence on their answers to the subsequent questions.    
+
+```{r}
+
+SVIVA2_01_comb %>%
+  filter(INFORMATION_weak==0) %>% 
+ggplot(aes(factor(policy),trust,shape=factor(ORDER)))+ 
+  theme_tufte()+
+  geom_boxplot(width=0.25,color="gray70")+
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar",
+               fun.args = list(mult = 1.96),
+               width=0.1,size=0.5,position=position_dodge(0.25),color="gray70") + 
+  stat_summary(fun.y = mean, geom = "point", size=1.6,position=position_dodge(0.25))+
+  scale_shape_manual(name="Order",values=c(19,1), labels = c("First","Second"))+
+  scale_x_discrete(name="Policy",labels=c("Air-pollution","Recycling"))+
+  scale_y_continuous(name = "Trust in policy",breaks = seq(1,7,by=0.5))#+
+  facet_grid(policy ~ .)
+  ggtitle("Information")
+```
+
+<br>
+
 ## Comparison between Haifa-Bay and Center
 
 In the first prior survey, I also tested the empirical assumption that Haifa-bay subjects do not have greater knowledge on the air-pollution in their area issue, compared with the participants who reside in the Center. *First*, I assessed participants prior knowledge about the causes of the air-pollution in that area. Participants were given a list of three causes, and were asked to rank them based on their contribution to air-pollution.[^footnote_air-pollution_causes] There were no significant differences between the two areas regarding the performance in this task. *Second*, I examined participants knowledge of the effectiveness of the previous EPM policy by asking participants whether air-pollution during the past years has decreased (the correct answer), increased, or remained the same, according to EPM reports. In both groups, the vast majority of subjects were incorrect. Haifa-bay residents were only slightly more likely to state that it had decreased (`r filter(SVIVA1_01,AREA==1)%>%summarise(mean(HAIFA_knowledge_2)*100)%>%max()%>%round(0)`% compared with `r filter(SVIVA1_01,AREA==0)%>%summarise(mean(HAIFA_knowledge_2)*100)%>%max()%>%round(0)`%). *Third*, subjects were asked about the frequency in which they monitor the air quality (in their area of residence). Haifa-bay subjects reported that they tend to monitor air pollution more frequently. Congruently, 48.9% of them reported that they tend to monitor it occasionally ("from time to time", but less than once a week), compared with only 28.2% of Center subjects. 34.6% of Center subjects reported that they do not monitor air pollution at all, compared with only 18.7% of Center subjects. Still, in both areas, only 2-3% of subjects reported that they monitor air pollution once a week or more frequently. Taken together, these comparisons indicate that in both areas, most people tend to have relatively little prior knowledge of the air-pollution. At the same time, some Haifa-bay subjects do have greater knowledge about it. This might suggest that on average, Haifa-bay subjects not only have greater motivation to scrutinize the communication on the policy, but also slightly greater ability to do so. 
