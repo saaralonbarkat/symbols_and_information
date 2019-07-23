@@ -869,6 +869,10 @@ t11.all %>%
 
 # Supplementary analyses
 
+ and restricting the sample to those who saw that policy first before the recycling policy. The latter analysis rules out the possibility that subjects' responses are affected by the manipulations in the first policy presented to them (a carryover effect), or by their evaluation of the it (assimilation or contrast effects).
+ 
+Notice that the effect of the real symbols is greater, which may indicate that the impact of symbols diminishes between the first and the second time participants see them.   
+
 ```{r}
 mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb)
 
@@ -979,6 +983,19 @@ stargazer(mod_air_1.5, mod_air_null,
 ```
 
 <br><br>
+
+The subsequent media reports specifically highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [@elroi_website_2015; @raavad_website_2015]. 
+Some reports also highlighted that the areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016]. 
+Finally, as an additional test for the robustness of my findings, I further compare between Haifa Bay subjects who are more/less likely to perceive the air-pollution as personally relevant, based on two proxies. First, I rely on subjects city of residence, and its geographical proximity to the polluting industrial area. Congruently, I selected the three cities/suburbs that are closest to the industrial area - *Nesher*, *Qiryat Haiim* and *Qiryat Bialik* (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==1) %>% nrow()`) -- and compared their residents in the sample with those residing in other cities in the Haifa Bay area (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==0) %>% nrow()`). The data confirms that residents of these closer cities tended to perceive the air-pollution policy as more personally relevant (Cohen's D = `r relevance.areas.close.d[["estimate"]] %>% round(2) %>% abs()` [`r (relevance.areas.close.d[["conf.int"]][["upper"]]*-1) %>% round(2)`,`r (relevance.areas.close.d[["conf.int"]][["lower"]]*-1) %>% round(2)`], *t* = `r relevance.areas.close.t[["statistic"]] %>% max() %>% round(2) %>% abs()`, *p* = `r relevance.areas.close.t[["p.value"]] %>% max() %>% round(3) %>% abs()`). Second, since young children are relatively vulnerable to air-pollution effects, and since the consequences of air-pollution on infants and young children has been highlighted in media, I expect parents for young children (under 12 years) to be more engaged with this issue, although that assumption is not supported by differences in self-reported perceived personal relevance.[^footnote_post_treatment_control]
+
+`r table.x=table.x+1`**Table `r table.x`** presents the interactions between these two variables and information manipulations. Model `r table.x`.1 presents the effect of these variables with the manipulations, and thereafter Model `r table.x`.2 adds their interactions, and finally Model `r table.x`.3 restricts the analysis to the first policy presented. All three models include control variables. The models tend to suggest that residing in the closer cities were not more likely to differentiate between the strong and weak plans, and were, to some extent, even more receptive to the emotional effect of the symbols (the interaction is significant in Model `r table.x`.2, but not in Model `r table.x`.3). As for parents for young children, the data does not show that they respond differently to the appearance of symbols or to variations in the content.[^footnote_proxies_models]   
+
+[^footnote_post_treatment_control]: In other models, not shown here, I also directly tested the interaction between the manipulations and the personal relevance subjective measures. In these models, the interactions with the symbols is insignificant and the interaction with weak information is negative and significant. However, these analysis can produce biased estimates since the perceived relevance measure is a post-manipulation variable [@gelman_2006, pp. 188-9].    
+
+[^footnote_proxies_models]: The interaction between proximity and the real symbols is positive and significant in Model `r table.x`.2, in Model `r table.x`.3  it is positive but insignificant; The interaction between parents for young children and the fake symbols is positive and significant in Model `r table.x`.2. 
+
+<br>
+
 
 `r table.x=table.x+1`**Table `r table.x`: Regression analyses – moderation of proximity to industrial area and young children.**
 
