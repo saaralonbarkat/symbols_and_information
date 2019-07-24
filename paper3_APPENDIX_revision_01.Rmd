@@ -1,6 +1,6 @@
 ---
 title: "Supplementary appendix"
-author: '**Saar Alon-Barkat**, PhD candidate; the Hebrew University of Jerusalem;   saar.barkat@mail.huji.ac.il'
+author: '**Saar Alon-Barkat**'
 date: " "
 output:
   html_document:
@@ -60,7 +60,7 @@ library(ggthemes)
 library(ggpubr)
 library(lmtest)
 library(sandwich)
-
+library(effsize)
 ```
 
 ---
@@ -83,7 +83,7 @@ library(sandwich)
 
 <br>
 
-# Properties of the selected cities
+# Characteristics of the selected cities
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 CITIES_table %>% 
@@ -104,7 +104,7 @@ CITIES_table %>%
 <font size="0.5">
 
 Notes:
-Data for all cities, except for Qiryat-Hayiim, is retrived from the Central Bureau of Statistics data file of local authorities in Israel of 2015. Qiryat-Hayiim is considered, formally, a neighborhood within the jurisdiction of Haifa, although it is geographically seperated from the rest of the city. Therefore, it is included in the official statistical data within Haifa. The population of Qiryat-Hayiim is based on a document of statistical data for neighborhoods in Haifa for 2015, retrived from the website of the municipality of Haifa.      
+Data for all cities, except for Qiryat-Hayiim, is retrived from the Central Bureau of Statistics data file of local authorities in Israel of 2015. Qiryat-Hayiim is considered, formally, a neighborhood within the jurisdiction of Haifa, although it is geographically separated from the rest of the city. Therefore, it is included in the official statistical data within Haifa. The population of Qiryat-Hayiim is based on a document of statistical data for neighborhoods in Haifa for 2015, retrieved from the website of the municipality of Haifa.      
 
 </font>
 
@@ -172,6 +172,9 @@ The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` 
 
 [^footnote_prior_survey_1]: Overall, the findings of this limited prior study are consistent Consistent with the findings of the main experiment, reported in the paper. The effect of the real symbols were greater among those who reside in the Haifa-Bay. Congruently, the statistical analyses yielded a negative and significant interaction between the real symbols and residence in the center. Also consistent with the main experiment, the interaction between the areas and the information manipulation was not significant.  
 
+<br>
+
+**Figure A3**
 
 "How familiar are you with the symbol [that appeared in the policy plans]?" (1=not at all; 7=very much)
 
@@ -204,7 +207,9 @@ ggarrange(p1,p2,
           ncol = 2,nrow = 1) 
 ```
 
+<br>
 
+**Figure A4**
 
 "When you see the symbol [that appeared in the policy plans], what does it make you feel?" (1=very negative feeling; 7=very positive feeling)
 
@@ -235,6 +240,9 @@ Overall, these results show that the real logo is relatively recognizable and ha
 
 The second prior survey was conducted on January 2018 among `r CELEBS_00%>%nrow()` participants, which were similarly recruited via iPanel. This survey was designed as a pre-test that was aimed at assessing the recognizability, affect and associations of the real vs. fake campaign images. Participants were presented with the four campaign images (two real and two fake), in a random order. After every image, they were asked a series of questions regarding the familiarity and affect of the image and of the person presented. The items and their descriptive results are presented below.
 
+<br>
+
+**Figure A5**
 "The person presented in the image is familiar to me" (1=weakly agree; 7=strongly agree)
 
 Air-pollution policy
@@ -282,6 +290,12 @@ ggarrange(p1,p2,
 
 ```
 
+
+<br>
+
+
+**Figure A6**
+
 "The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?" (1=not at all; 7=very much)
 
 Air-pollution policy
@@ -327,6 +341,9 @@ ggarrange(p1,p2,
           ncol = 2,nrow = 1) 
 ```
 
+<br>
+
+**Figure A7**
 
 "The image evokes a positive feeling" (1=weakly agree; 7=strongly agree)
 
@@ -376,6 +393,9 @@ ggarrange(p1,p2,
           ncol = 2,nrow = 1)
 ```
 
+<br>
+
+**Figure A8**
 
 "The image evokes a negative feeling" (1=weakly agree; 7=strongly agree)
 
@@ -426,7 +446,7 @@ ggarrange(p1,p2,
           ncol = 2,nrow = 1)
 ```
 
-
+<br>
 
 These results similarly show that the real campaign images are relatively recognizable and have a fairly positive affect, whereas the fake images and models are unrecognized and do not evoke strong negative of positive feelings. Finally, I similarly asked subjects to describe their first thoughts/associations regarding the images of Friedman and Rosenblum from their campaigns (without any text). Most of the participants associated Rosenblum's image to the reducing the use of disposable grocery bags, in line with the campaign's message (e.g. "reusable bag", "reusable instead of disposable bag for protecting the environment"). With regard to Friedman's grass-head image from his "starting to think green" campaign, participants mostly mentioned associations related to environmental awareness (e.g. "green head, thinking about the environment", "green environment", "think green"), and to the humoristic aspect (e.g. "funny", "comedian", "Funny advertisement", "hahaha"). 
 
@@ -434,7 +454,11 @@ These results similarly show that the real campaign images are relatively recogn
 
 ## Information manipulation
 
-This section aims to assess the concernt that participants did not accept the authenticity of the weak, fictional policy plan, and did not find it reliable, and as a results lost trust in the rest of the survey. To assess that risk, I took advantage of the fact that the order in which the strong and weak policies were presented was randomized. Accordingly, half of the participants saw a weak plan first, and thereafter a strong plan, and for the other half it was the opposite. Hence, I examined whether the the strong policy was evaluated differently when it was presented first (which means that participants at that point did not sea weak policy yet and did not question the reliability of the survey), then when it was presented second (after they already saw a fictional policy). This comparison, accross the two policies, is graphically presented in the following plot. It shows that the differences between the means and distributions of the first and the second policy are relatively small and insignificant. The small increase between the first and second round may be explained be the fact that participants used the first (weak) policy as a benchmark, and therefore compared the second policy with the first one. Altogether, these test tend to indicate that participants' exposure to the fictional weak policy did not have a strong influence on their answers to the subsequent questions.    
+This section aims to assess the concern that participants did not accept the authenticity of the weak, fictional policy plan, and did not find it reliable, and as a results lost trust in the rest of the survey. To assess that risk, I took advantage of the fact that the order in which the strong and weak policies were presented was randomized. To reiterate, half of the participants saw a weak plan first, and thereafter a strong plan, and for the other half it was the opposite. Hence, I examined whether the the strong policy was evaluated differently when it was presented first (which means that participants at that point did not sea weak policy yet and did not question the reliability of the survey), then when it was presented second (after they already saw a fictional policy). This comparison, across the two policies, is graphically presented in the following plot. It shows that the differences between the means and distributions of the first and the second policy are relatively small and insignificant. The small increase between the first and second round may be explained be the fact that participants used the first (weak) policy as a benchmark, and therefore compared the second policy with the first one. Altogether, these test tend to indicate that participants' exposure to the fictional weak policy did not have a strong influence on their answers to the subsequent questions. 
+
+<br>
+
+**Figure A9**
 
 ```{r}
 SVIVA2_01_comb %>%
@@ -462,28 +486,99 @@ In the first prior survey, I also tested the empirical assumption that Haifa-bay
 
 ## Relevance manipulation
 
-I tested whether the priming questions in the relevance treatment condition increased the perceived personal relevance of the two policy plans (in each of the two areas). For this purpose, I relied on the above perceived personal relevance items. Table A1 shows the results of regression analyses. For each of the two policy plans, I first regress perceived personal relevance on the relevance treatment and the areas, and thereafter I add their interaction. Counter to my expectations, the relevance manipulation did not have a positive main effect on either of these two policy plans. Regarding the air-pollution policy, the interaction between the relevance treatment and the center area is positive and significant, and the coefficient of the relevance treatment is negative (model 2). The interpretation of this interaction suggests that the priming questions decreased the perceived personal relevance of the air-pollution policy among Haifa-Bay subjects, but increased it among those who reside in the Center. Regarding the recycling policy, the interaction is insignificant.      
+I tested whether the priming questions in the relevance treatment condition increased the perceived personal relevance of the two policy plans (in each of the two areas). For this purpose, I relied on the above perceived personal relevance items. Table A1 shows the results of regression analyses. For each of the two policy plans, I first regress perceived personal relevance on the relevance treatment and the areas, and thereafter I add their interaction, and add controls. Counter to my expectations, the relevance manipulation did not have a positive main effect on either of these two policy plans. Regarding the air-pollution policy, the interaction between the relevance treatment and the center area is positive and significant, and the coefficient of the relevance treatment is negative. The interpretation of this interaction suggests that the priming questions slightly decreased the perceived personal relevance of the air-pollution policy among Haifa-Bay subjects, and increased it among those who reside in the Center. Regarding the recycling policy, the interaction is insignificant.      
+
+<br>
 
 **Table A1: Regression table - effect of relevance manipulation, across areas, on perceived personal relevance**
 
 ```{r,results="asis",echo=FALSE,warning=FALSE,message=FALSE}
-mod_relevance_air_1.1_apx = lm(RELEVANCE_air_obs~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
+control.vars <- c("GENDER",
+                  "AGE",
+                  "GOV_TRUST",
+                   "IDEOLOGY",
+                   "EDUCATION",
+                   "INCOME",
+                   "CHILDREN",
+                   "CHILDREN_young")
+
+
+mod_relevance_air_null_apx = lm(RELEVANCE_air_obs~1,data=SVIVA2_01)
+mod_relevance_air_1.1_apx = lm(RELEVANCE_air_obs~AREA_center+RELEVANCE_exp,data=SVIVA2_01)
 mod_relevance_air_1.2_apx = update(mod_relevance_air_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+mod_relevance_air_1.3_apx = update(mod_relevance_air_1.2_apx,. ~ .+
+                      GENDER+
+                       AGE+
+                       GOV_TRUST+
+                       IDEOLOGY+
+                       EDUCATION+
+                       INCOME+
+                       CHILDREN_young)
 
-mod_relevance_waste_1.1_apx = lm(RELEVANCE_waste_obs~AREA_center+RELEVANCE_exp,data=SVIVA2_01_comb)
-mod_relevance_waste_1.2_apx = update(mod_relevance_waste_1.1_apx,. ~ .+RELEVANCE_exp*AREA_center)
+mod_relevance_waste_null_apx = lm(RELEVANCE_waste_obs~1,data=SVIVA2_01)
+mod_relevance_waste_1.1_apx = update(mod_relevance_air_1.1_apx,RELEVANCE_waste_obs ~ .)
+mod_relevance_waste_1.2_apx = update(mod_relevance_air_1.2_apx,RELEVANCE_waste_obs ~ .)
+mod_relevance_waste_1.3_apx = update(mod_relevance_air_1.3_apx,RELEVANCE_waste_obs ~ .)
 
-stargazer(mod_relevance_air_1.1_apx,mod_relevance_air_1.2_apx,
-          mod_relevance_waste_1.1_apx,mod_relevance_waste_1.2_apx,
-          type="html",style = "apsr",
-          dep.var.labels=c("Air-pollution","Recycling"),
+
+## Adjust standard errors & F statistic
+mod_relevance_air_1.1_apx.robust_se    <- sqrt(diag(vcovHC(mod_relevance_air_1.1_apx, type = "HC1")))
+mod_relevance_air_1.1_apx.wald_results <- waldtest(mod_relevance_air_1.1_apx, vcov = vcovHC(mod_relevance_air_1.1_apx, type = "HC1"))
+
+mod_relevance_air_1.2_apx.robust_se    <- sqrt(diag(vcovHC(mod_relevance_air_1.2_apx, type = "HC1")))
+mod_relevance_air_1.2_apx.wald_results <- waldtest(mod_relevance_air_1.2_apx, vcov = vcovHC(mod_relevance_air_1.2_apx, type = "HC1"))
+
+mod_relevance_air_1.3_apx.robust_se    <- sqrt(diag(vcovHC(mod_relevance_air_1.3_apx, type = "HC1")))
+mod_relevance_air_1.3_apx.wald_results <- waldtest(mod_relevance_air_1.3_apx, vcov = vcovHC(mod_relevance_air_1.3_apx, type = "HC1"))
+
+mod_relevance_waste_1.1_apx.robust_se    <- sqrt(diag(vcovHC(mod_relevance_waste_1.1_apx, type = "HC1")))
+mod_relevance_waste_1.1_apx.wald_results <- waldtest(mod_relevance_waste_1.1_apx, vcov = vcovHC(mod_relevance_waste_1.1_apx, type = "HC1"))
+
+mod_relevance_waste_1.2_apx.robust_se    <- sqrt(diag(vcovHC(mod_relevance_waste_1.2_apx, type = "HC1")))
+mod_relevance_waste_1.2_apx.wald_results <- waldtest(mod_relevance_waste_1.2_apx, vcov = vcovHC(mod_relevance_waste_1.2_apx, type = "HC1"))
+
+mod_relevance_waste_1.3_apx.robust_se    <- sqrt(diag(vcovHC(mod_relevance_waste_1.3_apx, type = "HC1")))
+mod_relevance_waste_1.3_apx.wald_results <- waldtest(mod_relevance_waste_1.3_apx, vcov = vcovHC(mod_relevance_waste_1.3_apx, type = "HC1"))
+
+stargazer(mod_relevance_air_1.1_apx,mod_relevance_air_null_apx,
+          mod_relevance_air_1.2_apx,mod_relevance_air_null_apx,
+          mod_relevance_air_1.3_apx,mod_relevance_air_null_apx,
+          mod_relevance_waste_1.1_apx,mod_relevance_waste_null_apx,
+          mod_relevance_waste_1.2_apx,mod_relevance_waste_null_apx,
+          mod_relevance_waste_1.3_apx,mod_relevance_waste_null_apx,
+          type = "html",
+          se  = list(mod_relevance_air_1.1_apx.robust_se,NULL,
+                     mod_relevance_air_1.2_apx.robust_se,NULL,
+                     mod_relevance_air_1.3_apx.robust_se,NULL,
+                     mod_relevance_waste_1.1_apx.robust_se,NULL,
+                     mod_relevance_waste_1.2_apx.robust_se,NULL,
+                     mod_relevance_air_1.3_apx.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("a(1.",1:6,")"),
+          column.separate = c(2,2,2,2,2,2),
+          dep.var.labels=c("Air-pollution policy","Recycling policy"),
+          omit = control.vars,
           covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
                              "Relevance treatment",
                              "Area x Relevance treatment"),
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients, with Standard errors in parentheses. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","No","","No","","Yes","",
+                                        "No","","No","","Yes",""),
+                           c("F Statistic", 
+                             mod_relevance_air_1.1_apx.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_air_1.2_apx.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_air_1.3_apx.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_waste_1.1_apx.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_waste_1.2_apx.wald_results[2,3] %>% round(2),NA,
+                             
+mod_relevance_waste_1.3_apx.wald_results[2,3] %>% round(2),NA)),
+          notes = "*Notes*: In all regression tables, entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
           notes.append = FALSE)
+
 ```
 
 
@@ -491,14 +586,14 @@ stargazer(mod_relevance_air_1.1_apx,mod_relevance_air_1.2_apx,
 
 # Power estimations
 
-In this section, I report the results of power estimations, which I conducted after collecting and analyzing the data. I have conducted seperate analyses for: (1) Main effects of the symbols and weak information manipulations; (2) Conditional effects of manipulations within each of the two areas (Haifa-Bay and Center); (3) Two-way interactions bewteen areas and the manipulations; and (4) Two-way interactions bewteen the relevance manipulation and the manipulations (in the Haifa-Bay area). 
+In this section, I report the results of power estimations, which I conducted after collecting and analyzing the data. I have conducted separate analyses for: (1) Main effects of the symbols and weak information manipulations; (2) Conditional effects of manipulations within each of the two areas (Haifa-Bay and Center); (3) Two-way interactions between areas and the manipulations; and (4) Two-way interactions between the relevance manipulation and the manipulations (in the Haifa-Bay area). 
 
-These power estimations were conducted in R software, through regression models simulations with 1,000 interations for each effect size [code adopted from @hughes_website_2017]. All these tests refer to a *p-value* of .05 (one-tailed), with `set.seed(2018)`. These analyses refer to a the analytical sample size (*N* = `r nrow(SVIVA2_01)`, *N*<sub>*Haifa-Bay*</sub>=`r nrow(SVIVA2_01_haifa)`, *N*<sub>*Center*</sub>=`r nrow(SVIVA2_01_center)`). Finally, I assumed that the error term is normally distributed (Mean = 0, SD = 1).     
+These power estimations were conducted in R software, through regression models simulations with 1,000 iterations for each effect size [code adopted from @hughes_website_2017]. All these tests refer to a *p-value* of .05 (one-tailed), with `set.seed(2018)`. These analyses refer to a the analytical sample size (*N* = `r nrow(SVIVA2_01)`, *N*<sub>*Haifa-Bay*</sub>=`r nrow(SVIVA2_01_haifa)`, *N*<sub>*Center*</sub>=`r nrow(SVIVA2_01_center)`). Finally, I assumed that the error term is normally distributed (Mean = 0, SD = 1).     
 
 
 <br>
 
-**Figure XX: Power of conditional effects**
+**Figure A10: Power of conditional effects**
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 
 results.main %>%
@@ -521,7 +616,7 @@ ggplot(aes(x=effect_sizes, y=power,color = main.effect)) +
 
 <br>
 
-**Figure XX: Power of conditional effects**
+**Figure A11: Power of conditional effects**
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 results.conditional %>%
     group_by(cond.effect,
@@ -545,7 +640,7 @@ theme_bw()
 <br>
 
 
-**Figure XX: Power of Interactions with area**
+**Figure A12: Power of Interactions with area**
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 results.area %>%
     group_by(Interaction,
@@ -566,7 +661,7 @@ ggplot(aes(x=effect_sizes, y=power,color = Interaction)) +
 
 <br>
 
-**Figure XX: Power of Interactions with relevance manipulation**
+**Figure A13: Power of Interactions with relevance manipulation**
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 results.relevance %>%
@@ -841,6 +936,8 @@ t11.all <- rbind(
 
 ```
 
+*Table A4*
+
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 t11.all %>% 
   kable(col.names = c("Area",
@@ -868,21 +965,6 @@ t11.all %>%
 <br>
 
 # Supplementary analyses
-
-In the regression tables below, I report the results of additional robust analyses. 
-
-*Table A1* replicates the interaction models in the paper (1.3, 3.2 and 2.3) while restricting the sample to those who saw that policy first before the recycling policy. The directions of the coefficients in these models remain intact. The effect of the real symbols is greater, compared with the full sample (in both policies). This may indicate that the impact of symbols diminishes between the first and the second time participants are exposed to them. 
-
-*Table A2* compares between Haifa Bay subjects who are more/less likely to perceive the air-pollution as personally relevant, based on two proxies: (a) Subjects' city of residence, and its geographical proximity to the polluting industrial area; (b) Parents for young children. The selection of these two variables is driven by the media coverage of the reports published in 2015-6 regarding the air-pollution in the Haifa Bay. The media reports following the publication of the the statistical data of the Ministry of Health in 2015 mostly highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [e.g. @elroi_website_2015; @raavad_website_2015]. Thereafter, reports of the epidemiological study both emphasized the finding regarding the small heads of babies in Haifa Bay, as well as that areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016].   
- 
-For the first proxi, I selected the three cities/suburbs that are closer to the industrial area - *Nesher*, *Qiryat Haiim* and *Qiryat Bialik* (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==1) %>% nrow()`) -- and compared their residents in the sample with those residing in all other cities in the Haifa Bay sample (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==0) %>% nrow()`). The data confirms that residents of these closer cities tended to perceive the air-pollution policy as more personally relevant (Cohen's D = `r relevance.areas.close.d[["estimate"]] %>% round(2) %>% abs()` [`r (relevance.areas.close.d[["conf.int"]][["upper"]]*-1) %>% round(2)`,`r (relevance.areas.close.d[["conf.int"]][["lower"]]*-1) %>% round(2)`], *t* = `r relevance.areas.close.t[["statistic"]] %>% max() %>% round(2) %>% abs()`, *p* = `r relevance.areas.close.t[["p.value"]] %>% max() %>% round(3) %>% abs()`). As for the second proxi, I use a binary variable coded 1 for parents for children under 12 years, and 0 otherwise. However, while I expect parents for young children to be more engaged, that assumption is not supported by differences in self-reported perceived personal relevance. In other models, not shown here, I also directly tested the interaction between the manipulations and the personal relevance subjective measures.  
-
-The models tend to suggest that residing in the closer cities were not more likely to differentiate between the strong and weak plans, and were, to some extent, even more receptive to the emotional effect of the symbols. The interaction between proximity and the real symbols is positive and significant. As for parents for young children, the data does not show that they respond differently to the appearance of symbols or to variations in the content. The interaction between parents for young children and the fake symbols is positive and significant.
-
-In these models, the interactions with the symbols is insignificant and the interaction with weak information is negative and significant. However, these analysis can produce biased estimates since the perceived relevance measure is a post-manipulation variable [@gelman_2006, pp. 188-9].
-
-Finally, *Tables A3-A5* replicate Tables 2-4 in the main paper, while adding observations who were filtered, except for those who reported an age under 18 (*n* = `r SVIVA2_00_comb %>% drop_na(TRUST_air_INDEX) %>%  nrow()`). The results of these models latter models do not substantially diverge from the results of the main models.   
-
 
 ```{r}
 mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_01_comb)
@@ -953,56 +1035,6 @@ mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_
 ```
 
 
-`r table.x=table.x+1`**Table A`r table.x`: Regression analyses – policy presented first of order.**
-
-```{r,results="asis"}
-stargazer(mod_air_1.5, mod_air_null,
-          mod_relevance_1.4, mod_relevance_null,
-          mod_waste_1.5, mod_waste_null,
-          type = "html",
-          se  = list(mod_air_1.5.robust_se,NULL,
-                     mod_relevance_1.4.robust_se,NULL,
-                     mod_waste_1.5.robust_se,NULL),
-          style = "apsr",
-          report = "vcsp",
-          omit.stat = c("rsq","ser", "f"),
-          initial.zero = FALSE,
-          column.labels   = str_c("a(1.",1:3,")"),
-          column.separate = c(2,2,2),
-          dep.var.labels=c("Trust in air-pollution policy","Trust in recycling policy"),
-          covariate.labels=c("Real symbols",
-                             "Fake-symbols",
-                             "Weak Information",
-                             "Area (0=Haifa Bay; 1=center)",
-                             "Area x Real symbols",
-                             "Area x Fake symbols",
-                             "Area x Weak Information",
-                             "Relevance treatment",
-                             "Relevance treatment x Real symbols",
-                             "Relevance treatment x Fake symbols",
-                             "Relevance treatment x Weak Information"),
-          omit = control.vars,
-          p.auto = F,
-          add.lines = list(
-                           c("Controls","no","","no","","no",""),
-                           c("F Statistic", 
-                             mod_air_1.5.wald_results[2,3] %>% round(2),NA,
-                             mod_relevance_1.4.wald_results[2,3] %>% round(2),NA,
-                             mod_waste_1.5.wald_results[2,3] %>% round(2),NA)),
-          notes = "",
-          notes.append = FALSE)
-```
-
-<br><br>
-
-   
-
-
-<br>
-
-
-`r table.x=table.x+1`**Table `r table.x`: Regression analyses – moderation of proximity to industrial area and young children.**
-
 ```{r}
 mod_closedness_null = lm(TRUST_air_INDEX~+
                    GOV_TRUST+
@@ -1035,8 +1067,77 @@ mod_closedness_1.2.wald_results <- waldtest(mod_closedness_1.2, vcov = vcovHC(mo
 mod_closedness_1.3.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.3, type = "HC1")))
 mod_closedness_1.3.wald_results <- waldtest(mod_closedness_1.3, vcov = vcovHC(mod_closedness_1.3, type = "HC1"))
 
+relevance.areas.close.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area) 
+relevance.areas.close.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area)
+
+relevance.areas.children.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$CHILDREN_young) 
+relevance.areas.children.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$CHILDREN_young)
+
 ```
 
+<br>
+
+In the regression tables below, I report the results of additional robust analyses. 
+
+*Table A5* replicates the interaction models in the paper (1.3, 3.2 and 2.3) while restricting the sample to those who saw that policy first before the recycling policy. The directions of the coefficients in these models remain intact. The effect of the real symbols is greater, compared with the full sample (in both policies). This may indicate that the impact of symbols diminishes between the first and the second time participants are exposed to them. 
+
+*Table A6* compares between Haifa Bay subjects who are more/less likely to perceive the air-pollution as personally relevant, based on two proxies: (a) Subjects' city of residence, and its geographical proximity to the polluting industrial area; (b) Parents for young children. The selection of these two variables is driven by the media coverage of the reports published in 2015-6 regarding the air-pollution in the Haifa Bay. The media reports following the publication of the the statistical data of the Ministry of Health in 2015 mostly highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [e.g. @elroi_website_2015; @raavad_website_2015]. Thereafter, reports of the epidemiological study both emphasized the finding regarding the small heads of babies in Haifa Bay, as well as that areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016].   
+ 
+For the first proxy, I selected the three cities/suburbs that are closer to the industrial area - *Nesher*, *Qiryat Haiim* and *Qiryat Bialik* (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==1) %>% nrow()`) -- and compared their residents in the sample with those residing in all other cities in the Haifa Bay sample (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==0) %>% nrow()`). The data confirms that residents of these closer cities tended to perceive the air-pollution policy as more personally relevant (Cohen's D = `r relevance.areas.close.d[["estimate"]] %>% round(2) %>% abs()` [`r (relevance.areas.close.d[["conf.int"]][["upper"]]*-1) %>% round(2)`,`r (relevance.areas.close.d[["conf.int"]][["lower"]]*-1) %>% round(2)`], *t* = `r relevance.areas.close.t[["statistic"]] %>% max() %>% round(2) %>% abs()`, *p* = `r relevance.areas.close.t[["p.value"]] %>% max() %>% round(3) %>% abs()`). As for the second proxy, I use a binary variable coded 1 for parents for children under 12 years, and 0 otherwise. However, while I expect parents for young children to be more engaged, that assumption is not supported by differences in self-reported perceived personal relevance. In other models, not shown here, I also directly tested the interaction between the manipulations and the personal relevance subjective measures.  
+
+The models tend to suggest that residing in the closer cities were not more likely to differentiate between the strong and weak plans, and were, to some extent, even more receptive to the emotional effect of the symbols. The interaction between proximity and the real symbols is positive and significant. As for parents for young children, the data does not show that they respond differently to the appearance of symbols or to variations in the content. The interaction between parents for young children and the fake symbols is positive and significant.
+
+In these models, the interactions with the symbols is insignificant and the interaction with weak information is negative and significant. However, these analysis can produce biased estimates since the perceived relevance measure is a post-manipulation variable [@gelman_2006, pp. 188-9].
+
+Finally, *Tables A7-A9* replicate Tables 2-4 in the main paper, while adding observations who were filtered, except for those who reported an age under 18 (*n* = `r SVIVA2_00_comb %>% drop_na(TRUST_air_INDEX) %>%  nrow()`). The results of these models latter models do not substantially diverge from the results of the main models.   
+
+<br>
+
+
+**Table A5: Regression analyses – policy presented first of order.**
+
+```{r,results="asis"}
+stargazer(mod_air_1.5, mod_air_null,
+          mod_relevance_1.4, mod_relevance_null,
+          mod_waste_1.5, mod_waste_null,
+          type = "html",
+          se  = list(mod_air_1.5.robust_se,NULL,
+                     mod_relevance_1.4.robust_se,NULL,
+                     mod_waste_1.5.robust_se,NULL),
+          style = "apsr",
+          report = "vcsp",
+          omit.stat = c("rsq","ser", "f"),
+          initial.zero = FALSE,
+          column.labels   = str_c("a(2.",1:3,")"),
+          column.separate = c(2,2,2),
+          dep.var.labels=c("Trust in air-pollution policy","Trust in recycling policy"),
+          covariate.labels=c("Real symbols",
+                             "Fake-symbols",
+                             "Weak Information",
+                             "Area (0=Haifa Bay; 1=center)",
+                             "Area x Real symbols",
+                             "Area x Fake symbols",
+                             "Area x Weak Information",
+                             "Relevance treatment",
+                             "Relevance treatment x Real symbols",
+                             "Relevance treatment x Fake symbols",
+                             "Relevance treatment x Weak Information"),
+          omit = control.vars,
+          p.auto = F,
+          add.lines = list(
+                           c("Controls","no","","no","","no",""),
+                           c("F Statistic", 
+                             mod_air_1.5.wald_results[2,3] %>% round(2),NA,
+                             mod_relevance_1.4.wald_results[2,3] %>% round(2),NA,
+                             mod_waste_1.5.wald_results[2,3] %>% round(2),NA)),
+          notes = "",
+          notes.append = FALSE)
+```
+
+<br><br>
+
+
+**Table A6: Regression analyses – moderation of proximity to industrial area and young children.**
 
 
 ```{r,results="asis"}
@@ -1052,17 +1153,15 @@ control.vars <- c("GENDER",
 
 stargazer(mod_closedness_1.1,mod_closedness_null,
           mod_closedness_1.2,mod_closedness_null,
-          mod_closedness_1.3, mod_closedness_null,
           type = "html",
           se  = list(mod_closedness_1.1.robust_se,NULL,
-                     mod_closedness_1.2.robust_se,NULL,
-                     mod_closedness_1.3.robust_se,NULL),
+                     mod_closedness_1.2.robust_se,NULL),
           style = "apsr",
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("a(2.",1:4,")"),
-          column.separate = c(2,2,2),
+          column.labels   = str_c("a(3.",1:2,")"),
+          column.separate = c(2,2),
           dep.var.labels="Trust in air-pollution policy",
           omit = control.vars,
           covariate.labels=c("Real symbols",
@@ -1078,11 +1177,10 @@ stargazer(mod_closedness_1.1,mod_closedness_null,
                              "Young children x Weak Information"),          
           p.auto = F,
           add.lines = list(
-                           c("Controls","Yes","","Yes","","Yes",""),
+                           c("Controls","Yes","","Yes",""),
                            c("F Statistic", 
                              mod_closedness_1.1.wald_results[2,3] %>% round(2),NA,
-                             mod_closedness_1.2.wald_results[2,3] %>% round(2),NA,
-                             mod_closedness_1.3.wald_results[2,3] %>% round(2),NA)),
+                             mod_closedness_1.2.wald_results[2,3] %>% round(2),NA)),
           notes = "",
           notes.append = FALSE)
 ```
@@ -1155,7 +1253,7 @@ SVIVA2_00_comb_air_first <- SVIVA2_00_comb %>% filter(AIR_order==1)
 
 <br>
 
-`r table.x=table.x+1`**Table a`r table.x`: Regression analyses – trust in air-pollution policy (unfilterred sample).**
+**Table A7: Regression analyses – trust in air-pollution policy (unfiltered sample).**
 
 ```{r}
 mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_00_comb)
@@ -1222,7 +1320,7 @@ stargazer(mod_air_1.1,mod_air_null,
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("a(3.",1:4,")"),
+          column.labels   = str_c("a(4.",1:4,")"),
           column.separate = c(2,2,2,2),
           dep.var.labels="Trust in air-pollution policy",
           omit = control.vars,
@@ -1241,7 +1339,7 @@ stargazer(mod_air_1.1,mod_air_null,
                              mod_air_1.2.wald_results[2,3] %>% round(2),NA,
                              mod_air_1.3.wald_results[2,3] %>% round(2),NA,
                              mod_air_1.4.wald_results[2,3] %>% round(2),NA)),
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes = "",
           notes.append = FALSE)
 
 
@@ -1288,9 +1386,9 @@ mod_waste_1.5.wald_results <- waldtest(mod_waste_1.5, vcov = vcovHC(mod_waste_1.
 
 ```
 
-<br>
+<br><br>
 
-`r table.x=table.x+1`**Table a`r table.x`: Regression analyses – trust in recycling policy (unfilterred sample).**
+**Table A8: Regression analyses – trust in recycling policy (unfiltered sample).**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -1316,7 +1414,7 @@ stargazer(mod_waste_1.1,mod_waste_null,
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("a(4.",1:4,")"),
+          column.labels   = str_c("a(5.",1:4,")"),
           column.separate = c(2,2,2,2),
           dep.var.labels="Trust in recycling policy",
           omit = control.vars,
@@ -1335,12 +1433,12 @@ stargazer(mod_waste_1.1,mod_waste_null,
                              mod_waste_1.2.wald_results[2,3] %>% round(2),NA,
                              mod_waste_1.3.wald_results[2,3] %>% round(2),NA,
                              mod_waste_1.4.wald_results[2,3] %>% round(2),NA)),
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes = "",
           notes.append = FALSE)
 
 ```
 
-<br>
+<br><br>
 
 ```{r}
 
@@ -1384,7 +1482,7 @@ mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_
 ```
 
 
-`r table.x=table.x+1`**Table a`r table.x`: Regression analyses – experimental manipulation of perceived personal relevance (unfilterred sample).**
+**Table A9: Regression analyses – experimental manipulation of perceived personal relevance (unfiltered sample).**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -1407,7 +1505,7 @@ stargazer(mod_relevance_1.1,mod_relevance_null,
           report = "vcsp",
           omit.stat = c("rsq","ser", "f"),
           initial.zero = FALSE,
-          column.labels   = str_c("a(5.",1:3,")"),
+          column.labels   = str_c("a(6.",1:3,")"),
           column.separate = c(2,2,2),
           dep.var.labels="Trust in air-pollution policy",
           omit = control.vars,
@@ -2291,7 +2389,7 @@ Below is the full text of the survey. Additional comments are presented in squar
 
 <br>
 
-[For subjets assigned to the no symbols]:
+[For subjects assigned to the no symbols]:
 
 **Finally, we would like to show you a few images which were taken from advertisements of the Environmental Protection Ministry.**
 

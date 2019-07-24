@@ -4,6 +4,9 @@ author: '**Saar Alon-Barkat**'
 date: " "
 always_allow_html: yes
 output:
+  word_document: default
+  pdf_document:
+    toc: yes
   html_document:
     theme: flatly
     toc: yes
@@ -11,9 +14,6 @@ output:
       collapsed: no
       smooth_scroll: yes
       toc_depth: 3
-  pdf_document:
-    toc: yes
-  word_document: default
 link-citations: yes
 bibliography: phd_paper_2.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
@@ -94,7 +94,8 @@ figure.x=0
 
 # Abstract
 
-*Recent studies demonstrated that symbolic elements in government communications can enhance citizens' trust in government organizations and policies. The emotive effect of symbols can further compensate for organizations' poor functioning, thereby eliciting undue trust. This study explores the boundaries of governments' persuasion of citizens through symbolic communication. Building on social psychology, I hypothesize that citizens are less susceptible to symbols, the more they perceive the policy issue in the communication as personally relevant. I test this expectation through a survey experiment, where I examine Israeli citizens' trust in the Environment Protection Ministry's policy plans for reducing air pollution in a highly polluted area. The policy's perceived personal relevance is operationalized both experimentally, and by comparing between citizens residing in the polluted area and elsewhere. The results indicate that even high levels of perceived personal relevance do not attenuate the symbols' effect, which entails that the boundaries of persuasion through symbols are wider than expected.*
+*Recent studies demonstrated the potency of government branding to positively affect citizens' judgments of government organizations and policies. This study explores the boundaries of governments' persuasion of citizens through branding and symbolic communications. The latter is important given the the detrimental implications of the emotive effect of symbols, mainly its ability to compensate for organizations' poor functioning, and to elicit undue trust. Building on social psychology, I hypothesize that citizens are less susceptible to persuasion by symbolic communication, the more they perceive the policy issue in the communication as personally relevant. I test this expectation through a survey experiment, focused on air-pollution policy, utilizing natural variation in the perceived personal relevance between citizens residing in a polluted area and elsewhere. Contrary to my expectations, the results indicate that even high levels of perceived personal relevance do not attenuate the symbols' effect, which entails that the boundaries of persuasion through symbols are wider than expected.*
+
 
 <br>
 
@@ -326,7 +327,7 @@ t.areas <- t.test(TRUST_air_INDEX~AREA_center,data=SVIVA2_01_comb)
 
 ```
 
-I now turn to exploring the main outcome variable of interest -- respondents trust in the *air-pollution policy*. This outcome variable has a right-skewed distribution (*Mean* = `r SVIVA2_01_comb%>%summarise(mean(TRUST_air_INDEX,na.rm=T))%>%max() %>% round(2)`, *SD* = `r sd.air %>% round(2)`, *Median* = `r SVIVA2_01_comb%>%summarise(median(TRUST_air_INDEX,na.rm=T))%>%max() %>% round(2)`), which entails that more subjects reported very low levels of trust, than very high levels of trust in than policy. `r figure.x=figure.x+1`**Figure `r figure.x`** shows the means and distributions of the outcome variable across the different experimental conditions of symbolic elements and information, and across the two areas. The real symbols condition (in the left panel) has a positive and significant main effect on trust in that policy plan compared with the no symbols condition (*diff* = `r (main.symbols$contrasts %>% tidy() %>% .[1,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.symbols.no[["conf.int"]][2]*-1) %>% round(.,2)`-`r (t.symbols.no[["conf.int"]][1]*-1) %>% round(.,2)`], *t* = `r t.symbols.no[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). That effect amounts to `r (main.symbols$contrasts %>% tidy() %>% .[1,"estimate"] %>% max(.)/sd.air) %>% abs() %>% round(2)` SDs [`r (t.symbols.no[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`-`r (t.symbols.no[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`]. Subjects who saw the real symbols also reported, on average, greater trust in the policy, compared with those who received fake symbols, yet these differences are not significant at the 95% level (*diff* = `r (main.symbols$contrasts %>% tidy() %>% .[3,"estimate"]) %>% max(.) %>% round(.,2)` [`r (t.symbols.fake[["conf.int"]][1]) %>% round(.,2)`-`r (t.symbols.fake[["conf.int"]][2]) %>% round(.,2)`], *t* = `r t.symbols.fake[["statistic"]][["t"]] %>% abs() %>% round(.,3)`, *p* = `r (t.symbols.fake[["p.value"]]/2) %>% abs() %>% round(.,3)`, one-tailed test). The increase in the lower bound of the box in the real symbols shows that real symbols greatly reduced the number of participants who reported very low trust score. Descriptively, `r ((filter(SVIVA2_01,SYMBOL==0,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==0) %>% nrow()) *100) %>% round(1)`% of the participants in the no symbols group reported a score of 2 or less which indicates very low level of trust, compares with `r ((filter(SVIVA2_01,SYMBOL==1,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==1) %>% nrow()) *100) %>% round(1)`% and only `r ((filter(SVIVA2_01,SYMBOL==2,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==2) %>% nrow()) *100) %>% round(1)`% in the real symbols group. As shown in the middle panel, the main effect of the weak information condition is negative and significant (*diff* = `r (main.info %>% .[2,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.info[["conf.int"]][2]) %>% round(.,2)`-`r (t.info[["conf.int"]][1]) %>% round(.,2)`], *t* = `r t.info[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). That effect amounts to `r ((main.info %>% .[2,"estimate"]*-1)/sd.air) %>% max(.) %>% round(.,2)` SDs [`r (t.info[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`-`r (t.info[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`]. Finally, as presented in the right panel, participants from Haifa Bay reported significantly lower levels of trust in the air-pollution policy, compared to center participants (*diff* = `r (main.areas %>% .[2,"estimate"]*-1) %>% max(.) %>% abs() %>% round(.,2)` [`r (t.areas[["conf.int"]][2]) %>% round(.,2) %>% abs()`-`r (t.areas[["conf.int"]][1]) %>% round(.,2) %>% abs()`], *t* = `r t.areas[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). Descriptively, `r ((filter(SVIVA2_01_haifa,TRUST_air_INDEX<4) %>% nrow())/(nrow(SVIVA2_01_haifa))*100)%>%round(1)`% of Haifa Bay subjects have a trust-index score lower than 4, the scale's middle point (compared with `r ((filter(SVIVA2_01_center,TRUST_air_INDEX<4) %>% nrow())/(nrow(SVIVA2_01_center))*100)%>% round(1)`% of the center subjects). This indicates that the majority of the sampled Haifa Bay residents tend to have prior negative attitudes towards EPM's actions regarding the air-pollution in their area.    
+I now turn to exploring the main outcome variable of interest -- respondents trust in the *air-pollution policy*. This outcome variable has a right-skewed distribution (*Mean* = `r SVIVA2_01_comb%>%summarise(mean(TRUST_air_INDEX,na.rm=T))%>%max() %>% round(2)`, *SD* = `r sd.air %>% round(2)`, *Median* = `r SVIVA2_01_comb%>%summarise(median(TRUST_air_INDEX,na.rm=T))%>%max() %>% round(2)`), which entails that more subjects reported very low levels of trust, than very high levels of trust in than policy. `r figure.x=figure.x+1`**Figure `r figure.x`** shows the means and distributions of the outcome variable across the different experimental conditions of symbolic elements and information, and across the two areas. The real symbols condition (in the left panel) has a positive and significant main effect on trust in that policy plan compared with the no symbols condition (*diff* = `r (main.symbols$contrasts %>% tidy() %>% .[1,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.symbols.no[["conf.int"]][2]*-1) %>% round(.,2)`-`r (t.symbols.no[["conf.int"]][1]*-1) %>% round(.,2)`], *t* = `r t.symbols.no[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). That effect amounts to `r (main.symbols$contrasts %>% tidy() %>% .[1,"estimate"] %>% max(.)/sd.air) %>% abs() %>% round(2)` SDs [`r (t.symbols.no[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`-`r (t.symbols.no[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`]. Subjects who saw the real symbols also reported, on average, greater trust in the policy, compared with those who received fake symbols, yet these differences are not significant at the 95% level (*diff* = `r (main.symbols$contrasts %>% tidy() %>% .[3,"estimate"]) %>% max(.) %>% round(.,2)` [`r (t.symbols.fake[["conf.int"]][1]) %>% round(.,2)`-`r (t.symbols.fake[["conf.int"]][2]) %>% round(.,2)`], *t* = `r t.symbols.fake[["statistic"]][["t"]] %>% abs() %>% round(.,3)`, *p* = `r (t.symbols.fake[["p.value"]]) %>% abs() %>% round(.,3)`). The increase in the lower bound of the box in the real symbols shows that real symbols greatly reduced the number of participants who reported very low trust score. Descriptively, `r ((filter(SVIVA2_01,SYMBOL==0,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==0) %>% nrow()) *100) %>% round(1)`% of the participants in the no symbols group reported a score of 2 or less which indicates very low level of trust, compares with `r ((filter(SVIVA2_01,SYMBOL==1,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==1) %>% nrow()) *100) %>% round(1)`% and only `r ((filter(SVIVA2_01,SYMBOL==2,TRUST_air_INDEX<=2) %>% nrow())/(filter(SVIVA2_01,SYMBOL==2) %>% nrow()) *100) %>% round(1)`% in the real symbols group. As shown in the middle panel, the main effect of the weak information condition is negative and significant (*diff* = `r (main.info %>% .[2,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.info[["conf.int"]][2]) %>% round(.,2)`-`r (t.info[["conf.int"]][1]) %>% round(.,2)`], *t* = `r t.info[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). That effect amounts to `r ((main.info %>% .[2,"estimate"]*-1)/sd.air) %>% max(.) %>% round(.,2)` SDs [`r (t.info[["conf.int"]][1]/sd.air) %>% abs() %>% round(2)`-`r (t.info[["conf.int"]][2]/sd.air) %>% abs() %>% round(2)`]. Finally, as presented in the right panel, participants from Haifa Bay reported significantly lower levels of trust in the air-pollution policy, compared to center participants (*diff* = `r (main.areas %>% .[2,"estimate"]*-1) %>% max(.) %>% abs() %>% round(.,2)` [`r (t.areas[["conf.int"]][2]) %>% round(.,2) %>% abs()`-`r (t.areas[["conf.int"]][1]) %>% round(.,2) %>% abs()`], *t* = `r t.areas[["statistic"]][["t"]] %>% abs() %>% round(.,3)`). Descriptively, `r ((filter(SVIVA2_01_haifa,TRUST_air_INDEX<4) %>% nrow())/(nrow(SVIVA2_01_haifa))*100)%>%round(1)`% of Haifa Bay subjects have a trust-index score lower than 4, the scale's middle point (compared with `r ((filter(SVIVA2_01_center,TRUST_air_INDEX<4) %>% nrow())/(nrow(SVIVA2_01_center))*100)%>% round(1)`% of the center subjects). This indicates that the majority of the sampled Haifa Bay residents tend to have prior negative attitudes towards EPM's actions regarding the air-pollution in their area.    
 
 <br>
 
@@ -560,48 +561,6 @@ Next, `r table.x=table.x+1`**Table `r table.x`** presents the interaction betwee
 Two limitations about these latter analyses should be acknowledged. First, since the treatment manipulation did not affect participants' self-reporting of the personal relevance, there is no certainty that the manipulation actually succeeded in modifying the perceptions of those subjects. Second, these analyses have more limited statistical power, compared to the observational comparisons, since they are restricted only to the sample of Haifa Bay subjects. Still, we can assess that even if the relevance manipulation does attenuate the effect of the real symbols, their effect on that group compared with the no symbols is estimated based on Model `r table.x`.2 as `r (diff5/sd.air.haifa) %>% round(3)` SDs [`r ((diff5 - 1.96*se5)/sd.air.haifa) %>% round(3)`,`r ((diff5 + 1.96*se5)/sd.air.haifa) %>% round(3)`]. Remarkably, even when restricting the relevance treatment group to those who mentioned the air-pollution as an acute environmental issue in their area of residence (`r air.content.percent.haifa %>% round(0)`% of that group, *n* = `r SVIVA2_01_haifa.relevance.aircontent %>% nrow()`), the real symbols still had a roughly similar positive effect on trust in the policy plan, compared with the no symbols (*diff* = `r (main.symbols.relevance.aircontent$contrasts %>% tidy() %>% .[1,"estimate"]*-1) %>% max(.) %>% round(.,2)` [`r (t.symbols.relevance.aircontent.no[["conf.int"]][2]*-1) %>% round(.,2)`-`r (t.symbols.relevance.aircontent.no[["conf.int"]][1]*-1) %>% round(.,2)`], *t* = `r t.symbols.relevance.aircontent.no[["statistic"]][["t"]] %>% abs() %>% round(.,3)`).[^footnote_relevance_significance_fakesymbols] Overall, this indicates that even Haifa Bay residents that were reminded about the relevance of the air-pollution to their lives area were positively affected, at least to some degree, by familiar symbols of the ministry.   
 
 [^footnote_relevance_significance_fakesymbols]: Consistently with the previous models, subjects in the real symbols group also reported higher trust compared with the fake symbols, but these differences are not sufficiently significant. The differences between the two control groups are insignificant. 
-
-```{r}
-mod_closedness_null = lm(TRUST_air_INDEX~+
-                   GOV_TRUST+
-                   IDEOLOGY+
-                   EDUCATION+
-                   INCOME+
-                     AGE,data=SVIVA2_01_comb.haifa)
-
-mod_closedness_1.1 = update(mod_closedness_null,. ~ .+
-                             SYMBOL_t+
-                   INFORMATION_weak+
-                   close.industrial.area+
-                     CHILDREN_young)
-
-mod_closedness_1.2 = update(mod_closedness_1.1,. ~ .
-                            +close.industrial.area*(SYMBOL_t+INFORMATION_weak)+
-                              CHILDREN_young*(SYMBOL_t+INFORMATION_weak)+
-                              GENDER*(SYMBOL_t+INFORMATION_weak))
-
-mod_closedness_1.3 = update(mod_closedness_1.2,. ~ .,data=SVIVA2_01_comb.haifa_air_first)
-
-
-## Adjust standard errors & F statistic
-mod_closedness_1.1.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.1, type = "HC1")))
-mod_closedness_1.1.wald_results <- waldtest(mod_closedness_1.1, vcov = vcovHC(mod_closedness_1.1, type = "HC1"))
-
-mod_closedness_1.2.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.2, type = "HC1")))
-mod_closedness_1.2.wald_results <- waldtest(mod_closedness_1.2, vcov = vcovHC(mod_closedness_1.2, type = "HC1"))
-
-mod_closedness_1.3.robust_se    <- sqrt(diag(vcovHC(mod_closedness_1.3, type = "HC1")))
-mod_closedness_1.3.wald_results <- waldtest(mod_closedness_1.3, vcov = vcovHC(mod_closedness_1.3, type = "HC1"))
-
-relevance.areas.close.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area) 
-relevance.areas.close.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$close.industrial.area)
-
-relevance.areas.children.t <- t.test(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$CHILDREN_young) 
-relevance.areas.children.d <- cohen.d(SVIVA2_01_haifa$RELEVANCE_air_obs~SVIVA2_01_haifa$CHILDREN_young)
-
-```
-
-<br>
 
 I further explored the robustness of these findings through additional analyses, reported in the supplementary appendix. *First*, I replicate the main models while restricting the analyses to the first policy seen by the participants. This enables to rule out the possibility that subjects' responses are affected by the manipulations in the first policy presented to them (a carryover effect), or by their evaluation of the it (assimilation or contrast effects). *Second*, I restrict the analyses to Haifa Bay residents, and compare between those who are more/less likely to perceive the air-pollution as personally relevant, based on two proxies: (a) Subjects city of residence, and its geographical proximity to the polluting industrial area; (b) parents for young children. *Third*, I replicated the analyses on the unfiltered sample. These additional analyses are consistent with the analyses presented in the paper, and do not provide evidence that greater levels of perceived personal relevance attenuates the effect of symbols.       
 
