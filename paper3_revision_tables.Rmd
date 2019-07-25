@@ -313,7 +313,7 @@ vars.lab = c(
          "Parents",
          "Parents of young children (under 12)",
          "Interest in environmental issues",
-         "Air-pollution policy",
+         "Haifa Bay air-pollution policy",
          "Recycling policy"
 )
 
@@ -525,8 +525,8 @@ t3.center %>%
                     str_c("Strong Air-pollution (Weak recycling) (n=",SVIVA2_01_center %>% filter(INFORMATION_air==1) %>% nrow(),")"),
                     str_c("Weak air-pollution (Strong recycling) (n=",SVIVA2_01_center %>% filter(INFORMATION_air==0) %>% nrow(),")"),
                      "t-test",
-                    str_c("Treatment (n=",SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1) %>% nrow(),")"),
-                    str_c("Control (n=",SVIVA2_01_haifa %>% filter(RELEVANCE_exp==0) %>% nrow(),")"),
+                    str_c("Treatment (n=",SVIVA2_01_center %>% filter(RELEVANCE_exp==1) %>% nrow(),")"),
+                    str_c("Control (n=",SVIVA2_01_center %>% filter(RELEVANCE_exp==0) %>% nrow(),")"),
                     "t-test"))%>%
   kable_styling(bootstrap_options = c("condensed"),
                 full_width = F,
@@ -554,7 +554,7 @@ SVIVA2_01 %>%
          RELEVANCE_air_obs,
          RELEVANCE_waste_obs) %>% 
   gather(key = policy, value = relevance, -AREA_names) %>%
-  mutate(policy = Recode(policy,"'RELEVANCE_air_obs'='Air-pollution policy';'RELEVANCE_waste_obs'='Recycling policy'")) %>% 
+  mutate(policy = Recode(policy,"'RELEVANCE_air_obs'='Haifa Bay air-pollution policy';'RELEVANCE_waste_obs'='Recycling policy'")) %>% 
 ggplot(aes(AREA_names,relevance))+ 
   theme_tufte()+
   geom_boxplot(width=0.25,color="gray70")+
@@ -574,7 +574,7 @@ ggplot(aes(AREA_names,relevance))+
 
 <br><br>
 
-`r figure.x=figure.x+1`**Figure `r figure.x`: The distribution of Trust in air-pollution across the different conditions of symbols and information**
+`r figure.x=figure.x+1`**Figure `r figure.x`**
 
 ```{r, fig.width=8, fig.height=4}
 p1 <- SVIVA2_01_comb %>%
@@ -587,7 +587,7 @@ ggplot(aes(SYMBOL_n,TRUST_air_INDEX))+
   stat_summary(fun.y = mean, geom = "point", size=1.6)+
   stat_summary(fun.y = mean, geom = "line", size=0.6, aes(group = 1))+
   scale_x_discrete(name = "",labels = c("No symbols","Fake symbols","Real symbols"))+
-  scale_y_continuous(name = "Trust in air-pollution policy",limits=c(1,7),breaks = seq(1,7,by=1))+
+  scale_y_continuous(name = "Trust in Haifa Bay air-pollution policy",limits=c(1,7),breaks = seq(1,7,by=1))+
   ggtitle("Symbols")
 
 p2 <- SVIVA2_01_comb %>%
@@ -644,7 +644,7 @@ ggplot(aes(factor(SYMBOL_n),trust,shape=factor(AREA_names)))+
   scale_shape_manual(guide=F, values=c(19,1))+
   scale_linetype_manual(guide=F, values=c(1,4))+
   scale_x_discrete(name="",labels=c("No symbols","Fake symbols","Real symbols"))+
-  scale_y_continuous(name = "Trust in air-pollution policy",breaks = seq(1,7,by=0.5))+
+  scale_y_continuous(name = "Trust in Haifa Bay air-pollution policy",breaks = seq(1,7,by=0.5))+
   ggtitle("Symbols")
 
 
@@ -677,7 +677,7 @@ ggarrange(p1,p2,
 
 <br><br>
 
-`r table.x=table.x+1`**Table `r table.x`: Regression analyses – Trust in Air-pollution policy.**
+`r table.x=table.x+1`**Table `r table.x`: Regression analyses – Trust in Haifa Bay air-pollution policy.**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -704,7 +704,7 @@ stargazer(mod_air_1.1,mod_air_null,
           initial.zero = FALSE,
           column.labels   = str_c("(1.",1:4,")"),
           column.separate = c(2,2,2,2),
-          dep.var.labels="Trust in air-pollution policy",
+          dep.var.labels="Trust in Haifa Bay air-pollution policy",
           omit = control.vars,
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
@@ -808,7 +808,7 @@ stargazer(mod_relevance_1.1,mod_relevance_null,
           initial.zero = FALSE,
           column.labels   = str_c("(3.",1:4,")"),
           column.separate = c(2,2,2),
-          dep.var.labels="Trust in air-pollution policy",
+          dep.var.labels="Trust in Haifa Bay air-pollution policy",
           omit = control.vars,
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
