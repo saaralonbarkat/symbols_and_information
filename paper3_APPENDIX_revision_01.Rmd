@@ -143,7 +143,7 @@ The fake symbols were specifically designed to represent graphical elements that
 
 The fake logo was created using MS Paint software. I replaced the leaves/hands from the original logo with a shape of stars with rounded edges and replaced the green color with blue. I deliberately selected a natural element - star - as opposed to an abstract geometric element, since marketing studies have pointed to the "naturalness" of logos, as one of the key aesthetic characteristics rendering logos more memorable and favorable [@henderson_1998]. 
 
-To create the fake campaign images, I searched for photos of unfamiliar male models that resemble the look of the real endorsers, Tal Friedman and Ido Rosenblum, and their face expressions in the campaign images. For this purpose, I used the website www.istockphoto.com that offers multiple collections of professional images for purchase.[^footnote_sources_fake_models] Thereafter, I took these images of models, and edited them (using GIMP software) to create images which are aesthetically similar to the original campaign images, yet without their symbolic aspects. For the recycling policy, I used the same image from EPM's reusable bags campaign, while replacing Rosenblum's face with the face of the unfamiliar model, and changing the color of the bag from green to blue. For the Air-pollution policy, I took the purchased image of the unfamiliar model, and added a blue rectangle behind him (instead of the green background behind Friedman). I also added a blue geometric shape above the person's head, which I took from a logo of an Israeli mortgage bank, against Friedman's green hair. The latter addition was important, given that the green hair not only has a symbolic connotation, but also functions as an unusual, surprising element, that attracts people's attention. The original and edited photos are displayed below: 
+To create the fake campaign images, I searched for photos of unfamiliar male models that resemble the look of the real endorsers, Tal Friedman and Ido Rosenblum, and their face expressions in the campaign images. For this purpose, I used the website www.istockphoto.com that offers multiple collections of professional images for purchase.[^footnote_sources_fake_models] Thereafter, I took these images of models, and edited them (using GIMP software) to create images which are aesthetically similar to the original campaign images, yet without their symbolic aspects. For the recycling policy, I used the same image from EPM's reusable bags campaign, while replacing Rosenblum's face with the face of the unfamiliar model, and changing the color of the bag from green to blue. For the Haifa Bay air-pollution policy, I took the purchased image of the unfamiliar model, and added a blue rectangle behind him (instead of the green background behind Friedman). I also added a blue geometric shape above the person's head, which I took from a logo of an Israeli mortgage bank, against Friedman's green hair. The latter addition was important, given that the green hair not only has a symbolic connotation, but also functions as an unusual, surprising element, that attracts people's attention. The original and edited photos are displayed below: 
 
 
 <br>
@@ -154,7 +154,7 @@ To create the fake campaign images, I searched for photos of unfamiliar male mod
 <br>
 
 
-[^footnote_sources_fake_models]: The original photo for the air-pollution policy was purchased from the following link: https://www.istockphoto.com/il/photo/smiling-forty-something-man-gm469597956-62477336, The original photo for the recycling policy was purchased from the following link:
+[^footnote_sources_fake_models]: The original photo for the Haifa Bay air-pollution policy was purchased from the following link: https://www.istockphoto.com/il/photo/smiling-forty-something-man-gm469597956-62477336, The original photo for the recycling policy was purchased from the following link:
 https://www.istockphoto.com/il/photo/young-man-smiling-portrait-gm516728601-48347532
 
 <br>
@@ -168,9 +168,9 @@ In this section, I report the results of the manipulation checks for the symbols
 
 In two prior surveys, I confirmed that the real EPM symbols are recognizable and have a positive affect, whereas the fake logo is unrecognizable, do not have strong positive or negative affect, and are not strongly associated with environment policy and EPM. 
 
-The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` participants, which were recruited by iPanel. This survey was designed as a survey experiment, which was a first attempt to test the moderating role of personal relevance on the effects of symbols and information. However, after analyzing the results, I came to the conclusion that the experimental procedure had several methodological problems. Mainly, the assignment to experimental conditions yielded imbalanced groups, and the manipulations of symbolic elements and information ware too subtle. In addition, perceived personal relevance was measured only through the comparison between the areas (i.e. without the relevance manipulation), and the information was manipulated only with regard to the air-pollution policy. Despite these weaknesses, the survey included specific questions about the affect and symbolic associations of the logos and the colors, which provide valuable descriptive data.[^footnote_prior_survey_1] In this survey, the participants were assigned to one of three conditions of symbols: real symbols, fake symbols and no symbols. The real and fake symbols conditions included the same logos and colors which were eventually used in the final experiment (but not the campaign images). At the end of the survey, participants were asked about their familiarity with the logos and colors that appeared in their policy plans, and their affect. These items and their descriptive results are presented below. 
+The first prior survey was conducted on May 2017 among `r SVIVA1_01 %>% nrow()` participants, which were recruited by iPanel. This survey was designed as a survey experiment, which was a first attempt to test the moderating role of personal relevance on the effects of symbols and information. However, after analyzing the results, I came to the conclusion that the experimental procedure had several methodological problems. Mainly, the assignment to experimental conditions yielded imbalanced groups, and the manipulations of symbolic elements and information ware too subtle. In addition, perceived personal relevance was measured only through the comparison between the areas (i.e. without the relevance manipulation), and the information was manipulated only with regard to the Haifa Bay air-pollution policy. Despite these weaknesses, the survey included specific questions about the affect and symbolic associations of the logos and the colors, which provide valuable descriptive data.[^footnote_prior_survey_1] In this survey, the participants were assigned to one of three conditions of symbols: real symbols, fake symbols and no symbols. The real and fake symbols conditions included the same logos and colors which were eventually used in the final experiment (but not the campaign images). At the end of the survey, participants were asked about their familiarity with the logos and colors that appeared in their policy plans, and their affect. These items and their descriptive results are presented below. 
 
-[^footnote_prior_survey_1]: Overall, the findings of this limited prior study are consistent Consistent with the findings of the main experiment, reported in the paper. The effect of the real symbols were greater among those who reside in the Haifa-Bay. Congruently, the statistical analyses yielded a negative and significant interaction between the real symbols and residence in the center. Also consistent with the main experiment, the interaction between the areas and the information manipulation was not significant.  
+[^footnote_prior_survey_1]: Overall, the findings of this limited prior study are consistent with the findings of the main experiment, reported in the paper. The effect of the real symbols were greater among those who reside in the Haifa-Bay. Congruently, the statistical analyses yielded a negative and significant interaction between the real symbols and residence in the center. Also, consistently with the main experiment, the interaction between the areas and the information manipulation was not significant.  
 
 <br>
 
@@ -245,7 +245,7 @@ The second prior survey was conducted on January 2018 among `r CELEBS_00%>%nrow(
 **Figure A5**
 "The person presented in the image is familiar to me" (1=weakly agree; 7=strongly agree)
 
-Air-pollution policy
+Haifa Bay air-pollution policy
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.show='hold', fig.width=8,fig.height=4}
 p1 <- sjp.frq(CELEBS_00$air_real_person_familiar,
@@ -298,7 +298,7 @@ ggarrange(p1,p2,
 
 "The image is taken from an advertisement commercial of the Environmental Protection Ministry. To what extent to you remember the advertisement?" (1=not at all; 7=very much)
 
-Air-pollution policy
+Haifa Bay air-pollution policy
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.show='hold', fig.width=8,fig.height=4}
 
@@ -347,7 +347,7 @@ ggarrange(p1,p2,
 
 "The image evokes a positive feeling" (1=weakly agree; 7=strongly agree)
 
-Air-pollution policy
+Haifa Bay air-pollution policy
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.show='hold', fig.width=8,fig.height=4}
 p1 <- sjp.frq(CELEBS_00$air_real_positive_affect,
@@ -399,7 +399,7 @@ ggarrange(p1,p2,
 
 "The image evokes a negative feeling" (1=weakly agree; 7=strongly agree)
 
-Air-pollution policy
+Haifa Bay air-pollution policy
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,fig.show='hold', fig.width=8,fig.height=4}
 p1 <- sjp.frq(CELEBS_00$air_real_negative_affect,
@@ -471,7 +471,7 @@ ggplot(aes(factor(policy),trust,shape=factor(ORDER)))+
                width=0.1,size=0.5,position=position_dodge(0.25),color="gray70") + 
   stat_summary(fun.y = mean, geom = "point", size=1.6,position=position_dodge(0.25))+
   scale_shape_manual(name="Order",values=c(19,1), labels = c("First","Second"))+
-  scale_x_discrete(name="Policy",labels=c("Air-pollution","Recycling"))+
+  scale_x_discrete(name="Policy",labels=c("Haifa Bay Air-pollution","Recycling"))+
   scale_y_continuous(name = "Trust in policy",breaks = seq(1,7,by=0.5))
 ```
 
@@ -486,7 +486,7 @@ In the first prior survey, I also tested the empirical assumption that Haifa-bay
 
 ## Relevance manipulation
 
-I tested whether the priming questions in the relevance treatment condition increased the perceived personal relevance of the two policy plans (in each of the two areas). For this purpose, I relied on the above perceived personal relevance items. Table A1 shows the results of regression analyses. For each of the two policy plans, I first regress perceived personal relevance on the relevance treatment and the areas, and thereafter I add their interaction, and add controls. Counter to my expectations, the relevance manipulation did not have a positive main effect on either of these two policy plans. Regarding the air-pollution policy, the interaction between the relevance treatment and the center area is positive and significant, and the coefficient of the relevance treatment is negative. The interpretation of this interaction suggests that the priming questions slightly decreased the perceived personal relevance of the air-pollution policy among Haifa-Bay subjects, and increased it among those who reside in the Center. Regarding the recycling policy, the interaction is insignificant.      
+I tested whether the priming questions in the relevance treatment condition increased the perceived personal relevance of the two policy plans (in each of the two areas). For this purpose, I relied on the above perceived personal relevance items. Table A1 shows the results of regression analyses. For each of the two policy plans, I first regress perceived personal relevance on the relevance treatment and the areas, and thereafter I add their interaction, and add controls. Counter to my expectations, the relevance manipulation did not have a positive main effect on either of these two policy plans. Regarding the Haifa Bay air-pollution policy, the interaction between the relevance treatment and the center area is positive and significant, and the coefficient of the relevance treatment is negative. The interpretation of this interaction suggests that the priming questions slightly decreased the perceived personal relevance of the Haifa Bay air-pollution policy among Haifa-Bay subjects, and increased it among those who reside in the Center. Regarding the recycling policy, the interaction is insignificant.      
 
 <br>
 
@@ -559,7 +559,7 @@ stargazer(mod_relevance_air_1.1_apx,mod_relevance_air_null_apx,
           initial.zero = FALSE,
           column.labels   = str_c("a(1.",1:6,")"),
           column.separate = c(2,2,2,2,2,2),
-          dep.var.labels=c("Air-pollution policy","Recycling policy"),
+          dep.var.labels=c("Haifa Bay air-pollution policy","Recycling policy"),
           omit = control.vars,
           covariate.labels=c("Area (0=Haifa-Bay; 1=center)",
                              "Relevance treatment",
@@ -708,7 +708,7 @@ SVIVA2_01 %>%
          HOME) %>% 
   stargazer(type="html",
             digits = 3,
-            covariate.labels = c("1. Trust in Air-pollution policy",
+            covariate.labels = c("1. Trust in Haifa Bay air-pollution policy",
                                  "2. Trust in recycling policy",
                                  "3. Delta (within subjects)",
                                  "4. Area (0=Haifa-Bay; 1=center)",
@@ -803,7 +803,7 @@ vars.lab = c(
          "Parents",
          "Parents of young children (under 12)",
          "Interest in environmental issues",
-         "Air-pollution policy",
+         "Haifa Bay air-pollution policy",
          "Recycling policy"
 )
 
@@ -912,7 +912,7 @@ t11.comb <- t11.all %>%
           select(-variable)) %>%
   cbind(t11.relevance %>% 
           select(-variable)) %>% 
-  mutate(variable = c("Air-pollution policy","Recycling policy"))
+  mutate(variable = c("Haifa Bay air-pollution policy","Recycling policy"))
 
 t13.haifa <- t3.haifa %>% 
   filter(str_detect(variable,"policy")==T) %>%
@@ -936,7 +936,7 @@ t11.all <- rbind(
 
 ```
 
-*Table A4*
+**Table A4**
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 t11.all %>% 
@@ -1083,7 +1083,7 @@ In the regression tables below, I report the results of additional robust analys
 
 *Table A6* compares between Haifa Bay subjects who are more/less likely to perceive the air-pollution as personally relevant, based on two proxies: (a) Subjects' city of residence, and its geographical proximity to the polluting industrial area; (b) Parents for young children. The selection of these two variables is driven by the media coverage of the reports published in 2015-6 regarding the air-pollution in the Haifa Bay. The media reports following the publication of the the statistical data of the Ministry of Health in 2015 mostly highlighted the conclusion that half of the cases of cancer among children in the area can be associated to air-pollution [e.g. @elroi_website_2015; @raavad_website_2015]. Thereafter, reports of the epidemiological study both emphasized the finding regarding the small heads of babies in Haifa Bay, as well as that areas that are geographically closer to the industrial areas are found to be at higher risk for cancer [@bendavid_website_2016].   
  
-For the first proxy, I selected the three cities/suburbs that are closer to the industrial area - *Nesher*, *Qiryat Haiim* and *Qiryat Bialik* (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==1) %>% nrow()`) -- and compared their residents in the sample with those residing in all other cities in the Haifa Bay sample (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==0) %>% nrow()`). The data confirms that residents of these closer cities tended to perceive the air-pollution policy as more personally relevant (Cohen's D = `r relevance.areas.close.d[["estimate"]] %>% round(2) %>% abs()` [`r (relevance.areas.close.d[["conf.int"]][["upper"]]*-1) %>% round(2)`,`r (relevance.areas.close.d[["conf.int"]][["lower"]]*-1) %>% round(2)`], *t* = `r relevance.areas.close.t[["statistic"]] %>% max() %>% round(2) %>% abs()`, *p* = `r relevance.areas.close.t[["p.value"]] %>% max() %>% round(3) %>% abs()`). As for the second proxy, I use a binary variable coded 1 for parents for children under 12 years, and 0 otherwise. However, while I expect parents for young children to be more engaged, that assumption is not supported by differences in self-reported perceived personal relevance. In other models, not shown here, I also directly tested the interaction between the manipulations and the personal relevance subjective measures.  
+For the first proxy, I selected the three cities/suburbs that are closer to the industrial area - *Nesher*, *Qiryat Haiim* and *Qiryat Bialik* (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==1) %>% nrow()`) -- and compared their residents in the sample with those residing in all other cities in the Haifa Bay sample (*n*=`r SVIVA2_01_haifa %>% filter(close.industrial.area==0) %>% nrow()`). The data confirms that residents of these closer cities tended to perceive the Haifa Bay air-pollution policy as more personally relevant (Cohen's D = `r relevance.areas.close.d[["estimate"]] %>% round(2) %>% abs()` [`r (relevance.areas.close.d[["conf.int"]][["upper"]]*-1) %>% round(2)`,`r (relevance.areas.close.d[["conf.int"]][["lower"]]*-1) %>% round(2)`], *t* = `r relevance.areas.close.t[["statistic"]] %>% max() %>% round(2) %>% abs()`, *p* = `r relevance.areas.close.t[["p.value"]] %>% max() %>% round(3) %>% abs()`). As for the second proxy, I use a binary variable coded 1 for parents for children under 12 years, and 0 otherwise. However, while I expect parents for young children to be more engaged, that assumption is not supported by differences in self-reported perceived personal relevance. In other models, not shown here, I also directly tested the interaction between the manipulations and the personal relevance subjective measures.  
 
 The models tend to suggest that residing in the closer cities were not more likely to differentiate between the strong and weak plans, and were, to some extent, even more receptive to the emotional effect of the symbols. The interaction between proximity and the real symbols is positive and significant. As for parents for young children, the data does not show that they respond differently to the appearance of symbols or to variations in the content. The interaction between parents for young children and the fake symbols is positive and significant.
 
@@ -1094,7 +1094,7 @@ Finally, *Tables A7-A9* replicate Tables 2-4 in the main paper, while adding obs
 <br>
 
 
-**Table A5: Regression analyses – policy presented first of order.**
+**Table A5: Regression analyses – policy presented first of order**
 
 ```{r,results="asis"}
 stargazer(mod_air_1.5, mod_air_null,
@@ -1110,7 +1110,7 @@ stargazer(mod_air_1.5, mod_air_null,
           initial.zero = FALSE,
           column.labels   = str_c("a(2.",1:3,")"),
           column.separate = c(2,2,2),
-          dep.var.labels=c("Trust in air-pollution policy","Trust in recycling policy"),
+          dep.var.labels=c("Trust in Haifa Bay air-pollution policy","Trust in recycling policy"),
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
                              "Weak Information",
@@ -1162,7 +1162,7 @@ stargazer(mod_closedness_1.1,mod_closedness_null,
           initial.zero = FALSE,
           column.labels   = str_c("a(3.",1:2,")"),
           column.separate = c(2,2),
-          dep.var.labels="Trust in air-pollution policy",
+          dep.var.labels="Trust in Haifa Bay air-pollution policy",
           omit = control.vars,
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
@@ -1253,7 +1253,7 @@ SVIVA2_00_comb_air_first <- SVIVA2_00_comb %>% filter(AIR_order==1)
 
 <br>
 
-**Table A7: Regression analyses – trust in air-pollution policy (unfiltered sample).**
+**Table A7: Regression analyses – trust in Haifa Bay air-pollution policy (unfiltered sample)**
 
 ```{r}
 mod_air_null = lm(TRUST_air_INDEX~1,data=SVIVA2_00_comb)
@@ -1322,7 +1322,7 @@ stargazer(mod_air_1.1,mod_air_null,
           initial.zero = FALSE,
           column.labels   = str_c("a(4.",1:4,")"),
           column.separate = c(2,2,2,2),
-          dep.var.labels="Trust in air-pollution policy",
+          dep.var.labels="Trust in Haifa Bay air-pollution policy",
           omit = control.vars,
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
@@ -1388,7 +1388,7 @@ mod_waste_1.5.wald_results <- waldtest(mod_waste_1.5, vcov = vcovHC(mod_waste_1.
 
 <br><br>
 
-**Table A8: Regression analyses – trust in recycling policy (unfiltered sample).**
+**Table A8: Regression analyses – trust in recycling policy (unfiltered sample)**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -1482,7 +1482,7 @@ mod_relevance_1.4.wald_results <- waldtest(mod_relevance_1.4, vcov = vcovHC(mod_
 ```
 
 
-**Table A9: Regression analyses – experimental manipulation of perceived personal relevance (unfiltered sample).**
+**Table A9: Regression analyses – experimental manipulation of perceived personal relevance (unfiltered sample)**
 
 ```{r,results="asis"}
 control.vars <- c("GENDER",
@@ -1507,7 +1507,7 @@ stargazer(mod_relevance_1.1,mod_relevance_null,
           initial.zero = FALSE,
           column.labels   = str_c("a(6.",1:3,")"),
           column.separate = c(2,2,2),
-          dep.var.labels="Trust in air-pollution policy",
+          dep.var.labels="Trust in Haifa Bay air-pollution policy",
           omit = control.vars,
           covariate.labels=c("Real symbols",
                              "Fake-symbols",
@@ -1523,7 +1523,7 @@ stargazer(mod_relevance_1.1,mod_relevance_null,
                              mod_relevance_1.1.wald_results[2,3] %>% round(2),NA,
                              mod_relevance_1.2.wald_results[2,3] %>% round(2),NA,
                              mod_relevance_1.3.wald_results[2,3] %>% round(2),NA)),
-          notes = "*Notes*: Table entries are nonstandardized OLS-regression coefficients. Robust standard errors are in parentheses and *p-values* (two-tailed) are reported. The reference category for the symbols manipulation conditions is the control (no symbols).",
+          notes = "",
           notes.append = FALSE)
 ```
 
