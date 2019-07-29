@@ -503,7 +503,9 @@ mutate(RECOGNIZE_waste_real = SVIVA2_raw$Q25.6+
  
   mutate(close.industrial.area = ifelse(CITY_reside_en %in% c("NESHER","QIRYAT HAIM","QIRYAT BIALIK"),1,0)) %>%  
   mutate(AREA_center = Recode(AREA,"0=1;1=0"),
-         SYMBOL_t = Recode(SYMBOL,"1=2;2=1"))
+         SYMBOL_t = Recode(SYMBOL,"1=2;2=1"),
+         SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
+         SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")))
 
 
 ####Datasets#####
@@ -562,17 +564,15 @@ SVIVA2_01_comb = SVIVA2_01 %>%
                                        ELABORATION_waste_time_log),
          MEMORY_score = ifelse(policy=="TRUST_air_INDEX",MEMORY_air_score,
                                MEMORY_waste_score),
-         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",RELEVANCE_air_obs,
+         RELEVANCE_obs = ifelse(policy=="TRUST_air_INDEX",RELEVANCE_air_obs,
                                    RELEVANCE_waste_obs),
-         RELEVANCE_obs = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
+         ELABORATION_time = ifelse(policy=="TRUST_air_INDEX",ELABORATION_air_time,
                                 ELABORATION_waste_time)) %>% 
   mutate(TRUST_air_INDEX = ifelse(policy=="TRUST_air_INDEX",trust,NA),
          TRUST_waste_INDEX = ifelse(policy=="TRUST_waste_INDEX",trust,NA),
-         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"),
-         SYMBOL_t.r = factor(Recode(SYMBOL,"0=2;2=1;1=0")),
-         SYMBOL_t.r_2 = factor(Recode(SYMBOL,"0=2;2=0")),
          ORDER = ifelse(policy=="TRUST_air_INDEX",AIR_order,WASTE_order),
-         RECOGNIZE_campaign = ifelse(policy=="TRUST_air_INDEX",RECOGNIZE_air_real,RECOGNIZE_waste_real))
+         RECOGNIZE_campaign = ifelse(policy=="TRUST_air_INDEX",RECOGNIZE_air_real,RECOGNIZE_waste_real),
+         INFORMATION_weak = Recode(INFORMATION,"0=1;1=0"))
 
 
 SVIVA2_01_haifa <- filter(SVIVA2_01,AREA_center==0)
@@ -590,6 +590,8 @@ SVIVA2_01_comb.haifa_air_first <- SVIVA2_01_comb %>%
 
 SVIVA2_01_comb.center_air_first <- SVIVA2_01_comb %>%
   filter(AREA_center==1, AIR_order==1)
+
+SVIVA2_01_haifa.relevance.aircontent <- SVIVA2_01_haifa %>% filter(RELEVANCE_exp==1,air.content==1)
 
 save.image("C:/SAAR/UNIVERSITY/R/SVIVA/data/experiment 2 01-2018/SVIVA_R_ENV.RData")
 
